@@ -821,7 +821,6 @@
     <div class="left-sidebar">
         <div class="logo">
             <h1>Кулинарная книга</h1>
-            <p>Более 400 рецептов</p>
         </div>
         
         <!-- ПОДГРУППЫ -->
@@ -833,11 +832,7 @@
                         ✨ Все рецепты
                     </button>
                 </li>
-                <li class="subcategory-item">
-                    <button class="subcategory-btn" onclick="filterRecipes('russian')">
-                        🇷🇺 Русские
-                    </button>
-                </li>
+
                 <li class="subcategory-item">
                     <button class="subcategory-btn" onclick="filterRecipes('quick')">
                         ⚡ Быстрые (≤30 мин)
@@ -914,7 +909,7 @@
     <div class="main-content">
         <div class="header">
             <h2 id="page-title">✨ Русская кухня</h2>
-            <p id="page-description">Более 400 проверенных рецептов</p>
+           
             
             <!-- ТАБЫ -->
             <div class="tabs">
@@ -932,14 +927,6 @@
                 </button>
             </div>
             
-            <!-- ПОИСК -->
-            <div style="margin-top: 20px; position: relative;">
-                <input type="text" 
-                       id="search-input" 
-                       placeholder="🔍 Поиск рецептов..." 
-                       style="width: 100%; padding: 15px 20px; border: 2px solid #e8f5e9; border-radius: 12px; font-family: 'Raleway', sans-serif; font-size: 16px; outline: none; transition: all 0.3s;"
-                       onkeyup="searchRecipes()">
-            </div>
        
         <!-- УМНЫЙ ПОИСК ПО ИНГРЕДИЕНТАМ -->
         <div class="smart-search-panel" id="smart-search-panel">
@@ -1064,89 +1051,36 @@
 const RECIPES_DATABASE = (() => {
     const images = {
         'Супы': [
-        // Суп 1 (красный борщ)
-        'https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        
-        // Суп 2 (грибной суп)
-        'https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        
-        // Суп 3 (куриный суп)
-        'https://images.unsplash.com/photo-1547592166-23ac45744acd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        
-        // Суп 4 (овощной суп)
-        'https://images.unsplash.com/photo-1505252585461-04db1eb84625?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        
-        // Суп 5 (томатный суп)
-        'https://images.unsplash.com/photo-1547592166-23ac45744acd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+        'https://img.freepik.com/premium-photo/chicken-soup-with-vegetables-wooden-table_135427-2442.jpg?semt=ais_hybrid&w=740'
         ],
         'Основные блюда': [
-        // Основное 1 (макароны)
-        'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        
-        // Основное 2 (мясо)
-        'https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        
-        // Основное 3 (рыба)
-        'https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+        'https://img.freepik.com/premium-photo/indian-lunch-dinner-main-course-food-group-includes-paneer-butter-masala-dal-makhani-palak-paneer-roti-rice-etc-selective-focus_466689-6846.jpg?semt=ais_hybrid&w=740'
         ],
         'Салаты': [
-        // Салат 1
-        'https://images.unsplash.com/photo-1540420773420-3366772f4999?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        
-        // Салат 2
-        'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        
-        // Салат 3
-        'https://images.unsplash.com/photo-1505253719092-2f187c0a71eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+        'https://avatars.mds.yandex.net/i?id=522e41cee29aeeb31c711a499683926d_l-5910984-images-thumbs&n=13'
         ],
         'Десерты': [
-        // Десерт 1 (торт)
-        'https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        
-        // Десерт 2 (пирожное)
-        'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        
-        // Десерт 3 (мороженое)
-        'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+        'https://img.freepik.com/free-photo/sweet-food-desserts-with-whipped-cream-generated-by-ai_188544-15728.jpg?semt=ais_hybrid&w=740'
         ],
         'Закуски': [
-        // Закуска 1
-        'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        
-        // Закуска 2
-        'https://images.unsplash.com/photo-1551183053-bf91a1d81141?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        
-        // Закуска 3
-        'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+        'https://i.pinimg.com/736x/12/29/c0/1229c08975965bd307082f9c9a7df452.jpg'
         ],
         'Макароны': [
-        'https://images.unsplash.com/photo-1598866594230-a7c12756260f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1551183053-bf91a1d81141?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+        'https://img.freepik.com/premium-vector/plate-with-delicious-penne-pasta-sauce-white-background_906149-104329.jpg?semt=ais_hybrid'
         ],
         'Рис': [
-        'https://images.unsplash.com/photo-1585937421612-70ca003675ed?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1516684732162-798a0062be99?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+        'https://cdn.images.express.co.uk/img/dynamic/14/590x/secondary/bowl-of-rice-6055801.jpg?r=1743415439782'
         ],
         'Гречка': [
-        'https://images.unsplash.com/photo-1512632578888-169bbbc64f33?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1608039755401-742074f0548d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+        'https://img.freepik.com/premium-photo/buckwheat-porridge-old-ceramic-bowl-rustic-style_1161893-5261.jpg?semt=ais_hybrid'
         ]
     };
 
     const generateRecipes = () => {
         let allRecipes = [];
         let idCounter = 1;
-        
-        // Функция для генерации случайного рейтинга
         const getRandomRating = () => (3.5 + Math.random() * 1.5).toFixed(1);
-        
-        // Функция для генерации случайного количества просмотров
         const getRandomViews = () => 100 + Math.floor(Math.random() * 2900);
-        
-        // Функция для генерации случайного времени приготовления
         const getRandomTime = (category) => {
             const times = {
                 'Супы': [30, 120],
@@ -1158,22 +1092,14 @@ const RECIPES_DATABASE = (() => {
             const [min, max] = times[category] || [20, 120];
             return Math.floor(Math.random() * (max - min + 1)) + min;
         };
-        
-        // Функция для генерации случайной сложности
         const getRandomDifficulty = (time) => {
             if (time <= 30) return 'Легкая';
             if (time <= 90) return 'Средняя';
             return 'Сложная';
         };
-        
-        // Функция для генерации случайного количества порций
         const getRandomServings = () => Math.floor(Math.random() * 8) + 2;
-        
-        // Функция для генерации тегов
         const getRandomTags = (category, title) => {
             const tags = [];
-            
-            // Основные теги по категориям
             if (category === 'Супы' && Math.random() > 0.5) tags.push('🇷🇺 Русская кухня');
             if (category === 'Основные блюда' && Math.random() > 0.5) tags.push('🔥 Популярное');
             if (category === 'Салаты' && Math.random() > 0.7) tags.push('🌿 Здоровое');
@@ -1190,25 +1116,18 @@ const RECIPES_DATABASE = (() => {
             if (lowerTitle.includes('греч') || lowerTitle.includes('гречнев')) {
                 tags.push('🌾 С гречкой');
             }
-            
-            // Быстрые рецепты
+    
             if (Math.random() > 0.7) tags.push('⚡ Быстрое (≤30 мин)');
-            
-            // Бюджетные рецепты
+
             if (Math.random() > 0.6) tags.push('💰 Бюджетное');
-            
-            // Новые рецепты (для рецептов с высоким ID)
+
             if (idCounter > 700 && Math.random() > 0.5) tags.push('🆕 Новое');
-            
-            // Вегетарианские рецепты
+
             if (Math.random() > 0.8) tags.push('🥬 Вегетарианское');
             
             return tags.length > 0 ? tags : ['🔥 Популярное'];
         };
-        
-        // ГЕНЕРАЦИЯ 700 ОРИГИНАЛЬНЫХ РЕЦЕПТОВ
-        
-        // Супы (150 рецептов)
+
         const soupNames = [
             'Борщ украинский', 'Щи из свежей капусты', 'Солянка мясная', 'Рассольник с перловкой',
             'Грибной суп', 'Куриный суп с лапшой', 'Гороховый суп', 'Овощной суп', 'Уха из речной рыбы',
@@ -1229,7 +1148,6 @@ const RECIPES_DATABASE = (() => {
                 time: time,
                 difficulty: getRandomDifficulty(time),
                 servings: getRandomServings(),
-                description: `${name} - ароматный и сытный суп, который согреет в любой день. Идеально подходит для семейного обеда.`,
                 tags: getRandomTags('Супы', name),
                 image: images['Супы'][Math.floor(Math.random() * 3)],
                 rawIngredients: ['бульон', 'овощи', 'специи', 'зелень'],
@@ -1262,7 +1180,6 @@ const RECIPES_DATABASE = (() => {
                 time: time,
                 difficulty: getRandomDifficulty(time),
                 servings: getRandomServings(),
-                description: `${name} - вкусное и сытное основное блюдо. Отлично подходит для ${['семейного ужина', 'праздничного стола', 'воскресного обеда', 'быстрого перекуса'][i % 4]}.`,
                 tags: getRandomTags('Основные блюда', name),
                 image: images['Основные блюда'][Math.floor(Math.random() * 3)],
                 rawIngredients: ['мясо', 'овощи', 'специи', 'масло'],
@@ -1294,7 +1211,6 @@ const RECIPES_DATABASE = (() => {
                 time: time,
                 difficulty: getRandomDifficulty(time),
                 servings: getRandomServings(),
-                description: `${name} - ${['ароматный', 'свежий', 'праздничный', 'легкий', 'сытный'][i % 5]} салат, который украсит любой стол.`,
                 tags: getRandomTags('Салаты', name),
                 image: images['Салаты'][Math.floor(Math.random() * 3)],
                 rawIngredients: ['овощи', 'заправка', 'зелень', 'специи'],
@@ -1325,7 +1241,6 @@ const RECIPES_DATABASE = (() => {
                 time: time,
                 difficulty: getRandomDifficulty(time),
                 servings: getRandomServings(),
-                description: `${name} - ${['вкусный', 'нежный', 'ароматный', 'сладкий', 'воздушный'][i % 5]} десерт для ${['праздника', 'чаепития', 'завтрака', 'полдника', 'ужина'][i % 5]}.`,
                 tags: getRandomTags('Десерты', name),
                 image: images['Десерты'][Math.floor(Math.random() * 3)],
                 rawIngredients: ['мука', 'сахар', 'яйца', 'масло', 'начинка'],
@@ -1357,7 +1272,6 @@ const RECIPES_DATABASE = (() => {
                 time: time,
                 difficulty: getRandomDifficulty(time),
                 servings: getRandomServings(),
-                description: `${name} - отличная закуска для ${['праздничного стола', 'фуршета', 'пикника', 'вечеринки', 'перекуса'][i % 5]}.`,
                 tags: getRandomTags('Закуски', name),
                 image: images['Закуски'][Math.floor(Math.random() * 3)],
                 rawIngredients: ['основа', 'начинка', 'специи', 'соус'],
@@ -1386,7 +1300,6 @@ const RECIPES_DATABASE = (() => {
                 time: time,
                 difficulty: getRandomDifficulty(time),
                 servings: getRandomServings(),
-                description: `${name} - ${['итальянское', 'вкусное', 'сытное', 'ароматное', 'простое'][i % 5]} блюдо из макарон. Идеально на ужин.`,
                 tags: ['🍝 С макаронами', '⚡ Быстрое (≤30 мин)', Math.random() > 0.5 ? '💰 Бюджетное' : '🎉 Праздничное'],
                 image: images['Макароны'][i % 3],
                 rawIngredients: ['макароны', 'соус', 'специи', 'сыр'],
@@ -1415,7 +1328,6 @@ const RECIPES_DATABASE = (() => {
                 time: time,
                 difficulty: getRandomDifficulty(time),
                 servings: getRandomServings(),
-                description: `${name} - ${['ароматное', 'сытное', 'праздничное', 'простое', 'вкусное'][i % 5]} блюдо из риса.`,
                 tags: ['🍚 С рисом', Math.random() > 0.5 ? '🌿 Здоровое' : '💰 Бюджетное', time <= 45 ? '⚡ Быстрое (≤30 мин)' : ''],
                 image: images['Рис'][i % 3],
                 rawIngredients: ['рис', 'бульон', 'овощи', 'специи'],
@@ -1443,7 +1355,6 @@ const RECIPES_DATABASE = (() => {
                 time: time,
                 difficulty: getRandomDifficulty(time),
                 servings: getRandomServings(),
-                description: `${name} - ${['полезное', 'сытное', 'простое', 'вкусное', 'диетическое'][i % 5]} блюдо из гречки.`,
                 tags: ['🌾 С гречкой', '🌿 Здоровое', '💰 Бюджетное', time <= 35 ? '⚡ Быстрое (≤30 мин)' : ''],
                 image: images['Гречка'][i % 3],
                 rawIngredients: ['гречка', 'овощи', 'специи', 'масло'],
