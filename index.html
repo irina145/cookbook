@@ -793,10 +793,6 @@
                         </select>
                     </div>
                     
-                    <div class="form-group">
-                        <label class="form-label">Описание</label>
-                        <textarea class="form-input" id="recipe-description" rows="3" required></textarea>
-                    </div>
                     
                     <div class="form-group">
                         <label class="form-label">Время приготовления (минут)</label>
@@ -917,19 +913,6 @@
                 return JSON.parse(localStorage.getItem('categories')) || [];
             },
             
-            // Авторы
-            defaultAuthors: [
-                { id: 1, name: 'Анна Иванова', email: 'anna@mail.ru', role: 'Шеф-повар', recipes: 42, avatar: 'АИ' },
-                { id: 2, name: 'Михаил Петров', email: 'misha@mail.ru', role: 'Кулинарный блогер', recipes: 28, avatar: 'МП' },
-                { id: 3, name: 'Елена Смирнова', email: 'elena@mail.ru', role: 'Кондитер', recipes: 35, avatar: 'ЕС' },
-                { id: 4, name: 'Алексей Козлов', email: 'alex@mail.ru', role: 'Бармен', recipes: 18, avatar: 'АК' },
-                { id: 5, name: 'Ольга Николаева', email: 'olga@mail.ru', role: 'Диетолог', recipes: 25, avatar: 'ОН' },
-                { id: 6, name: 'Дмитрий Соколов', email: 'dima@mail.ru', role: 'Шеф-повар', recipes: 38, avatar: 'ДС' }
-            ],
-            
-            getAuthors() {
-                return JSON.parse(localStorage.getItem('authors')) || [];
-            },
             
             // Рецепты
             defaultRecipes: [
