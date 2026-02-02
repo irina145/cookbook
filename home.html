@@ -793,10 +793,6 @@
                         </select>
                     </div>
                     
-                    <div class="form-group">
-                        <label class="form-label">Описание</label>
-                        <textarea class="form-input" id="recipe-description" rows="3" required></textarea>
-                    </div>
                     
                     <div class="form-group">
                         <label class="form-label">Время приготовления (минут)</label>
@@ -865,268 +861,152 @@
     </div>
     
     <script>
-        // БАЗА ДАННЫХ (LocalStorage)
-        const DB = {
-            // Инициализация базы данных
-            init() {
-                if (!localStorage.getItem('users')) {
-                    localStorage.setItem('users', JSON.stringify([]));
-                }
-                if (!localStorage.getItem('categories')) {
-                    localStorage.setItem('categories', JSON.stringify(this.defaultCategories));
-                }
-                if (!localStorage.getItem('authors')) {
-                    localStorage.setItem('authors', JSON.stringify(this.defaultAuthors));
-                }
-                if (!localStorage.getItem('recipes')) {
-                    localStorage.setItem('recipes', JSON.stringify(this.defaultRecipes));
-                }
-                if (!localStorage.getItem('favorites')) {
-                    localStorage.setItem('favorites', JSON.stringify({}));
-                }
-            },
-            
-            // Пользователи
-            getUsers() {
-                return JSON.parse(localStorage.getItem('users')) || [];
-            },
-            
-            saveUser(user) {
-                const users = this.getUsers();
-                users.push(user);
-                localStorage.setItem('users', JSON.stringify(users));
-            },
-            
-            findUser(email) {
-                return this.getUsers().find(u => u.email === email);
-            },
-            
-            // Категории
-            defaultCategories: [
-                { id: 1, name: 'Супы', icon: '🥣', count: 12 },
-                { id: 2, name: 'Основные блюда', icon: '🍛', count: 45 },
-                { id: 3, name: 'Салаты', icon: '🥗', count: 28 },
-                { id: 4, name: 'Десерты', icon: '🍰', count: 32 },
-                { id: 5, name: 'Выпечка', icon: '🥐', count: 24 },
-                { id: 6, name: 'Закуски', icon: '🍤', count: 18 },
-                { id: 7, name: 'Напитки', icon: '🥤', count: 15 },
-                { id: 8, name: 'Завтраки', icon: '🍳', count: 20 }
-            ],
-            
-            getCategories() {
-                return JSON.parse(localStorage.getItem('categories')) || [];
-            },
-            
-            // Авторы
-            defaultAuthors: [
-                { id: 1, name: 'Анна Иванова', email: 'anna@mail.ru', role: 'Шеф-повар', recipes: 42, avatar: 'АИ' },
-                { id: 2, name: 'Михаил Петров', email: 'misha@mail.ru', role: 'Кулинарный блогер', recipes: 28, avatar: 'МП' },
-                { id: 3, name: 'Елена Смирнова', email: 'elena@mail.ru', role: 'Кондитер', recipes: 35, avatar: 'ЕС' },
-                { id: 4, name: 'Алексей Козлов', email: 'alex@mail.ru', role: 'Бармен', recipes: 18, avatar: 'АК' },
-                { id: 5, name: 'Ольга Николаева', email: 'olga@mail.ru', role: 'Диетолог', recipes: 25, avatar: 'ОН' },
-                { id: 6, name: 'Дмитрий Соколов', email: 'dima@mail.ru', role: 'Шеф-повар', recipes: 38, avatar: 'ДС' }
-            ],
-            
-            getAuthors() {
-                return JSON.parse(localStorage.getItem('authors')) || [];
-            },
-            
-            // Рецепты
-            defaultRecipes: [
-                {
-                    id: 1,
-                    title: "Классический борщ с говядиной",
-                    category: "Супы",
-                    description: "Насыщенный, ароматный борщ с нежной говядиной и свеклой - классика русской кухни.",
-                    time: 120,
-                    difficulty: "Средняя",
-                    servings: 6,
-                    rating: 4.8,
-                    views: 12500,
-                    authorId: 1,
-                    authorName: "Анна Иванова",
-                    createdAt: "2024-01-15",
-                    image: "https://img.freepik.com/premium-photo/chicken-soup-with-vegetables-wooden-table_135427-2442.jpg",
-                    tags: ["Русская кухня", "С мясом", "Свекла", "Картофель", "Овощи"],
-                    ingredients: [
-                        "Говядина (лопатка) - 500 г",
-                        "Свекла - 2 шт. средние",
-                        "Картофель - 3-4 шт.",
-                        "Морковь - 1 шт.",
-                        "Лук репчатый - 1 шт.",
-                        "Капуста белокочанная - 300 г",
-                        "Томатная паста - 2 ст. ложки",
-                        "Чеснок - 3 зубчика",
-                        "Сметана - для подачи",
-                        "Укроп свежий - пучок",
-                        "Лавровый лист - 2 шт.",
-                        "Соль, перец - по вкусу",
-                        "Масло растительное - 3 ст. ложки"
-                    ],
-                    steps: [
-                        "Говядину промойте, нарежьте кубиками. Залейте холодной водой, доведите до кипения.",
-                        "Снимите пену, убавьте огонь и варите 1,5 часа до мягкости мяса.",
-                        "Пока варится мясо, подготовьте овощи. Свеклу и морковь натрите, лук нарежьте.",
-                        "Обжарьте лук и морковь, затем свеклу с томатной пастой.",
-                        "Добавьте овощи в бульон, варите до готовности.",
-                        "В конце добавьте чеснок, лавровый лист, соль и перец.",
-                        "Подавайте со сметаной и свежим укропом."
-                    ]
-                },
-                {
-                    id: 2,
-                    title: "Спагетти Карбонара",
-                    category: "Основные блюда",
-                    description: "Классические итальянские спагетти с беконом, яйцами и сыром пармезан.",
-                    time: 25,
-                    difficulty: "Легкая",
-                    servings: 3,
-                    rating: 4.8,
-                    views: 9800,
-                    authorId: 2,
-                    authorName: "Михаил Петров",
-                    createdAt: "2024-02-10",
-                    image: "https://img.freepik.com/premium-vector/plate-with-delicious-penne-pasta-sauce-white-background_906149-104329.jpg?semt=ais_hybrid",
-                    tags: ["Итальянская кухня", "С макаронами", "Быстрое", "С беконом", "С сыром"],
-                    ingredients: [
-                        "Спагетти - 300 г",
-                        "Бекон - 150 г",
-                        "Яйца куриные - 3 шт.",
-                        "Желтки - 2 шт.",
-                        "Сыр пармезан - 80 г",
-                        "Чеснок - 2 зубчика",
-                        "Сливки 20% - 100 мл",
-                        "Соль, перец черный - по вкусу",
-                        "Оливковое масло - 2 ст. ложки"
-                    ],
-                    steps: [
-                        "Отварите спагетти согласно инструкции.",
-                        "Обжарьте бекон до хрустящей корочки.",
-                        "Взбейте яйца, желтки и сливки. Добавьте тертый пармезан.",
-                        "Слейте воду со спагетти, оставив немного воды.",
-                        "Соедините горячие спагетти с беконом.",
-                        "Влейте яичную смесь, постоянно помешивая.",
-                        "Сразу подавайте с дополнительным пармезаном."
-                    ]
-                },
-                {
-                    id: 3,
-                    title: "Шоколадный торт",
-                    category: "Десерты",
-                    description: "Нежный шоколадный торт с кремом из темного шоколада.",
-                    time: 90,
-                    difficulty: "Сложная",
-                    servings: 8,
-                    rating: 4.9,
-                    views: 7400,
-                    authorId: 3,
-                    authorName: "Елена Смирнова",
-                    createdAt: "2024-03-05",
-                    image: "https://img.freepik.com/free-photo/sweet-food-desserts-with-whipped-cream-generated-by-ai_188544-15728.jpg",
-                    tags: ["Десерт", "Шоколад", "Торт", "Праздничное", "Сложное"],
-                    ingredients: [
-                        "Мука пшеничная - 250 г",
-                        "Какао-порошок - 80 г",
-                        "Сахар - 300 г",
-                        "Яйца - 4 шт.",
-                        "Сливочное масло - 200 г",
-                        "Сметана - 200 г",
-                        "Разрыхлитель - 2 ч. ложки",
-                        "Темный шоколад - 200 г",
-                        "Сливки 33% - 300 мл"
-                    ],
-                    steps: [
-                        "Смешайте сухие ингредиенты: муку, какао, разрыхлитель.",
-                        "Взбейте яйца с сахаром до пышной массы.",
-                        "Добавьте растопленное масло и сметану, перемешайте.",
-                        "Постепенно добавьте сухие ингредиенты.",
-                        "Выпекайте в разогретой до 180°C духовке 40-45 минут.",
-                        "Приготовьте крем: растопите шоколад со сливками.",
-                        "Промажьте торт остывшим кремом.",
-                        "Дайте торту пропитаться 4-6 часов."
-                    ]
-                }
-            ],
-            
-            getRecipes() {
-                return JSON.parse(localStorage.getItem('recipes')) || [];
-            },
-            
-            saveRecipe(recipe) {
-                const recipes = this.getRecipes();
-                recipes.push(recipe);
-                localStorage.setItem('recipes', JSON.stringify(recipes));
-            },
-            
-            getRecipeById(id) {
-                return this.getRecipes().find(r => r.id === id);
-            },
-            
-            getRecipesByCategory(category) {
-                return this.getRecipes().filter(r => r.category === category);
-            },
-            
-            getRecipesByAuthor(authorId) {
-                return this.getRecipes().filter(r => r.authorId === authorId);
-            },
-            
-            getRecipesByUser(email) {
-                const author = this.getAuthors().find(a => a.email === email);
-                if (author) {
-                    return this.getRecipesByAuthor(author.id);
-                }
-                return [];
-            },
-            
-            // Избранное
-            getFavorites(email) {
-                const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
-                return favorites[email] || [];
-            },
-            
-            toggleFavorite(email, recipeId) {
-                const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
-                if (!favorites[email]) {
-                    favorites[email] = [];
-                }
-                
-                const index = favorites[email].indexOf(recipeId);
-                if (index === -1) {
-                    favorites[email].push(recipeId);
-                } else {
-                    favorites[email].splice(index, 1);
-                }
-                
-                localStorage.setItem('favorites', JSON.stringify(favorites));
-                return index === -1;
-            },
-            
-            isFavorite(email, recipeId) {
-                const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
-                return favorites[email] && favorites[email].includes(recipeId);
-            }
-        };
+        // API конфигурация - ИЗМЕНИТЕ ЭТОТ URL НА СВОЙ!
+        const API_BASE_URL = 'https://irina145.github.io/cookbook/'; // Для локального тестирования
+        // Для GitHub Pages замените на URL вашего бэкенда, например:
+        // const API_BASE_URL = 'https://ваш-сервер.herokuapp.com/api';
         
-        // ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
-        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+        // Глобальные переменные
+        let currentUser = null;
         let currentPage = 'home';
         let currentCategory = null;
         let currentAuthor = null;
         let currentPageNumber = 1;
         const itemsPerPage = 8;
         
-        // ИНИЦИАЛИЗАЦИЯ
-        function init() {
-            DB.init();
-            updateUserInterface();
+        // ========== API ФУНКЦИИ ==========
+        
+        async function apiRequest(endpoint, method = 'GET', data = null) {
+            const url = `${API_BASE_URL}${endpoint}`;
+            const options = {
+                method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include' // Важно для работы с сессиями
+            };
             
-            // Показываем главную страницу
+            if (data) {
+                options.body = JSON.stringify(data);
+            }
+            
+            try {
+                const response = await fetch(url, options);
+                const result = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(result.error || 'Ошибка сервера');
+                }
+                
+                return result;
+            } catch (error) {
+                console.error('API Error:', error);
+                return { 
+                    success: false, 
+                    error: error.message || 'Сервер не доступен' 
+                };
+            }
+        }
+        
+        // Авторизация
+        async function checkAuth() {
+            const result = await apiRequest('/auth/me');
+            if (result.success && result.user) {
+                currentUser = result.user;
+                updateUserInterface();
+            }
+            return result;
+        }
+        
+        async function registerUser(email, name, password) {
+            return await apiRequest('/auth/register', 'POST', { email, name, password });
+        }
+        
+        async function loginUser(email, password) {
+            return await apiRequest('/auth/login', 'POST', { email, password });
+        }
+        
+        async function logoutUser() {
+            const result = await apiRequest('/auth/logout', 'POST');
+            if (result.success) {
+                currentUser = null;
+                localStorage.removeItem('currentUser');
+                updateUserInterface();
+            }
+            return result;
+        }
+        
+        // Рецепты
+        async function getAllRecipes() {
+            return await apiRequest('/recipes');
+        }
+        
+        async function getRecipeById(id) {
+            return await apiRequest(`/recipes/${id}`);
+        }
+        
+        async function createNewRecipe(recipeData) {
+            return await apiRequest('/recipes', 'POST', recipeData);
+        }
+        
+        async function searchRecipes(query) {
+            return await apiRequest(`/recipes/search?q=${encodeURIComponent(query)}`);
+        }
+        
+        async function getRecipesByCategory(category) {
+            return await apiRequest(`/recipes/category/${encodeURIComponent(category)}`);
+        }
+        
+        async function getMyRecipes() {
+            return await apiRequest('/recipes/my');
+        }
+        
+        async function getPopularRecipes() {
+            return await apiRequest('/recipes/popular');
+        }
+        
+        // Категории
+        async function getCategories() {
+            return await apiRequest('/categories');
+        }
+        
+        // Авторы
+        async function getAuthors() {
+            return await apiRequest('/authors');
+        }
+        
+        async function getAuthorById(id) {
+            return await apiRequest(`/authors/${id}`);
+        }
+        
+        // Избранное
+        async function getFavorites() {
+            return await apiRequest('/favorites');
+        }
+        
+        async function toggleFavorite(recipeId) {
+            return await apiRequest(`/favorites/${recipeId}`, 'POST');
+        }
+        
+        async function checkIsFavorite(recipeId) {
+            return await apiRequest(`/favorites/${recipeId}/check`);
+        }
+        
+        // Статистика
+        async function getStats() {
+            return await apiRequest('/stats');
+        }
+        
+        // ========== ИНИЦИАЛИЗАЦИЯ ==========
+        
+        async function init() {
+            await checkAuth();
             navigateTo('home');
             
             // Обработчик формы добавления рецепта
             document.getElementById('recipe-form').addEventListener('submit', function(e) {
                 e.preventDefault();
-                addRecipe();
+                handleAddRecipe();
             });
             
             // Закрытие модальных окон при клике вне
@@ -1139,32 +1019,30 @@
             });
         }
         
-        // ОБНОВЛЕНИЕ ИНТЕРФЕЙСА ПОЛЬЗОВАТЕЛЯ
+        // ========== ОБНОВЛЕНИЕ ИНТЕРФЕЙСА ==========
+        
         function updateUserInterface() {
             const userActions = document.getElementById('user-actions');
             const addRecipeBtn = document.getElementById('add-recipe-btn');
             
             if (currentUser) {
-                // Пользователь авторизован
-                const firstLetter = currentUser.name.charAt(0).toUpperCase();
-                
                 userActions.innerHTML = `
                     <div class="user-info">
-                        <div class="user-avatar">${firstLetter}</div>
+                        <div class="user-avatar">${currentUser.avatar || currentUser.name.charAt(0)}</div>
                         <span>${currentUser.name}</span>
                     </div>
-                    <button class="action-btn" onclick="showFavorites()">
+                    <button class="action-btn" onclick="showFavoritesPage()">
                         ⭐
-                        <span class="favorites-count" id="header-favorites-count">
-                            ${DB.getFavorites(currentUser.email).length}
-                        </span>
+                        <span class="favorites-count" id="header-favorites-count">0</span>
                     </button>
-                    <button class="action-btn" onclick="logout()">🚪</button>
+                    <button class="action-btn" onclick="handleLogout()">🚪</button>
                 `;
                 
                 addRecipeBtn.style.display = 'block';
+                
+                // Загружаем количество избранного
+                loadFavoritesCount();
             } else {
-                // Пользователь не авторизован
                 userActions.innerHTML = `
                     <button class="nav-item" onclick="showAuthModal('login')">Вход</button>
                     <button class="nav-item" onclick="showAuthModal('register')">Регистрация</button>
@@ -1173,7 +1051,7 @@
                 addRecipeBtn.style.display = 'none';
             }
             
-            // Обновляем активную вкладку в навигации
+            // Обновляем активную вкладку
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
                 if (item.textContent.includes(getNavText(currentPage))) {
@@ -1182,18 +1060,32 @@
             });
         }
         
+        async function loadFavoritesCount() {
+            if (!currentUser) return;
+            
+            const result = await getFavorites();
+            if (result.success) {
+                const countElement = document.getElementById('header-favorites-count');
+                if (countElement) {
+                    countElement.textContent = result.recipes ? result.recipes.length : 0;
+                }
+            }
+        }
+        
         function getNavText(page) {
             const map = {
                 'home': 'Главная',
                 'categories': 'Категории',
                 'authors': 'Авторы',
                 'my-recipes': 'Мои рецепты',
-                'profile': 'Профиль'
+                'profile': 'Профиль',
+                'favorites': 'Избранное'
             };
             return map[page] || 'Главная';
         }
         
-        // НАВИГАЦИЯ
+        // ========== НАВИГАЦИЯ ==========
+        
         function navigateTo(page) {
             currentPage = page;
             currentPageNumber = 1;
@@ -1223,13 +1115,20 @@
                         showAuthModal('login');
                     }
                     break;
+                case 'favorites':
+                    if (currentUser) {
+                        showFavoritesPage();
+                    } else {
+                        showAuthModal('login');
+                    }
+                    break;
             }
         }
         
-        // ГЛАВНАЯ СТРАНИЦА
-        function showHomePage() {
+        // ========== ГЛАВНАЯ СТРАНИЦА ==========
+        
+        async function showHomePage() {
             const content = document.getElementById('main-content');
-            const recipes = DB.getRecipes().slice(0, 8);
             
             content.innerHTML = `
                 <div class="page-header">
@@ -1254,18 +1153,9 @@
                             <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px;">
                                 📊 Статистика
                             </h3>
-                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <div id="stats-container" style="display: flex; flex-direction: column; gap: 10px;">
                                 <div style="display: flex; justify-content: space-between;">
-                                    <span>Всего рецептов:</span>
-                                    <span style="font-weight: bold;">${DB.getRecipes().length}</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between;">
-                                    <span>Категорий:</span>
-                                    <span style="font-weight: bold;">${DB.getCategories().length}</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between;">
-                                    <span>Авторов:</span>
-                                    <span style="font-weight: bold;">${DB.getAuthors().length}</span>
+                                    <span>Загрузка...</span>
                                 </div>
                             </div>
                         </div>
@@ -1282,306 +1172,697 @@
                 </div>
             `;
             
-            // Загружаем популярные рецепты
-            const popularRecipesContainer = document.getElementById('popular-recipes');
-            popularRecipesContainer.innerHTML = recipes.map(recipe => renderRecipeCard(recipe)).join('');
-            
-            // Загружаем топ авторов
-            const topAuthorsContainer = document.getElementById('top-authors');
-            const topAuthors = DB.getAuthors()
-                .sort((a, b) => b.recipes - a.recipes)
-                .slice(0, 3);
-            
-            topAuthorsContainer.innerHTML = topAuthors.map(author => `
-                <div style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #eee;">
-                    <div class="author-mini">${author.avatar}</div>
-                    <div style="flex: 1;">
-                        <div style="font-weight: 500;">${author.name}</div>
-                        <div style="font-size: 12px; color: var(--gray);">${author.role}</div>
-                    </div>
-                    <div style="font-weight: bold; color: var(--accent-green);">${author.recipes}</div>
-                </div>
-            `).join('');
+            // Загружаем данные
+            await loadPopularRecipes();
+            await loadStats();
+            await loadTopAuthors();
         }
         
-        // СТРАНИЦА КАТЕГОРИЙ
-        function showCategoriesPage() {
-            const content = document.getElementById('main-content');
-            const categories = DB.getCategories();
-            
-            content.innerHTML = `
-                <div class="page-header">
-                    <h1 class="page-title">📚 Категории рецептов</h1>
-                    <p class="page-description">
-                        Выберите категорию, чтобы посмотреть рецепты
-                    </p>
-                </div>
+        async function loadPopularRecipes() {
+            try {
+                const result = await getPopularRecipes();
+                const container = document.getElementById('popular-recipes');
                 
-                <div class="categories-grid">
-                    ${categories.map(category => `
-                        <div class="category-card" onclick="showCategory('${category.name}')">
-                            <div class="category-icon">${category.icon}</div>
-                            <div class="category-content">
-                                <h3 class="category-title">${category.name}</h3>
-                                <p class="category-count">${category.count} рецептов</p>
-                            </div>
+                if (result.success && result.recipes && result.recipes.length > 0) {
+                    container.innerHTML = result.recipes.map(recipe => renderRecipeCard(recipe)).join('');
+                } else {
+                    container.innerHTML = '<p style="text-align: center; color: var(--gray);">Рецепты не найдены</p>';
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки популярных рецептов:', error);
+            }
+        }
+        
+        async function loadStats() {
+            try {
+                const result = await getStats();
+                const container = document.getElementById('stats-container');
+                
+                if (result.success) {
+                    container.innerHTML = `
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Всего рецептов:</span>
+                            <span style="font-weight: bold;">${result.stats.total_recipes || 0}</span>
                         </div>
-                    `).join('')}
-                </div>
-            `;
-        }
-        
-        function showCategory(categoryName) {
-            currentCategory = categoryName;
-            const content = document.getElementById('main-content');
-            const recipes = DB.getRecipesByCategory(categoryName);
-            const startIndex = (currentPageNumber - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
-            const pageRecipes = recipes.slice(startIndex, endIndex);
-            const totalPages = Math.ceil(recipes.length / itemsPerPage);
-            
-            content.innerHTML = `
-                <div class="page-header">
-                    <h1 class="page-title">${getCategoryIcon(categoryName)} ${categoryName}</h1>
-                    <p class="page-description">
-                        ${recipes.length} рецептов в категории
-                    </p>
-                </div>
-                
-                <div class="recipes-grid">
-                    ${pageRecipes.length > 0 
-                        ? pageRecipes.map(recipe => renderRecipeCard(recipe)).join('')
-                        : '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--gray);">Рецепты не найдены</div>'
-                    }
-                </div>
-                
-                ${totalPages > 1 ? renderPagination(totalPages) : ''}
-            `;
-        }
-        
-        // СТРАНИЦА АВТОРОВ
-        function showAuthorsPage() {
-            const content = document.getElementById('main-content');
-            const authors = DB.getAuthors();
-            
-            content.innerHTML = `
-                <div class="page-header">
-                    <h1 class="page-title">👨‍🍳 Наши авторы</h1>
-                    <p class="page-description">
-                        Талантливые шеф-повары и кулинарные блогеры
-                    </p>
-                </div>
-                
-                <div class="authors-grid">
-                    ${authors.map(author => `
-                        <div class="author-card" onclick="showAuthor(${author.id})">
-                            <div class="author-avatar">${author.avatar}</div>
-                            <h3 class="author-name">${author.name}</h3>
-                            <p class="author-role">${author.role}</p>
-                            <div class="author-stats">
-                                <div>
-                                    <div style="font-weight: bold; color: var(--accent-green);">${author.recipes}</div>
-                                    <div style="font-size: 11px;">рецептов</div>
-                                </div>
-                                <div>
-                                    <div style="font-weight: bold; color: var(--accent-green);">4.8</div>
-                                    <div style="font-size: 11px;">рейтинг</div>
-                                </div>
-                            </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Категорий:</span>
+                            <span style="font-weight: bold;">${result.stats.total_categories || 0}</span>
                         </div>
-                    `).join('')}
-                </div>
-            `;
-        }
-        
-        function showAuthor(authorId) {
-            currentAuthor = authorId;
-            const author = DB.getAuthors().find(a => a.id === authorId);
-            const recipes = DB.getRecipesByAuthor(authorId);
-            const startIndex = (currentPageNumber - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
-            const pageRecipes = recipes.slice(startIndex, endIndex);
-            const totalPages = Math.ceil(recipes.length / itemsPerPage);
-            
-            const content = document.getElementById('main-content');
-            content.innerHTML = `
-                <div class="profile-header">
-                    <div class="profile-avatar-large">${author.avatar}</div>
-                    <div class="profile-info">
-                        <h1 class="profile-name">${author.name}</h1>
-                        <p class="profile-email">${author.role}</p>
-                        <div class="profile-stats">
-                            <div class="profile-stat">
-                                <div class="stat-number">${author.recipes}</div>
-                                <div class="stat-label">Рецептов</div>
-                            </div>
-                            <div class="profile-stat">
-                                <div class="stat-number">4.8</div>
-                                <div class="stat-label">Рейтинг</div>
-                            </div>
-                            <div class="profile-stat">
-                                <div class="stat-number">${Math.floor(author.recipes * 150)}</div>
-                                <div class="stat-label">Просмотров</div>
-                            </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Авторов:</span>
+                            <span style="font-weight: bold;">${result.stats.total_users || 0}</span>
                         </div>
-                    </div>
-                </div>
-                
-                <div class="page-header">
-                    <h2 class="page-title">📝 Рецепты автора</h2>
-                </div>
-                
-                <div class="recipes-grid">
-                    ${pageRecipes.length > 0 
-                        ? pageRecipes.map(recipe => renderRecipeCard(recipe)).join('')
-                        : '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--gray);">Рецепты не найдены</div>'
-                    }
-                </div>
-                
-                ${totalPages > 1 ? renderPagination(totalPages) : ''}
-            `;
+                    `;
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки статистики:', error);
+            }
         }
         
-        // МОИ РЕЦЕПТЫ
-        function showMyRecipesPage() {
-            const content = document.getElementById('main-content');
-            const recipes = DB.getRecipesByUser(currentUser.email);
-            const startIndex = (currentPageNumber - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
-            const pageRecipes = recipes.slice(startIndex, endIndex);
-            const totalPages = Math.ceil(recipes.length / itemsPerPage);
-            
-            content.innerHTML = `
-                <div class="page-header">
-                    <h1 class="page-title">📝 Мои рецепты</h1>
-                    <p class="page-description">
-                        ${recipes.length} рецептов добавлено
-                    </p>
-                </div>
+        async function loadTopAuthors() {
+            try {
+                const result = await getAuthors();
+                const container = document.getElementById('top-authors');
                 
-                ${recipes.length === 0 ? `
-                    <div style="text-align: center; padding: 60px 20px; background: var(--light-green); border-radius: 12px; margin-bottom: 30px;">
-                        <div style="font-size: 48px; margin-bottom: 20px;">🍳</div>
-                        <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px;">
-                            У вас пока нет рецептов
-                        </h3>
-                        <p style="color: var(--gray); margin-bottom: 25px;">
-                            Добавьте свой первый рецепт и поделитесь им с сообществом!
-                        </p>
-                        <button onclick="showAddRecipeModal()" style="padding: 12px 30px; background: linear-gradient(135deg, var(--accent-green), var(--secondary-green)); color: white; border: none; border-radius: 8px; font-family: 'Raleway', sans-serif; font-weight: 600; cursor: pointer;">
-                            + Добавить рецепт
-                        </button>
-                    </div>
-                ` : ''}
-                
-                <div class="recipes-grid">
-                    ${pageRecipes.map(recipe => renderRecipeCard(recipe)).join('')}
-                </div>
-                
-                ${totalPages > 1 ? renderPagination(totalPages) : ''}
-            `;
-        }
-        
-        // СТРАНИЦА ПРОФИЛЯ
-        function showProfilePage() {
-            const myRecipes = DB.getRecipesByUser(currentUser.email);
-            const favorites = DB.getFavorites(currentUser.email);
-            
-            const content = document.getElementById('main-content');
-            content.innerHTML = `
-                <div class="profile-header">
-                    <div class="profile-avatar-large">${currentUser.name.charAt(0).toUpperCase()}</div>
-                    <div class="profile-info">
-                        <h1 class="profile-name">${currentUser.name}</h1>
-                        <p class="profile-email">${currentUser.email}</p>
-                        <div class="profile-stats">
-                            <div class="profile-stat">
-                                <div class="stat-number">${myRecipes.length}</div>
-                                <div class="stat-label">Мои рецепты</div>
+                if (result.success && result.authors && result.authors.length > 0) {
+                    const topAuthors = result.authors.slice(0, 3);
+                    container.innerHTML = topAuthors.map(author => `
+                        <div style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #eee;">
+                            <div class="author-mini">${author.avatar || author.name.charAt(0)}</div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 500;">${author.name}</div>
+                                <div style="font-size: 12px; color: var(--gray);">${author.role || 'Автор'}</div>
                             </div>
-                            <div class="profile-stat">
-                                <div class="stat-number">${favorites.length}</div>
-                                <div class="stat-label">В избранном</div>
-                            </div>
-                            <div class="profile-stat">
-                                <div class="stat-number">${new Date(currentUser.createdAt).toLocaleDateString()}</div>
-                                <div class="stat-label">С нами с</div>
-                            </div>
+                            <div style="font-weight: bold; color: var(--accent-green);">${author.recipes_count || 0}</div>
                         </div>
-                    </div>
-                </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = '<p style="text-align: center; color: var(--gray);">Авторы не найдены</p>';
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки авторов:', error);
+            }
+        }
+        
+        // ========== СТРАНИЦА КАТЕГОРИЙ ==========
+        
+        async function showCategoriesPage() {
+            try {
+                const result = await getCategories();
+                const content = document.getElementById('main-content');
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px;">
-                    <div>
+                if (result.success) {
+                    content.innerHTML = `
                         <div class="page-header">
-                            <h2 class="page-title">⭐ Избранное</h2>
+                            <h1 class="page-title">📚 Категории рецептов</h1>
+                            <p class="page-description">
+                                Выберите категорию, чтобы посмотреть рецепты
+                            </p>
                         </div>
-                        <div id="favorites-list">
-                            ${favorites.length === 0 ? `
-                                <div style="text-align: center; padding: 30px; background: var(--light-green); border-radius: 12px;">
-                                    <div style="font-size: 32px; margin-bottom: 15px;">⭐</div>
-                                    <p style="color: var(--gray);">Вы еще не добавили рецепты в избранное</p>
-                                </div>
-                            ` : favorites.slice(0, 3).map(recipeId => {
-                                const recipe = DB.getRecipeById(recipeId);
-                                return recipe ? `
-                                    <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: var(--white); border-radius: 8px; margin-bottom: 10px; box-shadow: var(--shadow); cursor: pointer;" onclick="showRecipe(${recipeId})">
-                                        <img src="${recipe.image}" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
-                                        <div style="flex: 1;">
-                                            <div style="font-weight: 500; margin-bottom: 5px;">${recipe.title}</div>
-                                            <div style="font-size: 12px; color: var(--gray);">${recipe.category} • ${recipe.time} мин</div>
-                                        </div>
-                                    </div>
-                                ` : '';
-                            }).join('')}
-                        </div>
-                        ${favorites.length > 3 ? `
-                            <button onclick="showFavorites()" style="width: 100%; padding: 12px; margin-top: 15px; background: none; border: 1px solid var(--accent-green); color: var(--accent-green); border-radius: 8px; cursor: pointer;">
-                                Показать все (${favorites.length})
-                            </button>
-                        ` : ''}
-                    </div>
-                    
-                    <div>
-                        <div class="page-header">
-                            <h2 class="page-title">📝 Последние рецепты</h2>
-                        </div>
-                        <div id="my-recipes-list">
-                            ${myRecipes.length === 0 ? `
-                                <div style="text-align: center; padding: 30px; background: var(--light-green); border-radius: 12px;">
-                                    <div style="font-size: 32px; margin-bottom: 15px;">📝</div>
-                                    <p style="color: var(--gray);">Вы еще не добавляли рецепты</p>
-                                    <button onclick="showAddRecipeModal()" style="margin-top: 15px; padding: 10px 20px; background: linear-gradient(135deg, var(--accent-green), var(--secondary-green)); color: white; border: none; border-radius: 8px; cursor: pointer;">
-                                        Добавить первый рецепт
-                                    </button>
-                                </div>
-                            ` : myRecipes.slice(0, 3).map(recipe => `
-                                <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: var(--white); border-radius: 8px; margin-bottom: 10px; box-shadow: var(--shadow); cursor: pointer;" onclick="showRecipe(${recipe.id})">
-                                    <img src="${recipe.image}" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
-                                    <div style="flex: 1;">
-                                        <div style="font-weight: 500; margin-bottom: 5px;">${recipe.title}</div>
-                                        <div style="font-size: 12px; color: var(--gray);">${recipe.category} • ${recipe.time} мин</div>
+                        
+                        <div class="categories-grid">
+                            ${result.categories.map(category => `
+                                <div class="category-card" onclick="showCategoryRecipes('${category.name}')">
+                                    <div class="category-icon">${category.icon || '🍽️'}</div>
+                                    <div class="category-content">
+                                        <h3 class="category-title">${category.name}</h3>
+                                        <p class="category-count">${category.recipe_count || 0} рецептов</p>
                                     </div>
                                 </div>
                             `).join('')}
                         </div>
-                        ${myRecipes.length > 3 ? `
-                            <button onclick="navigateTo('my-recipes')" style="width: 100%; padding: 12px; margin-top: 15px; background: none; border: 1px solid var(--accent-green); color: var(--accent-green); border-radius: 8px; cursor: pointer;">
-                                Показать все (${myRecipes.length})
-                            </button>
-                        ` : ''}
-                    </div>
-                </div>
+                    `;
+                } else {
+                    showError('Не удалось загрузить категории');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showError('Ошибка загрузки категорий');
+            }
+        }
+        
+        async function showCategoryRecipes(categoryName) {
+            currentCategory = categoryName;
+            try {
+                const result = await getRecipesByCategory(categoryName);
+                const content = document.getElementById('main-content');
                 
-                <div style="margin-top: 40px;">
-                    <button onclick="logout()" style="padding: 12px 30px; background: none; border: 1px solid #ff6b6b; color: #ff6b6b; border-radius: 8px; cursor: pointer; font-family: 'Raleway', sans-serif;">
-                        Выйти из аккаунта
-                    </button>
+                if (result.success) {
+                    const recipes = result.recipes || [];
+                    const startIndex = (currentPageNumber - 1) * itemsPerPage;
+                    const endIndex = startIndex + itemsPerPage;
+                    const pageRecipes = recipes.slice(startIndex, endIndex);
+                    const totalPages = Math.ceil(recipes.length / itemsPerPage);
+                    
+                    content.innerHTML = `
+                        <div class="page-header">
+                            <h1 class="page-title">${getCategoryIcon(categoryName)} ${categoryName}</h1>
+                            <p class="page-description">
+                                ${recipes.length} рецептов в категории
+                            </p>
+                        </div>
+                        
+                        <div class="recipes-grid">
+                            ${pageRecipes.length > 0 
+                                ? pageRecipes.map(recipe => renderRecipeCard(recipe)).join('')
+                                : '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--gray);">Рецепты не найдены</div>'
+                            }
+                        </div>
+                        
+                        ${totalPages > 1 ? renderPagination(totalPages) : ''}
+                    `;
+                } else {
+                    showError('Не удалось загрузить рецепты');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showError('Ошибка загрузки рецептов');
+            }
+        }
+        
+        // ========== СТРАНИЦА АВТОРОВ ==========
+        
+        async function showAuthorsPage() {
+            try {
+                const result = await getAuthors();
+                const content = document.getElementById('main-content');
+                
+                if (result.success) {
+                    content.innerHTML = `
+                        <div class="page-header">
+                            <h1 class="page-title">👨‍🍳 Наши авторы</h1>
+                            <p class="page-description">
+                                Талантливые шеф-повары и кулинарные блогеры
+                            </p>
+                        </div>
+                        
+                        <div class="authors-grid">
+                            ${result.authors.map(author => `
+                                <div class="author-card" onclick="showAuthorRecipes(${author.id})">
+                                    <div class="author-avatar">${author.avatar || author.name.charAt(0)}</div>
+                                    <h3 class="author-name">${author.name}</h3>
+                                    <p class="author-role">${author.role || 'Автор'}</p>
+                                    <div class="author-stats">
+                                        <div>
+                                            <div style="font-weight: bold; color: var(--accent-green);">${author.recipes_count || 0}</div>
+                                            <div style="font-size: 11px;">рецептов</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                } else {
+                    showError('Не удалось загрузить авторов');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showError('Ошибка загрузки авторов');
+            }
+        }
+        
+        async function showAuthorRecipes(authorId) {
+            currentAuthor = authorId;
+            try {
+                const authorResult = await getAuthorById(authorId);
+                const recipesResult = await getMyRecipes(); // Временное решение
+                
+                const content = document.getElementById('main-content');
+                
+                if (authorResult.success) {
+                    const author = authorResult.author;
+                    const recipes = recipesResult.success ? recipesResult.recipes : [];
+                    const startIndex = (currentPageNumber - 1) * itemsPerPage;
+                    const endIndex = startIndex + itemsPerPage;
+                    const pageRecipes = recipes.slice(startIndex, endIndex);
+                    const totalPages = Math.ceil(recipes.length / itemsPerPage);
+                    
+                    content.innerHTML = `
+                        <div class="profile-header">
+                            <div class="profile-avatar-large">${author.avatar || author.name.charAt(0)}</div>
+                            <div class="profile-info">
+                                <h1 class="profile-name">${author.name}</h1>
+                                <p class="profile-email">${author.email}</p>
+                                <div class="profile-stats">
+                                    <div class="profile-stat">
+                                        <div class="stat-number">${author.recipes_count || 0}</div>
+                                        <div class="stat-label">Рецептов</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="page-header">
+                            <h2 class="page-title">📝 Рецепты автора</h2>
+                        </div>
+                        
+                        <div class="recipes-grid">
+                            ${pageRecipes.length > 0 
+                                ? pageRecipes.map(recipe => renderRecipeCard(recipe)).join('')
+                                : '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--gray);">Рецепты не найдены</div>'
+                            }
+                        </div>
+                        
+                        ${totalPages > 1 ? renderPagination(totalPages) : ''}
+                    `;
+                } else {
+                    showError('Не удалось загрузить автора');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showError('Ошибка загрузки данных автора');
+            }
+        }
+        
+        // ========== МОИ РЕЦЕПТЫ ==========
+        
+        async function showMyRecipesPage() {
+            if (!currentUser) {
+                showAuthModal('login');
+                return;
+            }
+            
+            try {
+                const result = await getMyRecipes();
+                const content = document.getElementById('main-content');
+                
+                if (result.success) {
+                    const recipes = result.recipes || [];
+                    const startIndex = (currentPageNumber - 1) * itemsPerPage;
+                    const endIndex = startIndex + itemsPerPage;
+                    const pageRecipes = recipes.slice(startIndex, endIndex);
+                    const totalPages = Math.ceil(recipes.length / itemsPerPage);
+                    
+                    content.innerHTML = `
+                        <div class="page-header">
+                            <h1 class="page-title">📝 Мои рецепты</h1>
+                            <p class="page-description">
+                                ${recipes.length} рецептов добавлено
+                            </p>
+                        </div>
+                        
+                        ${recipes.length === 0 ? `
+                            <div style="text-align: center; padding: 60px 20px; background: var(--light-green); border-radius: 12px; margin-bottom: 30px;">
+                                <div style="font-size: 48px; margin-bottom: 20px;">🍳</div>
+                                <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px;">
+                                    У вас пока нет рецептов
+                                </h3>
+                                <p style="color: var(--gray); margin-bottom: 25px;">
+                                    Добавьте свой первый рецепт и поделитесь им с сообществом!
+                                </p>
+                                <button onclick="showAddRecipeModal()" style="padding: 12px 30px; background: linear-gradient(135deg, var(--accent-green), var(--secondary-green)); color: white; border: none; border-radius: 8px; font-family: 'Raleway', sans-serif; font-weight: 600; cursor: pointer;">
+                                    + Добавить рецепт
+                                </button>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="recipes-grid">
+                            ${pageRecipes.map(recipe => renderRecipeCard(recipe)).join('')}
+                        </div>
+                        
+                        ${totalPages > 1 ? renderPagination(totalPages) : ''}
+                    `;
+                } else {
+                    showError('Не удалось загрузить ваши рецепты');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showError('Ошибка загрузки рецептов');
+            }
+        }
+        
+        // ========== ИЗБРАННОЕ ==========
+        
+        async function showFavoritesPage() {
+            if (!currentUser) {
+                showAuthModal('login');
+                return;
+            }
+            
+            try {
+                const result = await getFavorites();
+                const content = document.getElementById('main-content');
+                
+                if (result.success) {
+                    const favorites = result.recipes || [];
+                    
+                    content.innerHTML = `
+                        <div class="page-header">
+                            <h1 class="page-title">⭐ Избранные рецепты</h1>
+                            <p class="page-description">
+                                ${favorites.length} рецептов в избранном
+                            </p>
+                        </div>
+                        
+                        ${favorites.length === 0 ? `
+                            <div style="text-align: center; padding: 60px 20px; background: var(--light-green); border-radius: 12px;">
+                                <div style="font-size: 48px; margin-bottom: 20px;">⭐</div>
+                                <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px;">
+                                    Избранное пусто
+                                </h3>
+                                <p style="color: var(--gray); margin-bottom: 25px;">
+                                    Добавляйте понравившиеся рецепты в избранное, чтобы быстро находить их позже
+                                </p>
+                            </div>
+                        ` : `
+                            <div class="recipes-grid">
+                                ${favorites.map(recipe => renderRecipeCard(recipe)).join('')}
+                            </div>
+                        `}
+                    `;
+                } else {
+                    showError('Не удалось загрузить избранное');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showError('Ошибка загрузки избранного');
+            }
+        }
+        
+        // ========== ПРОФИЛЬ ==========
+        
+        async function showProfilePage() {
+            if (!currentUser) {
+                showAuthModal('login');
+                return;
+            }
+            
+            try {
+                const favoritesResult = await getFavorites();
+                const myRecipesResult = await getMyRecipes();
+                
+                const favorites = favoritesResult.success ? favoritesResult.recipes : [];
+                const myRecipes = myRecipesResult.success ? myRecipesResult.recipes : [];
+                
+                const content = document.getElementById('main-content');
+                content.innerHTML = `
+                    <div class="profile-header">
+                        <div class="profile-avatar-large">${currentUser.avatar || currentUser.name.charAt(0)}</div>
+                        <div class="profile-info">
+                            <h1 class="profile-name">${currentUser.name}</h1>
+                            <p class="profile-email">${currentUser.email}</p>
+                            <div class="profile-stats">
+                                <div class="profile-stat">
+                                    <div class="stat-number">${myRecipes.length}</div>
+                                    <div class="stat-label">Мои рецепты</div>
+                                </div>
+                                <div class="profile-stat">
+                                    <div class="stat-number">${favorites.length}</div>
+                                    <div class="stat-label">В избранном</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px;">
+                        <div>
+                            <div class="page-header">
+                                <h2 class="page-title">⭐ Избранное</h2>
+                            </div>
+                            <div id="favorites-list">
+                                ${favorites.length === 0 ? `
+                                    <div style="text-align: center; padding: 30px; background: var(--light-green); border-radius: 12px;">
+                                        <div style="font-size: 32px; margin-bottom: 15px;">⭐</div>
+                                        <p style="color: var(--gray);">Вы еще не добавили рецепты в избранное</p>
+                                    </div>
+                                ` : favorites.slice(0, 3).map(recipe => `
+                                    <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: var(--white); border-radius: 8px; margin-bottom: 10px; box-shadow: var(--shadow); cursor: pointer;" onclick="showRecipeDetail(${recipe.id})">
+                                        <img src="${recipe.image_url || 'https://img.freepik.com/premium-photo/chicken-soup-with-vegetables-wooden-table_135427-2442.jpg'}" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
+                                        <div style="flex: 1;">
+                                            <div style="font-weight: 500; margin-bottom: 5px;">${recipe.title}</div>
+                                            <div style="font-size: 12px; color: var(--gray);">${recipe.category} • ${recipe.total_time || recipe.time} мин</div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            ${favorites.length > 3 ? `
+                                <button onclick="navigateTo('favorites')" style="width: 100%; padding: 12px; margin-top: 15px; background: none; border: 1px solid var(--accent-green); color: var(--accent-green); border-radius: 8px; cursor: pointer;">
+                                    Показать все (${favorites.length})
+                                </button>
+                            ` : ''}
+                        </div>
+                        
+                        <div>
+                            <div class="page-header">
+                                <h2 class="page-title">📝 Последние рецепты</h2>
+                            </div>
+                            <div id="my-recipes-list">
+                                ${myRecipes.length === 0 ? `
+                                    <div style="text-align: center; padding: 30px; background: var(--light-green); border-radius: 12px;">
+                                        <div style="font-size: 32px; margin-bottom: 15px;">📝</div>
+                                        <p style="color: var(--gray);">Вы еще не добавляли рецепты</p>
+                                        <button onclick="showAddRecipeModal()" style="margin-top: 15px; padding: 10px 20px; background: linear-gradient(135deg, var(--accent-green), var(--secondary-green)); color: white; border: none; border-radius: 8px; cursor: pointer;">
+                                            Добавить первый рецепт
+                                        </button>
+                                    </div>
+                                ` : myRecipes.slice(0, 3).map(recipe => `
+                                    <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: var(--white); border-radius: 8px; margin-bottom: 10px; box-shadow: var(--shadow); cursor: pointer;" onclick="showRecipeDetail(${recipe.id})">
+                                        <img src="${recipe.image_url || 'https://img.freepik.com/premium-photo/chicken-soup-with-vegetables-wooden-table_135427-2442.jpg'}" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
+                                        <div style="flex: 1;">
+                                            <div style="font-weight: 500; margin-bottom: 5px;">${recipe.title}</div>
+                                            <div style="font-size: 12px; color: var(--gray);">${recipe.category} • ${recipe.total_time || recipe.time} мин</div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            ${myRecipes.length > 3 ? `
+                                <button onclick="navigateTo('my-recipes')" style="width: 100%; padding: 12px; margin-top: 15px; background: none; border: 1px solid var(--accent-green); color: var(--accent-green); border-radius: 8px; cursor: pointer;">
+                                    Показать все (${myRecipes.length})
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 40px;">
+                        <button onclick="handleLogout()" style="padding: 12px 30px; background: none; border: 1px solid #ff6b6b; color: #ff6b6b; border-radius: 8px; cursor: pointer; font-family: 'Raleway', sans-serif;">
+                            Выйти из аккаунта
+                        </button>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showError('Ошибка загрузки профиля');
+            }
+        }
+        
+        // ========== КАРТОЧКА РЕЦЕПТА ==========
+        
+        async function renderRecipeCard(recipe) {
+            let isFavorite = false;
+            if (currentUser) {
+                const result = await checkIsFavorite(recipe.id);
+                if (result.success) {
+                    isFavorite = result.is_favorite;
+                }
+            }
+            
+            return `
+                <div class="recipe-card" onclick="showRecipeDetail(${recipe.id})">
+                    <img src="${recipe.image_url || 'https://img.freepik.com/premium-photo/chicken-soup-with-vegetables-wooden-table_135427-2442.jpg'}" alt="${recipe.title}" class="recipe-image">
+                    <div class="recipe-content">
+                        <div class="recipe-title">
+                            <span>${recipe.title}</span>
+                            <button class="favorite-btn" onclick="toggleFavoriteRecipe(${recipe.id}, event)" title="${isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}">
+                                ${isFavorite ? '★' : '☆'}
+                            </button>
+                        </div>
+                        
+                        <div class="recipe-author">
+                            <div class="author-mini">${recipe.author_name ? recipe.author_name.charAt(0) : 'А'}</div>
+                            <span>${recipe.author_name || 'Автор'}</span>
+                        </div>
+                        
+                        <div class="recipe-meta">
+                            <span class="recipe-meta-item">⏱ ${recipe.total_time || recipe.time || 0} мин</span>
+                            <span class="recipe-meta-item">👥 ${recipe.servings || 1} порц.</span>
+                            <span class="recipe-meta-item">${recipe.difficulty || 'Средняя'}</span>
+                        </div>
+                        
+                        <div class="recipe-tags">
+                            ${Array.isArray(recipe.tags) ? recipe.tags.slice(0, 2).map(tag => `
+                                <span class="recipe-tag">${tag}</span>
+                            `).join('') : ''}
+                        </div>
+                    </div>
                 </div>
             `;
         }
         
-        // АВТОРИЗАЦИЯ
+        // ========== ПОКАЗ РЕЦЕПТА ==========
+        
+        async function showRecipeDetail(recipeId) {
+            try {
+                const result = await getRecipeById(recipeId);
+                if (!result.success || !result.recipe) {
+                    showError('Рецепт не найден');
+                    return;
+                }
+                
+                const recipe = result.recipe;
+                let isFavorite = false;
+                
+                if (currentUser) {
+                    const favResult = await checkIsFavorite(recipeId);
+                    if (favResult.success) {
+                        isFavorite = favResult.is_favorite;
+                    }
+                }
+                
+                document.getElementById('modal-recipe-title').textContent = recipe.title;
+                
+                document.getElementById('recipe-modal-content').innerHTML = `
+                    <div style="display: flex; gap: 30px; margin-bottom: 30px; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 300px;">
+                            <img src="${recipe.image_url || 'https://img.freepik.com/premium-photo/chicken-soup-with-vegetables-wooden-table_135427-2442.jpg'}" alt="${recipe.title}" style="width: 100%; border-radius: 12px; height: 300px; object-fit: cover;">
+                        </div>
+                        <div style="flex: 1; min-width: 300px;">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px;">
+                                <div style="padding: 10px; background: var(--light-green); border-radius: 8px;">
+                                    <div style="font-weight: bold; color: var(--secondary-green);">${recipe.total_time || recipe.time || 0} мин</div>
+                                    <div style="font-size: 12px; color: var(--gray);">Время готовки</div>
+                                </div>
+                                <div style="padding: 10px; background: var(--light-green); border-radius: 8px;">
+                                    <div style="font-weight: bold; color: var(--secondary-green);">${recipe.servings || 1} порции</div>
+                                    <div style="font-size: 12px; color: var(--gray);">Количество</div>
+                                </div>
+                                <div style="padding: 10px; background: var(--light-green); border-radius: 8px;">
+                                    <div style="font-weight: bold; color: var(--secondary-green);">${recipe.difficulty || 'Средняя'}</div>
+                                    <div style="font-size: 12px; color: var(--gray);">Сложность</div>
+                                </div>
+                                <div style="padding: 10px; background: var(--light-green); border-radius: 8px;">
+                                    <div style="font-weight: bold; color: var(--secondary-green);">${recipe.rating || 4.5}</div>
+                                    <div style="font-size: 12px; color: var(--gray);">Рейтинг</div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                    <div class="author-mini">${recipe.author_name ? recipe.author_name.charAt(0) : 'А'}</div>
+                                    <div>
+                                        <div style="font-weight: 500;">${recipe.author_name || 'Автор'}</div>
+                                        <div style="font-size: 12px; color: var(--gray);">Автор рецепта</div>
+                                    </div>
+                                </div>
+                                <div style="color: var(--gray);">${recipe.description || 'Нет описания'}</div>
+                            </div>
+                            
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
+                                ${Array.isArray(recipe.tags) ? recipe.tags.map(tag => `
+                                    <span style="background: var(--light-green); color: var(--secondary-green); padding: 4px 10px; border-radius: 12px; font-size: 12px;">
+                                        ${tag}
+                                    </span>
+                                `).join('') : ''}
+                            </div>
+                            
+                            ${currentUser ? `
+                                <button onclick="toggleFavoriteRecipe(${recipe.id})" style="padding: 10px 20px; background: ${isFavorite ? 'var(--light-green)' : 'linear-gradient(135deg, var(--accent-green), var(--secondary-green))'}; color: ${isFavorite ? 'var(--secondary-green)' : 'white'}; border: none; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                    ${isFavorite ? '★' : '☆'} ${isFavorite ? 'В избранном' : 'Добавить в избранное'}
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                        <div>
+                            <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px; font-size: 20px;">
+                                🧺 Ингредиенты
+                            </h3>
+                            <ul style="list-style: none; padding-left: 0;">
+                                ${Array.isArray(recipe.ingredients) ? recipe.ingredients.map(ing => `
+                                    <li style="padding: 8px 0; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px;">
+                                        <span>🌿</span> <span>${ing}</span>
+                                    </li>
+                                `).join('') : '<li style="padding: 8px 0; color: var(--gray);">Ингредиенты не указаны</li>'}
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px; font-size: 20px;">
+                                👩‍🍳 Приготовление
+                            </h3>
+                            <ol style="padding-left: 20px;">
+                                ${Array.isArray(recipe.steps) ? recipe.steps.map((step, index) => `
+                                    <li style="padding: 10px 0; margin-bottom: 10px; border-bottom: 1px solid #f0f0f0;">
+                                        <strong>Шаг ${index + 1}:</strong> ${step}
+                                    </li>
+                                `).join('') : '<li style="padding: 10px 0; color: var(--gray);">Шаги приготовления не указаны</li>'}
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div style="background: var(--light-green); padding: 20px; border-radius: 12px;">
+                        <h4 style="color: var(--primary-green); margin-bottom: 10px;">💡 Полезные советы</h4>
+                        <p style="color: var(--gray);">Рецепт вкуснее всего получается, если готовить его с хорошим настроением. Не бойтесь экспериментировать с пропорциями и добавлять свои любимые специи!</p>
+                    </div>
+                `;
+                
+                document.getElementById('recipe-modal').classList.add('active');
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showError('Не удалось загрузить рецепт');
+            }
+        }
+        
+        // ========== ИЗБРАННОЕ ==========
+        
+        async function toggleFavoriteRecipe(recipeId, event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            
+            if (!currentUser) {
+                showAuthModal('login');
+                return;
+            }
+            
+            try {
+                const result = await toggleFavorite(recipeId);
+                if (result.success) {
+                    // Обновляем интерфейс
+                    if (currentPage === 'favorites') {
+                        showFavoritesPage();
+                    } else if (currentCategory) {
+                        showCategoryRecipes(currentCategory);
+                    } else if (currentAuthor) {
+                        showAuthorRecipes(currentAuthor);
+                    } else if (currentPage === 'my-recipes') {
+                        showMyRecipesPage();
+                    } else {
+                        showHomePage();
+                    }
+                    
+                    // Обновляем счетчик в хедере
+                    await loadFavoritesCount();
+                    
+                    showNotification(result.added ? 'Добавлено в избранное' : 'Удалено из избранного');
+                } else {
+                    showError(result.error || 'Ошибка');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showError('Не удалось обновить избранное');
+            }
+        }
+        
+        // ========== ПОИСК ==========
+        
+        async function searchRecipesHandler() {
+            const query = document.getElementById('searchInput') ? document.getElementById('searchInput').value : '';
+            if (!query.trim()) return;
+            
+            try {
+                const result = await searchRecipes(query);
+                const content = document.getElementById('main-content');
+                
+                if (result.success) {
+                    const recipes = result.recipes || [];
+                    
+                    content.innerHTML = `
+                        <div class="page-header">
+                            <h1 class="page-title">🔍 Результаты поиска: "${query}"</h1>
+                            <p class="page-description">
+                                Найдено ${recipes.length} рецептов
+                            </p>
+                        </div>
+                        
+                        <div class="recipes-grid">
+                            ${recipes.length > 0 
+                                ? recipes.map(recipe => renderRecipeCard(recipe)).join('')
+                                : '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--gray);">Рецепты не найдены</div>'
+                            }
+                        </div>
+                    `;
+                } else {
+                    showError('Не удалось выполнить поиск');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showError('Ошибка поиска');
+            }
+        }
+        
+        // ========== АВТОРИЗАЦИЯ ==========
+        
         function showAuthModal(type) {
             const modal = document.getElementById('auth-modal');
             const title = document.getElementById('auth-modal-title');
@@ -1622,12 +1903,14 @@
             `;
             
             // Обработчики форм
-            document.getElementById(`${type}-form`).addEventListener('submit', function(e) {
+            const form = document.getElementById(`${type}-form`);
+            form.onsubmit = null; // Удаляем старый обработчик
+            form.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 if (type === 'login') {
-                    login();
+                    await handleLogin();
                 } else {
-                    register();
+                    await handleRegister();
                 }
             });
             
@@ -1638,76 +1921,51 @@
             document.getElementById('auth-modal').classList.remove('active');
         }
         
-        function register() {
+        async function handleRegister() {
             const name = document.getElementById('register-name').value.trim();
             const email = document.getElementById('register-email').value.trim();
             const password = document.getElementById('register-password').value;
             
-            if (DB.findUser(email)) {
-                showNotification('Пользователь с таким email уже существует', 'error');
-                return;
+            const result = await registerUser(email, name, password);
+            if (result.success) {
+                currentUser = result.user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                closeAuthModal();
+                updateUserInterface();
+                navigateTo('home');
+                showNotification(`Добро пожаловать, ${name}!`);
+            } else {
+                showNotification(result.error || 'Ошибка регистрации', 'error');
             }
-            
-            const user = {
-                id: Date.now(),
-                name: name,
-                email: email,
-                password: password,
-                createdAt: new Date().toISOString()
-            };
-            
-            DB.saveUser(user);
-            currentUser = user;
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            
-            // Добавляем пользователя как автора
-            const authors = DB.getAuthors();
-            const author = {
-                id: Date.now() + 1,
-                name: name,
-                email: email,
-                role: 'Кулинарный энтузиаст',
-                recipes: 0,
-                avatar: name.charAt(0).toUpperCase() + name.split(' ')[1]?.charAt(0).toUpperCase() || name.charAt(1).toUpperCase()
-            };
-            authors.push(author);
-            localStorage.setItem('authors', JSON.stringify(authors));
-            
-            closeAuthModal();
-            updateUserInterface();
-            navigateTo('home');
-            showNotification(`Добро пожаловать, ${name}!`);
         }
         
-        function login() {
+        async function handleLogin() {
             const email = document.getElementById('login-email').value.trim();
             const password = document.getElementById('login-password').value;
             
-            const user = DB.findUser(email);
-            
-            if (!user || user.password !== password) {
-                showNotification('Неверный email или пароль', 'error');
-                return;
+            const result = await loginUser(email, password);
+            if (result.success) {
+                currentUser = result.user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                closeAuthModal();
+                updateUserInterface();
+                navigateTo('home');
+                showNotification(`С возвращением, ${currentUser.name}!`);
+            } else {
+                showNotification(result.error || 'Неверный email или пароль', 'error');
             }
-            
-            currentUser = user;
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            
-            closeAuthModal();
-            updateUserInterface();
-            navigateTo('home');
-            showNotification(`С возвращением, ${user.name}!`);
         }
         
-        function logout() {
-            currentUser = null;
-            localStorage.removeItem('currentUser');
-            updateUserInterface();
-            navigateTo('home');
-            showNotification('Вы вышли из системы');
+        async function handleLogout() {
+            const result = await logoutUser();
+            if (result.success) {
+                navigateTo('home');
+                showNotification('Вы вышли из системы');
+            }
         }
         
-        // РЕЦЕПТЫ
+        // ========== ДОБАВЛЕНИЕ РЕЦЕПТА ==========
+        
         function showAddRecipeModal() {
             if (!currentUser) {
                 showAuthModal('login');
@@ -1722,10 +1980,14 @@
             document.getElementById('recipe-form').reset();
         }
         
-        function addRecipe() {
+        async function handleAddRecipe() {
+            if (!currentUser) {
+                showAuthModal('login');
+                return;
+            }
+            
             const title = document.getElementById('recipe-title').value.trim();
             const category = document.getElementById('recipe-category').value;
-            const description = document.getElementById('recipe-description').value.trim();
             const time = parseInt(document.getElementById('recipe-time').value);
             const servings = parseInt(document.getElementById('recipe-servings').value);
             const difficulty = document.getElementById('recipe-difficulty').value;
@@ -1734,234 +1996,39 @@
             const tags = document.getElementById('recipe-tags').value.split(',').map(t => t.trim()).filter(t => t);
             const image = document.getElementById('recipe-image').value.trim() || 'https://img.freepik.com/premium-photo/chicken-soup-with-vegetables-wooden-table_135427-2442.jpg';
             
-            const author = DB.getAuthors().find(a => a.email === currentUser.email);
-            
-            const recipe = {
-                id: Date.now(),
+            const recipeData = {
                 title: title,
                 category: category,
-                description: description,
-                time: time,
-                difficulty: difficulty,
+                description: `Вкусный рецепт ${title}`,
+                prep_time: Math.floor(time * 0.4),
+                cook_time: Math.floor(time * 0.6),
                 servings: servings,
-                rating: 4.5,
-                views: 0,
-                authorId: author.id,
-                authorName: author.name,
-                createdAt: new Date().toISOString().split('T')[0],
-                image: image,
-                tags: tags,
+                difficulty: difficulty,
+                image_url: image,
                 ingredients: ingredients,
-                steps: steps
+                steps: steps,
+                tags: tags
             };
             
-            DB.saveRecipe(recipe);
-            
-            // Обновляем счетчик рецептов у автора
-            const authors = DB.getAuthors();
-            const authorIndex = authors.findIndex(a => a.id === author.id);
-            if (authorIndex !== -1) {
-                authors[authorIndex].recipes += 1;
-                localStorage.setItem('authors', JSON.stringify(authors));
+            const result = await createNewRecipe(recipeData);
+            if (result.success) {
+                closeAddRecipeModal();
+                showRecipeDetail(result.recipe_id);
+                showNotification('Рецепт успешно добавлен!');
+                
+                // Обновляем страницу если нужно
+                if (currentPage === 'my-recipes') {
+                    showMyRecipesPage();
+                }
+            } else {
+                showNotification(result.error || 'Ошибка при сохранении рецепта', 'error');
             }
-            
-            // Обновляем счетчик рецептов в категории
-            const categories = DB.getCategories();
-            const categoryIndex = categories.findIndex(c => c.name === category);
-            if (categoryIndex !== -1) {
-                categories[categoryIndex].count += 1;
-                localStorage.setItem('categories', JSON.stringify(categories));
-            }
-            
-            closeAddRecipeModal();
-            showRecipe(recipe.id);
-            showNotification('Рецепт успешно добавлен!');
         }
         
-        function showRecipe(recipeId) {
-            const recipe = DB.getRecipeById(recipeId);
-            if (!recipe) return;
-            
-            const isFavorite = currentUser ? DB.isFavorite(currentUser.email, recipeId) : false;
-            
-            document.getElementById('modal-recipe-title').textContent = recipe.title;
-            
-            document.getElementById('recipe-modal-content').innerHTML = `
-                <div style="display: flex; gap: 30px; margin-bottom: 30px; flex-wrap: wrap;">
-                    <div style="flex: 1; min-width: 300px;">
-                        <img src="${recipe.image}" alt="${recipe.title}" style="width: 100%; border-radius: 12px; height: 300px; object-fit: cover;">
-                    </div>
-                    <div style="flex: 1; min-width: 300px;">
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px;">
-                            <div style="padding: 10px; background: var(--light-green); border-radius: 8px;">
-                                <div style="font-weight: bold; color: var(--secondary-green);">${recipe.time} мин</div>
-                                <div style="font-size: 12px; color: var(--gray);">Время готовки</div>
-                            </div>
-                            <div style="padding: 10px; background: var(--light-green); border-radius: 8px;">
-                                <div style="font-weight: bold; color: var(--secondary-green);">${recipe.servings} порции</div>
-                                <div style="font-size: 12px; color: var(--gray);">Количество</div>
-                            </div>
-                            <div style="padding: 10px; background: var(--light-green); border-radius: 8px;">
-                                <div style="font-weight: bold; color: var(--secondary-green);">${recipe.difficulty}</div>
-                                <div style="font-size: 12px; color: var(--gray);">Сложность</div>
-                            </div>
-                            <div style="padding: 10px; background: var(--light-green); border-radius: 8px;">
-                                <div style="font-weight: bold; color: var(--secondary-green);">${recipe.rating}</div>
-                                <div style="font-size: 12px; color: var(--gray);">Рейтинг</div>
-                            </div>
-                        </div>
-                        
-                        <div style="margin-bottom: 20px;">
-                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                                <div class="author-mini">${recipe.authorName.split(' ').map(n => n[0]).join('')}</div>
-                                <div>
-                                    <div style="font-weight: 500;">${recipe.authorName}</div>
-                                    <div style="font-size: 12px; color: var(--gray);">Автор рецепта</div>
-                                </div>
-                            </div>
-                            <div style="color: var(--gray);">${recipe.description}</div>
-                        </div>
-                        
-                        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
-                            ${recipe.tags.map(tag => `
-                                <span style="background: var(--light-green); color: var(--secondary-green); padding: 4px 10px; border-radius: 12px; font-size: 12px;">
-                                    ${tag}
-                                </span>
-                            `).join('')}
-                        </div>
-                        
-                        ${currentUser ? `
-                            <button onclick="toggleFavoriteRecipe(${recipe.id})" style="padding: 10px 20px; background: ${isFavorite ? 'var(--light-green)' : 'linear-gradient(135deg, var(--accent-green), var(--secondary-green))'}; color: ${isFavorite ? 'var(--secondary-green)' : 'white'}; border: none; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
-                                ${isFavorite ? '★' : '☆'} ${isFavorite ? 'В избранном' : 'Добавить в избранное'}
-                            </button>
-                        ` : ''}
-                    </div>
-                </div>
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
-                    <div>
-                        <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px; font-size: 20px;">
-                            🧺 Ингредиенты
-                        </h3>
-                        <ul style="list-style: none; padding-left: 0;">
-                            ${recipe.ingredients.map(ing => `
-                                <li style="padding: 8px 0; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px;">
-                                    <span>🌿</span> <span>${ing}</span>
-                                </li>
-                            `).join('')}
-                        </ul>
-                    </div>
-                    
-                    <div>
-                        <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px; font-size: 20px;">
-                            👩‍🍳 Приготовление
-                        </h3>
-                        <ol style="padding-left: 20px;">
-                            ${recipe.steps.map((step, index) => `
-                                <li style="padding: 10px 0; margin-bottom: 10px; border-bottom: 1px solid #f0f0f0;">
-                                    <strong>Шаг ${index + 1}:</strong> ${step}
-                                </li>
-                            `).join('')}
-                        </ol>
-                    </div>
-                </div>
-                
-                <div style="background: var(--light-green); padding: 20px; border-radius: 12px;">
-                    <h4 style="color: var(--primary-green); margin-bottom: 10px;">💡 Полезные советы</h4>
-                    <p style="color: var(--gray);">Рецепт вкуснее всего получается, если готовить его с хорошим настроением. Не бойтесь экспериментировать с пропорциями и добавлять свои любимые специи!</p>
-                </div>
-            `;
-            
-            document.getElementById('recipe-modal').classList.add('active');
-        }
+        // ========== УТИЛИТЫ ==========
         
         function closeRecipeModal() {
             document.getElementById('recipe-modal').classList.remove('active');
-        }
-        
-        function toggleFavoriteRecipe(recipeId) {
-            if (!currentUser) {
-                showAuthModal('login');
-                return;
-            }
-            
-            const added = DB.toggleFavorite(currentUser.email, recipeId);
-            showRecipe(recipeId); // Обновляем модальное окно
-            updateUserInterface(); // Обновляем счетчик в хедере
-            
-            showNotification(added ? 'Добавлено в избранное' : 'Удалено из избранного');
-        }
-        
-        function showFavorites() {
-            if (!currentUser) {
-                showAuthModal('login');
-                return;
-            }
-            
-            const favorites = DB.getFavorites(currentUser.email);
-            const recipes = favorites.map(id => DB.getRecipeById(id)).filter(r => r);
-            
-            const content = document.getElementById('main-content');
-            content.innerHTML = `
-                <div class="page-header">
-                    <h1 class="page-title">⭐ Избранные рецепты</h1>
-                    <p class="page-description">
-                        ${favorites.length} рецептов в избранном
-                    </p>
-                </div>
-                
-                ${favorites.length === 0 ? `
-                    <div style="text-align: center; padding: 60px 20px; background: var(--light-green); border-radius: 12px;">
-                        <div style="font-size: 48px; margin-bottom: 20px;">⭐</div>
-                        <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px;">
-                            Избранное пусто
-                        </h3>
-                        <p style="color: var(--gray); margin-bottom: 25px;">
-                            Добавляйте понравившиеся рецепты в избранное, чтобы быстро находить их позже
-                        </p>
-                    </div>
-                ` : `
-                    <div class="recipes-grid">
-                        ${recipes.map(recipe => renderRecipeCard(recipe)).join('')}
-                    </div>
-                `}
-            `;
-        }
-        
-        // УТИЛИТЫ
-        function renderRecipeCard(recipe) {
-            const isFavorite = currentUser ? DB.isFavorite(currentUser.email, recipe.id) : false;
-            
-            return `
-                <div class="recipe-card" onclick="showRecipe(${recipe.id})">
-                    <img src="${recipe.image}" alt="${recipe.title}" class="recipe-image">
-                    <div class="recipe-content">
-                        <div class="recipe-title">
-                            <span>${recipe.title}</span>
-                            <button class="favorite-btn" onclick="toggleFavoriteRecipe(${recipe.id}, event)">
-                                ${isFavorite ? '★' : '☆'}
-                            </button>
-                        </div>
-                        
-                        <div class="recipe-author">
-                            <div class="author-mini">${recipe.authorName.split(' ').map(n => n[0]).join('')}</div>
-                            <span>${recipe.authorName}</span>
-                        </div>
-                        
-                        <div class="recipe-meta">
-                            <span class="recipe-meta-item">⏱ ${recipe.time} мин</span>
-                            <span class="recipe-meta-item">👥 ${recipe.servings} порц.</span>
-                            <span class="recipe-meta-item">⭐ ${recipe.rating}</span>
-                        </div>
-                        
-                        <div class="recipe-tags">
-                            ${recipe.tags.slice(0, 2).map(tag => `
-                                <span class="recipe-tag">${tag}</span>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
         }
         
         function renderPagination(totalPages) {
@@ -2004,21 +2071,20 @@
             if (page < 1) return;
             currentPageNumber = page;
             
-            // Перезагружаем текущую страницу
             switch(currentPage) {
                 case 'home':
                     showHomePage();
                     break;
                 case 'categories':
                     if (currentCategory) {
-                        showCategory(currentCategory);
+                        showCategoryRecipes(currentCategory);
                     } else {
                         showCategoriesPage();
                     }
                     break;
                 case 'authors':
                     if (currentAuthor) {
-                        showAuthor(currentAuthor);
+                        showAuthorRecipes(currentAuthor);
                     } else {
                         showAuthorsPage();
                     }
@@ -2070,7 +2136,12 @@
             }, 3000);
         }
         
-        // ЗАГРУЗКА
+        function showError(message) {
+            showNotification(message, 'error');
+        }
+        
+        // ========== ЗАГРУЗКА ==========
+        
         document.addEventListener('DOMContentLoaded', () => {
             // Добавляем стили для анимации
             const style = document.createElement('style');
@@ -2094,6 +2165,16 @@
                     });
                 }
             });
+            
+            // Проверяем сохраненного пользователя
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                } catch (e) {
+                    localStorage.removeItem('currentUser');
+                }
+            }
             
             init();
         });
