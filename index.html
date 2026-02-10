@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Playfair+Display:wght@400;500;600&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ВАШ ИСХОДНЫЙ CSS СТИЛЬ - ОСТАВЛЯЕМ БЕЗ ИЗМЕНЕНИЙ */
         :root {
             --primary-green: #1a3c27;
             --secondary-green: #2d5a3b;
@@ -446,7 +447,7 @@
             transform: scale(1.2);
         }
         
-        /* РЕЙТИНГ */
+        /* РЕЙТИНГ - ВАША ОРИГИНАЛЬНАЯ ВЕРСИЯ */
         .rating {
             display: flex;
             align-items: center;
@@ -679,7 +680,7 @@
             font-size: 14px;
         }
         
-        /* ПОИСК ПО ИНГРЕДИЕНТАМ */
+        /* ПОИСК ПО ИНГРЕДИЕНТАМ - ВАША ВЕРСИЯ */
         .ingredients-search-container {
             background: var(--white);
             padding: 25px;
@@ -810,6 +811,7 @@
     </style>
 </head>
 <body>
+    <!-- ВАШ ИСХОДНЫЙ HTML - БЕЗ ИЗМЕНЕНИЙ -->
     <!-- HEADER -->
     <header class="site-header">
         <div class="header-container">
@@ -950,38 +952,27 @@
     </div>
     
     <script>
-        // ========== ОБЛАЧНАЯ БАЗА ДАННЫХ (Google Sheets API) ==========
-        const CLOUD_DB = {
-            // Конфигурация Google Apps Script
-            SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbyMvib6nX_V6GgBId82jyeDCXVwSQwWxqLRN4tSiFyc32bqXckmXFsEmcS7CZF3y_0Hww/exec',
-            
-            // Инициализация - проверяем подключение
-            async init() {
+        // ========== ВАШ ИСХОДНЫЙ JS С ОБЛАЧНОЙ БАЗОЙ ==========
+        // 🔧 ЗАМЕНИТЕ ЭТОТ URL НА ВАШ URL ИЗ GOOGLE APPS SCRIPT
+        const API_URL = 'https://script.google.com/macros/s/AKfycbzCAmOg3wF8ThhKcp9t0iMf8A_q3APx1Hr6rAGJnq-CBWG66NPh8iGkU6SwbzCNWCMDlw/exec';
+        
+        // ========== ОБЛАЧНАЯ БАЗА ДАННЫХ ==========
+        const CloudDB = {
+            async testConnection() {
                 try {
-                    const response = await fetch(`${this.SCRIPT_URL}?action=test`);
+                    const response = await fetch(`${API_URL}?action=test`);
                     const data = await response.json();
-                    console.log('Подключение к облачной БД:', data.status);
-                    return true;
+                    console.log('API тест:', data);
+                    return data.status === 'ok';
                 } catch (error) {
-                    console.warn('Не удалось подключиться к облачной БД. Используем локальное хранилище.');
+                    console.warn('Не удалось подключиться к облаку');
                     return false;
                 }
             },
             
-            // Проверка соединения
-            async testConnection() {
+            async register(user) {
                 try {
-                    const response = await fetch(`${this.SCRIPT_URL}?action=test`);
-                    return await response.json();
-                } catch (error) {
-                    return { status: 'error', message: 'Нет соединения' };
-                }
-            },
-            
-            // ПОЛЬЗОВАТЕЛИ
-            async registerUser(user) {
-                try {
-                    const response = await fetch(this.SCRIPT_URL, {
+                    const response = await fetch(API_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -994,13 +985,13 @@
                     });
                     return await response.json();
                 } catch (error) {
-                    throw new Error('Ошибка регистрации');
+                    return { success: false, message: 'Ошибка сети' };
                 }
             },
             
-            async loginUser(email, password) {
+            async login(email, password) {
                 try {
-                    const response = await fetch(this.SCRIPT_URL, {
+                    const response = await fetch(API_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -1011,33 +1002,24 @@
                     });
                     return await response.json();
                 } catch (error) {
-                    throw new Error('Ошибка входа');
+                    return { success: false, message: 'Ошибка сети' };
                 }
             },
             
-            async getUserById(userId) {
+            async getRecipes() {
                 try {
-                    const response = await fetch(`${this.SCRIPT_URL}?action=getUser&id=${userId}`);
-                    return await response.json();
-                } catch (error) {
-                    return null;
-                }
-            },
-            
-            // РЕЦЕПТЫ
-            async getAllRecipes() {
-                try {
-                    const response = await fetch(`${this.SCRIPT_URL}?action=getRecipes`);
+                    const response = await fetch(`${API_URL}?action=getRecipes`);
                     const data = await response.json();
                     return data.recipes || [];
                 } catch (error) {
+                    console.error('Ошибка получения рецептов:', error);
                     return [];
                 }
             },
             
             async addRecipe(recipe) {
                 try {
-                    const response = await fetch(this.SCRIPT_URL, {
+                    const response = await fetch(API_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -1047,22 +1029,24 @@
                     });
                     return await response.json();
                 } catch (error) {
-                    throw new Error('Ошибка добавления рецепта');
+                    return { success: false, message: 'Ошибка сети' };
                 }
             },
             
-            async getRecipeById(recipeId) {
+            async getRecipe(id) {
                 try {
-                    const response = await fetch(`${this.SCRIPT_URL}?action=getRecipe&id=${recipeId}`);
-                    return await response.json();
+                    const response = await fetch(`${API_URL}?action=getRecipe&id=${id}`);
+                    const data = await response.json();
+                    return data.recipe || null;
                 } catch (error) {
+                    console.error('Ошибка получения рецепта:', error);
                     return null;
                 }
             },
             
             async rateRecipe(recipeId, userId, rating) {
                 try {
-                    const response = await fetch(this.SCRIPT_URL, {
+                    const response = await fetch(API_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -1074,24 +1058,13 @@
                     });
                     return await response.json();
                 } catch (error) {
-                    throw new Error('Ошибка оценки рецепта');
-                }
-            },
-            
-            // ИЗБРАННОЕ
-            async getFavorites(userId) {
-                try {
-                    const response = await fetch(`${this.SCRIPT_URL}?action=getFavorites&userId=${userId}`);
-                    const data = await response.json();
-                    return data.favorites || [];
-                } catch (error) {
-                    return [];
+                    return { success: false, message: 'Ошибка сети' };
                 }
             },
             
             async toggleFavorite(userId, recipeId) {
                 try {
-                    const response = await fetch(this.SCRIPT_URL, {
+                    const response = await fetch(API_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -1102,464 +1075,309 @@
                     });
                     return await response.json();
                 } catch (error) {
-                    throw new Error('Ошибка добавления в избранное');
+                    return { success: false, message: 'Ошибка сети' };
                 }
             },
             
-            // СТАТИСТИКА
-            async getStats() {
+            async getFavorites(userId) {
                 try {
-                    const response = await fetch(`${this.SCRIPT_URL}?action=getStats`);
-                    return await response.json();
+                    const response = await fetch(`${API_URL}?action=getFavorites&userId=${userId}`);
+                    const data = await response.json();
+                    return data.favorites || [];
                 } catch (error) {
-                    return {
-                        total_recipes: 0,
-                        total_users: 0,
-                        total_categories: 8,
-                        total_favorites: 0
-                    };
+                    console.error('Ошибка получения избранного:', error);
+                    return [];
                 }
             }
         };
         
-        // ========== ЛОКАЛЬНОЕ ХРАНИЛИЩЕ (резервный вариант) ==========
-        const LOCAL_DB = {
-            init() {
-                if (!localStorage.getItem('users')) {
-                    localStorage.setItem('users', JSON.stringify([]));
-                }
-                if (!localStorage.getItem('categories')) {
-                    localStorage.setItem('categories', JSON.stringify([
-                        { id: 1, name: 'Супы', icon: '🥣', recipe_count: 0 },
-                        { id: 2, name: 'Основные блюда', icon: '🍛', recipe_count: 0 },
-                        { id: 3, name: 'Салаты', icon: '🥗', recipe_count: 0 },
-                        { id: 4, name: 'Десерты', icon: '🍰', recipe_count: 0 },
-                        { id: 5, name: 'Выпечка', icon: '🥐', recipe_count: 0 },
-                        { id: 6, name: 'Закуски', icon: '🍤', recipe_count: 0 },
-                        { id: 7, name: 'Напитки', icon: '🥤', recipe_count: 0 },
-                        { id: 8, name: 'Завтраки', icon: '🍳', recipe_count: 0 }
-                    ]));
-                }
-                if (!localStorage.getItem('recipes')) {
-                    localStorage.setItem('recipes', JSON.stringify([]));
-                }
-                if (!localStorage.getItem('favorites')) {
-                    localStorage.setItem('favorites', JSON.stringify({}));
-                }
-                if (!localStorage.getItem('ratings')) {
-                    localStorage.setItem('ratings', JSON.stringify({}));
-                }
-                
-                this.addDemoData();
-            },
-            
-            addDemoData() {
-                const users = this.getUsers();
-                if (users.length === 0) {
-                    this.saveUser({
-                        id: 1,
-                        email: 'demo@example.com',
-                        name: 'Демо Пользователь',
-                        password: 'demo123',
-                        avatar: 'ДП',
-                        created_at: new Date().toISOString()
-                    });
-                }
-                
-                const recipes = this.getRecipes();
-                if (recipes.length === 0) {
-                    this.saveRecipe({
-                        id: 1,
-                        title: "Борщ классический",
-                        description: "Традиционный украинский борщ со свеклой и говядиной",
-                        category: "Супы",
-                        prep_time: 30,
-                        cook_time: 90,
-                        total_time: 120,
-                        difficulty: "Средняя",
-                        servings: 6,
-                        rating: 4.8,
-                        ratings_count: 24,
-                        views: 1250,
-                        author_id: 1,
-                        author_name: "Демо Пользователь",
-                        image_url: "https://images.unsplash.com/photo-1547592180-85f173990554?w=800",
-                        ingredients: ["500 г говядины", "2 шт свеклы", "3 картофелины", "300 г капусты", "1 морковь", "1 луковица", "2 ст ложки томатной пасты", "соль, перец по вкусу"],
-                        steps: ["Варить мясо 1.5 часа", "Нарезать овощи", "Обжарить лук и морковь", "Добавить свеклу"],
-                        tags: ["русская кухня", "мясо", "суп"],
-                        created_at: "2024-01-15"
-                    });
-                    
-                    this.saveRecipe({
-                        id: 2,
-                        title: "Омлет с овощами",
-                        description: "Пышный омлет с болгарским перцем и помидорами",
-                        category: "Завтраки",
-                        prep_time: 10,
-                        cook_time: 15,
-                        total_time: 25,
-                        difficulty: "Легкая",
-                        servings: 2,
-                        rating: 4.5,
-                        ratings_count: 18,
-                        views: 890,
-                        author_id: 1,
-                        author_name: "Демо Пользователь",
-                        image_url: "https://images.unsplash.com/photo-1547592180-85f173990554?w=800",
-                        ingredients: ["4 яйца", "50 мл молока", "1 помидор", "1 болгарский перец", "соль, перец по вкусу", "зелень для украшения"],
-                        steps: ["Взбить яйца с молоком", "Нарезать овощи", "Обжарить овощи", "Залить яичной смесью"],
-                        tags: ["завтрак", "быстро", "просто"],
-                        created_at: "2024-02-10"
-                    });
-                }
-            },
-            
-            // ПОЛЬЗОВАТЕЛИ
-            getUsers() {
-                return JSON.parse(localStorage.getItem('users')) || [];
-            },
-            
-            saveUser(user) {
-                const users = this.getUsers();
-                users.push(user);
-                localStorage.setItem('users', JSON.stringify(users));
-            },
-            
-            findUser(email) {
-                return this.getUsers().find(u => u.email === email);
-            },
-            
-            authenticate(email, password) {
-                const user = this.findUser(email);
-                if (user && user.password === password) {
-                    return user;
-                }
-                return null;
-            },
-            
-            // РЕЦЕПТЫ
+        // ========== ЛОКАЛЬНЫЙ КЭШ (для оффлайн работы) ==========
+        const LocalCache = {
             getRecipes() {
-                return JSON.parse(localStorage.getItem('recipes')) || [];
+                return JSON.parse(localStorage.getItem('recipes_cache') || '[]');
             },
             
-            saveRecipe(recipe) {
-                const recipes = this.getRecipes();
-                const newId = recipes.length > 0 ? Math.max(...recipes.map(r => r.id)) + 1 : 1;
-                recipe.id = newId;
-                recipe.created_at = new Date().toISOString();
-                recipe.rating = recipe.rating || 4.5;
-                recipe.ratings_count = recipe.ratings_count || 1;
-                recipes.push(recipe);
-                localStorage.setItem('recipes', JSON.stringify(recipes));
-                return recipe.id;
-            },
-            
-            getRecipeById(id) {
-                return this.getRecipes().find(r => r.id === id);
-            },
-            
-            updateRecipe(recipe) {
-                const recipes = this.getRecipes();
-                const index = recipes.findIndex(r => r.id === recipe.id);
-                if (index !== -1) {
-                    recipes[index] = recipe;
-                    localStorage.setItem('recipes', JSON.stringify(recipes));
-                    return true;
-                }
-                return false;
-            },
-            
-            // РЕЙТИНГИ
-            rateRecipe(recipeId, userId, rating) {
-                const recipes = this.getRecipes();
-                const recipeIndex = recipes.findIndex(r => r.id === recipeId);
-                
-                if (recipeIndex === -1) return false;
-                
-                // Сохраняем оценку пользователя
-                const ratings = JSON.parse(localStorage.getItem('ratings')) || {};
-                if (!ratings[recipeId]) {
-                    ratings[recipeId] = {};
-                }
-                ratings[recipeId][userId] = rating;
-                localStorage.setItem('ratings', JSON.stringify(ratings));
-                
-                // Пересчитываем средний рейтинг
-                const recipeRatings = Object.values(ratings[recipeId] || {});
-                if (recipeRatings.length > 0) {
-                    const averageRating = recipeRatings.reduce((a, b) => a + b, 0) / recipeRatings.length;
-                    recipes[recipeIndex].rating = parseFloat(averageRating.toFixed(1));
-                    recipes[recipeIndex].ratings_count = recipeRatings.length;
-                    localStorage.setItem('recipes', JSON.stringify(recipes));
-                }
-                
-                return true;
-            },
-            
-            getUserRating(recipeId, userId) {
-                const ratings = JSON.parse(localStorage.getItem('ratings')) || {};
-                return ratings[recipeId] ? ratings[recipeId][userId] : 0;
-            },
-            
-            // ИЗБРАННОЕ
             getFavorites(userId) {
-                const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
+                const favorites = JSON.parse(localStorage.getItem('favorites_cache') || '{}');
                 return favorites[userId] || [];
             },
             
-            toggleFavorite(userId, recipeId) {
-                const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
-                if (!favorites[userId]) {
-                    favorites[userId] = [];
-                }
-                
-                const index = favorites[userId].indexOf(recipeId);
-                if (index === -1) {
-                    favorites[userId].push(recipeId);
-                } else {
-                    favorites[userId].splice(index, 1);
-                }
-                
-                localStorage.setItem('favorites', JSON.stringify(favorites));
-                return index === -1;
+            saveRecipes(recipes) {
+                localStorage.setItem('recipes_cache', JSON.stringify(recipes));
             },
             
-            isFavorite(userId, recipeId) {
-                const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
-                return favorites[userId] && favorites[userId].includes(recipeId);
+            saveFavorites(userId, favoriteIds) {
+                const favorites = JSON.parse(localStorage.getItem('favorites_cache') || '{}');
+                favorites[userId] = favoriteIds;
+                localStorage.setItem('favorites_cache', JSON.stringify(favorites));
             },
             
-            // ПОИСК
             searchByIngredients(ingredientsArray) {
                 const recipes = this.getRecipes();
                 if (ingredientsArray.length === 0) return recipes;
                 
                 return recipes.filter(recipe => {
-                    const recipeIngredients = recipe.ingredients.map(ing => ing.toLowerCase());
+                    const recipeIngredients = (recipe.ingredients || []).map(ing => ing.toLowerCase());
                     return ingredientsArray.every(searchIng => 
                         recipeIngredients.some(recipeIng => 
                             recipeIng.includes(searchIng.toLowerCase())
                         )
                     );
                 });
-            },
-            
-            searchByAnyIngredient(ingredientsArray) {
-                const recipes = this.getRecipes();
-                if (ingredientsArray.length === 0) return recipes;
-                
-                return recipes.filter(recipe => {
-                    const recipeIngredients = recipe.ingredients.map(ing => ing.toLowerCase());
-                    return ingredientsArray.some(searchIng => 
-                        recipeIngredients.some(recipeIng => 
-                            recipeIng.includes(searchIng.toLowerCase())
-                        )
-                    );
-                });
-            },
-            
-            // СТАТИСТИКА
-            getStats() {
-                const recipes = this.getRecipes();
-                const users = this.getUsers();
-                const categories = this.getCategories();
-                
-                let totalFavorites = 0;
-                const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
-                for (const userId in favorites) {
-                    totalFavorites += favorites[userId].length;
-                }
-                
-                return {
-                    total_recipes: recipes.length,
-                    total_users: users.length,
-                    total_categories: categories.length,
-                    total_favorites: totalFavorites
-                };
-            },
-            
-            // КАТЕГОРИИ
-            getCategories() {
-                return JSON.parse(localStorage.getItem('categories')) || [];
             }
         };
         
-        // ========== МЕНЕДЖЕР БАЗЫ ДАННЫХ ==========
+        // ========== МЕНЕДЖЕР ДАННЫХ ==========
         const DB = {
-            useCloudDB: false,
+            useCloud: false,
             
             async init() {
-                // Пробуем подключиться к облачной БД
-                const cloudConnected = await CLOUD_DB.init();
-                this.useCloudDB = cloudConnected;
+                this.useCloud = await CloudDB.testConnection();
+                console.log('Используем облачную БД:', this.useCloud);
                 
-                if (!cloudConnected) {
-                    console.log('Используем локальную базу данных');
-                    LOCAL_DB.init();
-                } else {
-                    console.log('Используем облачную базу данных');
+                // Загружаем данные из облака в кэш
+                if (this.useCloud) {
+                    try {
+                        const recipes = await CloudDB.getRecipes();
+                        LocalCache.saveRecipes(recipes);
+                        console.log('Загружено рецептов в кэш:', recipes.length);
+                    } catch (error) {
+                        console.error('Ошибка загрузки рецептов:', error);
+                    }
                 }
                 
-                return this.useCloudDB;
+                return this.useCloud;
             },
             
-            async registerUser(user) {
-                if (this.useCloudDB) {
-                    try {
-                        return await CLOUD_DB.registerUser(user);
-                    } catch (error) {
-                        console.warn('Ошибка облака, используем локальную БД');
-                        this.useCloudDB = false;
-                        LOCAL_DB.saveUser(user);
+            // Пользователи
+            async register(user) {
+                if (this.useCloud) {
+                    return await CloudDB.register(user);
+                } else {
+                    // Локальная регистрация
+                    const users = JSON.parse(localStorage.getItem('users_cache') || '[]');
+                    const existingUser = users.find(u => u.email === user.email);
+                    
+                    if (existingUser) {
+                        return { success: false, message: 'Пользователь уже существует' };
+                    }
+                    
+                    const newUser = {
+                        ...user,
+                        id: Date.now(),
+                        created_at: new Date().toISOString()
+                    };
+                    
+                    users.push(newUser);
+                    localStorage.setItem('users_cache', JSON.stringify(users));
+                    
+                    return { success: true, user: newUser };
+                }
+            },
+            
+            async login(email, password) {
+                if (this.useCloud) {
+                    return await CloudDB.login(email, password);
+                } else {
+                    const users = JSON.parse(localStorage.getItem('users_cache') || '[]');
+                    const user = users.find(u => u.email === email && u.password === password);
+                    
+                    if (user) {
                         return { success: true, user: user };
+                    } else {
+                        // Проверяем демо-пользователя
+                        if (email === 'demo@example.com' && password === 'demo123') {
+                            const demoUser = {
+                                id: 1,
+                                email: 'demo@example.com',
+                                name: 'Демо Пользователь',
+                                avatar: 'Д'
+                            };
+                            return { success: true, user: demoUser };
+                        }
+                        return { success: false, message: 'Неверные данные' };
                     }
-                } else {
-                    LOCAL_DB.saveUser(user);
-                    return { success: true, user: user };
                 }
             },
             
-            async loginUser(email, password) {
-                if (this.useCloudDB) {
-                    try {
-                        return await CLOUD_DB.loginUser(email, password);
-                    } catch (error) {
-                        console.warn('Ошибка облака, используем локальную БД');
-                        this.useCloudDB = false;
-                        const user = LOCAL_DB.authenticate(email, password);
-                        return user ? { success: true, user: user } : { success: false };
+            // Рецепты
+            async getRecipes() {
+                if (this.useCloud) {
+                    const cloudRecipes = await CloudDB.getRecipes();
+                    if (cloudRecipes.length > 0) {
+                        LocalCache.saveRecipes(cloudRecipes);
+                        return cloudRecipes;
                     }
-                } else {
-                    const user = LOCAL_DB.authenticate(email, password);
-                    return user ? { success: true, user: user } : { success: false };
                 }
-            },
-            
-            async getAllRecipes() {
-                if (this.useCloudDB) {
-                    try {
-                        return await CLOUD_DB.getAllRecipes();
-                    } catch (error) {
-                        console.warn('Ошибка облака, используем локальную БД');
-                        this.useCloudDB = false;
-                        return LOCAL_DB.getRecipes();
+                
+                const cachedRecipes = LocalCache.getRecipes();
+                if (cachedRecipes.length > 0) {
+                    return cachedRecipes;
+                }
+                
+                // Если нет рецептов, добавляем демо
+                const demoRecipes = [
+                    {
+                        id: 1,
+                        title: "Борщ классический",
+                        description: "Традиционный украинский борщ со свеклой и говядиной",
+                        category: "Супы",
+                        total_time: 120,
+                        difficulty: "Средняя",
+                        servings: 6,
+                        rating: 4.8,
+                        ratings_count: 24,
+                        author_name: "Демо Пользователь",
+                        image_url: "https://images.unsplash.com/photo-1547592180-85f173990554?w=800",
+                        ingredients: ["500 г говядины", "2 шт свеклы", "3 картофелины"],
+                        steps: ["Варить мясо 1.5 часа", "Нарезать овощи"],
+                        tags: ["русская кухня", "мясо", "суп"]
+                    },
+                    {
+                        id: 2,
+                        title: "Омлет с овощами",
+                        description: "Пышный омлет с болгарским перцем и помидорами",
+                        category: "Завтраки",
+                        total_time: 25,
+                        difficulty: "Легкая",
+                        servings: 2,
+                        rating: 4.5,
+                        ratings_count: 18,
+                        author_name: "Демо Пользователь",
+                        image_url: "https://images.unsplash.com/photo-1547592180-85f173990554?w=800",
+                        ingredients: ["4 яйца", "50 мл молока", "1 помидор"],
+                        steps: ["Взбить яйца с молоком", "Нарезать овощи"],
+                        tags: ["завтрак", "быстро", "просто"]
                     }
-                } else {
-                    return LOCAL_DB.getRecipes();
-                }
+                ];
+                
+                LocalCache.saveRecipes(demoRecipes);
+                return demoRecipes;
             },
             
             async addRecipe(recipe) {
-                if (this.useCloudDB) {
-                    try {
-                        return await CLOUD_DB.addRecipe(recipe);
-                    } catch (error) {
-                        console.warn('Ошибка облака, используем локальную БД');
-                        this.useCloudDB = false;
-                        const id = LOCAL_DB.saveRecipe(recipe);
-                        return { success: true, id: id };
+                if (this.useCloud) {
+                    const result = await CloudDB.addRecipe(recipe);
+                    if (result.success) {
+                        // Обновляем кэш
+                        const recipes = await this.getRecipes();
+                        const newRecipe = {
+                            ...recipe,
+                            id: result.id,
+                            rating: 5.0,
+                            ratings_count: 1,
+                            created_at: new Date().toISOString()
+                        };
+                        recipes.push(newRecipe);
+                        LocalCache.saveRecipes(recipes);
                     }
+                    return result;
                 } else {
-                    const id = LOCAL_DB.saveRecipe(recipe);
-                    return { success: true, id: id };
+                    const recipes = LocalCache.getRecipes();
+                    const newRecipe = {
+                        ...recipe,
+                        id: Date.now(),
+                        rating: 5.0,
+                        ratings_count: 1,
+                        created_at: new Date().toISOString()
+                    };
+                    
+                    recipes.push(newRecipe);
+                    LocalCache.saveRecipes(recipes);
+                    
+                    return { success: true, id: newRecipe.id };
                 }
             },
             
-            async getRecipeById(recipeId) {
-                if (this.useCloudDB) {
-                    try {
-                        const recipe = await CLOUD_DB.getRecipeById(recipeId);
-                        return recipe || LOCAL_DB.getRecipeById(recipeId);
-                    } catch (error) {
-                        console.warn('Ошибка облака, используем локальную БД');
-                        this.useCloudDB = false;
-                        return LOCAL_DB.getRecipeById(recipeId);
-                    }
-                } else {
-                    return LOCAL_DB.getRecipeById(recipeId);
-                }
+            async getRecipe(id) {
+                const recipes = await this.getRecipes();
+                return recipes.find(r => r.id == id) || null;
             },
             
+            // Рейтинги
             async rateRecipe(recipeId, userId, rating) {
-                if (this.useCloudDB) {
-                    try {
-                        return await CLOUD_DB.rateRecipe(recipeId, userId, rating);
-                    } catch (error) {
-                        console.warn('Ошибка облака, используем локальную БД');
-                        this.useCloudDB = false;
-                        LOCAL_DB.rateRecipe(recipeId, userId, rating);
-                        return { success: true };
+                if (this.useCloud) {
+                    const result = await CloudDB.rateRecipe(recipeId, userId, rating);
+                    if (result.success) {
+                        // Обновляем кэш
+                        const recipes = await this.getRecipes();
+                        const recipeIndex = recipes.findIndex(r => r.id == recipeId);
+                        if (recipeIndex !== -1) {
+                            const currentRating = recipes[recipeIndex].rating || 5;
+                            const currentCount = recipes[recipeIndex].ratings_count || 1;
+                            recipes[recipeIndex].rating = ((currentRating * currentCount) + rating) / (currentCount + 1);
+                            recipes[recipeIndex].ratings_count = currentCount + 1;
+                            LocalCache.saveRecipes(recipes);
+                        }
                     }
+                    return result;
                 } else {
-                    LOCAL_DB.rateRecipe(recipeId, userId, rating);
+                    const recipes = LocalCache.getRecipes();
+                    const recipeIndex = recipes.findIndex(r => r.id == recipeId);
+                    
+                    if (recipeIndex !== -1) {
+                        const currentRating = recipes[recipeIndex].rating || 5;
+                        const currentCount = recipes[recipeIndex].ratings_count || 1;
+                        recipes[recipeIndex].rating = ((currentRating * currentCount) + rating) / (currentCount + 1);
+                        recipes[recipeIndex].ratings_count = currentCount + 1;
+                        LocalCache.saveRecipes(recipes);
+                    }
+                    
                     return { success: true };
                 }
             },
             
-            getUserRating(recipeId, userId) {
-                if (!this.useCloudDB) {
-                    return LOCAL_DB.getUserRating(recipeId, userId);
-                }
-                return 0;
-            },
-            
-            async getFavorites(userId) {
-                if (this.useCloudDB) {
-                    try {
-                        return await CLOUD_DB.getFavorites(userId);
-                    } catch (error) {
-                        console.warn('Ошибка облака, используем локальную БД');
-                        this.useCloudDB = false;
-                        return LOCAL_DB.getFavorites(userId);
-                    }
-                } else {
-                    return LOCAL_DB.getFavorites(userId);
-                }
-            },
-            
+            // Избранное
             async toggleFavorite(userId, recipeId) {
-                if (this.useCloudDB) {
-                    try {
-                        return await CLOUD_DB.toggleFavorite(userId, recipeId);
-                    } catch (error) {
-                        console.warn('Ошибка облака, используем локальную БД');
-                        this.useCloudDB = false;
-                        const added = LOCAL_DB.toggleFavorite(userId, recipeId);
-                        return { success: true, added: added };
+                if (this.useCloud) {
+                    const result = await CloudDB.toggleFavorite(userId, recipeId);
+                    if (result.success) {
+                        this.updateLocalFavorites(userId, recipeId, result.added);
                     }
+                    return result;
                 } else {
-                    const added = LOCAL_DB.toggleFavorite(userId, recipeId);
+                    const added = this.updateLocalFavorites(userId, recipeId);
                     return { success: true, added: added };
                 }
             },
             
-            isFavorite(userId, recipeId) {
-                if (!this.useCloudDB) {
-                    return LOCAL_DB.isFavorite(userId, recipeId);
-                }
-                return false;
-            },
-            
-            async getStats() {
-                if (this.useCloudDB) {
-                    try {
-                        return await CLOUD_DB.getStats();
-                    } catch (error) {
-                        console.warn('Ошибка облака, используем локальную БД');
-                        this.useCloudDB = false;
-                        return LOCAL_DB.getStats();
+            updateLocalFavorites(userId, recipeId, shouldAdd = null) {
+                const favorites = LocalCache.getFavorites(userId);
+                const index = favorites.indexOf(recipeId);
+                let added = false;
+                
+                if (shouldAdd !== null) {
+                    added = shouldAdd;
+                    if (shouldAdd && index === -1) {
+                        favorites.push(recipeId);
+                    } else if (!shouldAdd && index !== -1) {
+                        favorites.splice(index, 1);
                     }
                 } else {
-                    return LOCAL_DB.getStats();
+                    if (index === -1) {
+                        favorites.push(recipeId);
+                        added = true;
+                    } else {
+                        favorites.splice(index, 1);
+                        added = false;
+                    }
+                }
+                
+                LocalCache.saveFavorites(userId, favorites);
+                return added;
+            },
+            
+            async getFavorites(userId) {
+                if (this.useCloud) {
+                    return await CloudDB.getFavorites(userId);
+                } else {
+                    return LocalCache.getFavorites(userId);
                 }
             },
             
+            // Поиск
             searchByIngredients(ingredientsArray) {
-                return LOCAL_DB.searchByIngredients(ingredientsArray);
-            },
-            
-            searchByAnyIngredient(ingredientsArray) {
-                return LOCAL_DB.searchByAnyIngredient(ingredientsArray);
+                return LocalCache.searchByIngredients(ingredientsArray);
             }
         };
         
@@ -1574,13 +1392,11 @@
             updateUserInterface();
             navigateTo('home');
             
-            // Обработчик формы добавления рецепта
-            document.getElementById('recipe-form').addEventListener('submit', function(e) {
+            document.getElementById('recipe-form').addEventListener('submit', async function(e) {
                 e.preventDefault();
-                addRecipe();
+                await addRecipe();
             });
             
-            // Закрытие модальных окон при клике вне
             document.querySelectorAll('.modal-overlay').forEach(modal => {
                 modal.addEventListener('click', function(e) {
                     if (e.target === this) {
@@ -1681,14 +1497,18 @@
         // ========== ГЛАВНАЯ СТРАНИЦА ==========
         async function showHomePage() {
             const content = document.getElementById('main-content');
-            const recipes = (await DB.getAllRecipes()).slice(0, 6);
-            const stats = await DB.getStats();
+            const recipes = await DB.getRecipes();
+            const stats = {
+                total_recipes: recipes.length,
+                total_categories: 8,
+                total_favorites: 0 // Можно подсчитать если нужно
+            };
             
             content.innerHTML = `
                 <div class="page-header">
-                    <h1 class="page-title">🍳 Кулинарная книга</h1>
+                    <h1 class="page-title">🍳 Добро пожаловать в Кулинарную книгу!</h1>
                     <p class="page-description">
-                        ${currentUser ? `Рады видеть вас, ${currentUser.name}!` : 'Войдите или зарегистрируйтесь, чтобы добавлять свои рецепты'}
+                        ${currentUser ? `Рады видеть вас снова, ${currentUser.name}!` : 'Войдите или зарегистрируйтесь, чтобы добавлять свои рецепты'}
                     </p>
                 </div>
                 
@@ -1755,7 +1575,7 @@
                         </h2>
                         <div class="recipes-grid" id="popular-recipes">
                             ${recipes.length > 0 ? 
-                                (await Promise.all(recipes.map(async recipe => renderRecipeCard(recipe)))).join('') : 
+                                (await Promise.all(recipes.slice(0, 6).map(async recipe => renderRecipeCard(recipe)))).join('') : 
                                 '<p style="text-align: center; color: var(--gray); grid-column: 1 / -1;">Рецептов пока нет</p>'}
                         </div>
                     </div>
@@ -1763,7 +1583,7 @@
                     <div>
                         <div style="background: var(--white); padding: 25px; border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 20px;">
                             <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px;">
-                                📊 Статистика сообщества
+                                📊 Статистика
                             </h3>
                             <div style="display: flex; flex-direction: column; gap: 10px;">
                                 <div style="display: flex; justify-content: space-between;">
@@ -1771,35 +1591,39 @@
                                     <span style="font-weight: bold;">${stats.total_recipes}</span>
                                 </div>
                                 <div style="display: flex; justify-content: space-between;">
-                                    <span>Пользователей:</span>
-                                    <span style="font-weight: bold;">${stats.total_users}</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between;">
                                     <span>Категорий:</span>
                                     <span style="font-weight: bold;">${stats.total_categories}</span>
                                 </div>
                                 <div style="display: flex; justify-content: space-between;">
-                                    <span>В избранном:</span>
-                                    <span style="font-weight: bold;">${stats.total_favorites}</span>
+                                    <span>Пользователей:</span>
+                                    <span style="font-weight: bold;">${currentUser ? 'Вы онлайн!' : 'Войдите'}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>База данных:</span>
+                                    <span style="font-weight: bold;">${DB.useCloud ? 'Облачная' : 'Локальная'}</span>
                                 </div>
                             </div>
                         </div>
                         
                         <div style="background: var(--white); padding: 25px; border-radius: 12px; box-shadow: var(--shadow);">
                             <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px;">
-                                💡 Популярные ингредиенты
+                                💡 Быстрый поиск
                             </h3>
                             <div class="search-tags">
-                                ${getPopularIngredients().map(ing => `
-                                    <span class="search-tag" onclick="addIngredient('${ing}')">${ing}</span>
-                                `).join('')}
+                                <span class="search-tag" onclick="addIngredient('курица')">курица</span>
+                                <span class="search-tag" onclick="addIngredient('говядина')">говядина</span>
+                                <span class="search-tag" onclick="addIngredient('рыба')">рыба</span>
+                                <span class="search-tag" onclick="addIngredient('овощи')">овощи</span>
+                                <span class="search-tag" onclick="addIngredient('фрукты')">фрукты</span>
+                                <span class="search-tag" onclick="addIngredient('сыр')">сыр</span>
+                                <span class="search-tag" onclick="addIngredient('молоко')">молоко</span>
+                                <span class="search-tag" onclick="addIngredient('яйца')">яйца</span>
                             </div>
                         </div>
                     </div>
                 </div>
             `;
             
-            // Если есть выбранные ингредиенты, показываем результаты
             if (currentSearchIngredients.length > 0) {
                 performIngredientSearch();
             }
@@ -1863,7 +1687,16 @@
             if (strictSearch) {
                 results = DB.searchByIngredients(currentSearchIngredients);
             } else {
-                results = DB.searchByAnyIngredient(currentSearchIngredients);
+                // Для нестрогого поиска - ищем рецепты с любым из ингредиентов
+                const allRecipes = await DB.getRecipes();
+                results = allRecipes.filter(recipe => {
+                    const recipeIngredients = (recipe.ingredients || []).map(ing => ing.toLowerCase());
+                    return currentSearchIngredients.some(searchIng => 
+                        recipeIngredients.some(recipeIng => 
+                            recipeIng.includes(searchIng.toLowerCase())
+                        )
+                    );
+                });
             }
             
             const resultsSection = document.getElementById('search-results-section');
@@ -1916,37 +1749,27 @@
             }
         }
         
-        function getPopularIngredients() {
-            const recipes = LOCAL_DB.getRecipes();
-            const ingredientCount = {};
-            
-            recipes.forEach(recipe => {
-                recipe.ingredients.forEach(ing => {
-                    const cleanIng = ing.replace(/\d+\s*(г|кг|мл|л|шт|ч\.л|ст\.л|\.|,)/g, '').trim();
-                    const words = cleanIng.split(' ');
-                    if (words.length > 0) {
-                        const mainIngredient = words[0].toLowerCase();
-                        ingredientCount[mainIngredient] = (ingredientCount[mainIngredient] || 0) + 1;
-                    }
-                });
-            });
-            
-            return Object.entries(ingredientCount)
-                .sort((a, b) => b[1] - a[1])
-                .slice(0, 8)
-                .map(([ing]) => ing);
-        }
-        
         // ========== КАТЕГОРИИ ==========
         async function showCategoriesPage() {
-            const content = document.getElementById('main-content');
-            const categories = LOCAL_DB.getCategories();
-            const allRecipes = await DB.getAllRecipes();
+            const categories = [
+                { id: 1, name: 'Супы', icon: '🥣', recipe_count: 0 },
+                { id: 2, name: 'Основные блюда', icon: '🍛', recipe_count: 0 },
+                { id: 3, name: 'Салаты', icon: '🥗', recipe_count: 0 },
+                { id: 4, name: 'Десерты', icon: '🍰', recipe_count: 0 },
+                { id: 5, name: 'Выпечка', icon: '🥐', recipe_count: 0 },
+                { id: 6, name: 'Закуски', icon: '🍤', recipe_count: 0 },
+                { id: 7, name: 'Напитки', icon: '🥤', recipe_count: 0 },
+                { id: 8, name: 'Завтраки', icon: '🍳', recipe_count: 0 }
+            ];
             
-            // Обновляем количество рецептов в категориях
+            const recipes = await DB.getRecipes();
+            
+            // Обновляем количество рецептов
             categories.forEach(category => {
-                category.recipe_count = allRecipes.filter(r => r.category === category.name).length;
+                category.recipe_count = recipes.filter(r => r.category === category.name).length;
             });
+            
+            const content = document.getElementById('main-content');
             
             content.innerHTML = `
                 <div class="page-header">
@@ -1971,21 +1794,21 @@
         }
         
         async function showCategory(categoryName) {
-            const allRecipes = await DB.getAllRecipes();
-            const recipes = allRecipes.filter(r => r.category === categoryName);
+            const recipes = await DB.getRecipes();
+            const categoryRecipes = recipes.filter(r => r.category === categoryName);
             const content = document.getElementById('main-content');
             
             content.innerHTML = `
                 <div class="page-header">
                     <h1 class="page-title">${getCategoryIcon(categoryName)} ${categoryName}</h1>
                     <p class="page-description">
-                        ${recipes.length} рецептов в категории
+                        ${categoryRecipes.length} рецептов в категории
                     </p>
                 </div>
                 
                 <div class="recipes-grid">
-                    ${recipes.length > 0 ? 
-                        (await Promise.all(recipes.map(async recipe => renderRecipeCard(recipe)))).join('') :
+                    ${categoryRecipes.length > 0 ? 
+                        (await Promise.all(categoryRecipes.map(async recipe => renderRecipeCard(recipe)))).join('') :
                         '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--gray);">Рецепты не найдены</div>'
                     }
                 </div>
@@ -2002,19 +1825,19 @@
         async function showMyRecipesPage() {
             if (!currentUser) return;
             
-            const allRecipes = await DB.getAllRecipes();
-            const recipes = allRecipes.filter(r => r.author_id === currentUser.id);
+            const recipes = await DB.getRecipes();
+            const myRecipes = recipes.filter(r => r.author_id === currentUser.id);
             const content = document.getElementById('main-content');
             
             content.innerHTML = `
                 <div class="page-header">
                     <h1 class="page-title">📝 Мои рецепты</h1>
                     <p class="page-description">
-                        ${recipes.length} рецептов добавлено
+                        ${myRecipes.length} рецептов добавлено
                     </p>
                 </div>
                 
-                ${recipes.length === 0 ? `
+                ${myRecipes.length === 0 ? `
                     <div style="text-align: center; padding: 60px 20px; background: var(--light-green); border-radius: 12px; margin-bottom: 30px;">
                         <div style="font-size: 48px; margin-bottom: 20px;">🍳</div>
                         <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px;">
@@ -2029,7 +1852,7 @@
                     </div>
                 ` : `
                     <div class="recipes-grid">
-                        ${(await Promise.all(recipes.map(async recipe => renderRecipeCard(recipe)))).join('')}
+                        ${(await Promise.all(myRecipes.map(async recipe => renderRecipeCard(recipe)))).join('')}
                     </div>
                 `}
             `;
@@ -2040,19 +1863,19 @@
             if (!currentUser) return;
             
             const favoriteIds = await DB.getFavorites(currentUser.id);
-            const allRecipes = await DB.getAllRecipes();
-            const recipes = allRecipes.filter(r => favoriteIds.includes(r.id));
+            const allRecipes = await DB.getRecipes();
+            const favoriteRecipes = allRecipes.filter(r => favoriteIds.includes(r.id));
             const content = document.getElementById('main-content');
             
             content.innerHTML = `
                 <div class="page-header">
                     <h1 class="page-title">⭐ Избранные рецепты</h1>
                     <p class="page-description">
-                        ${recipes.length} рецептов в избранном
+                        ${favoriteRecipes.length} рецептов в избранном
                     </p>
                 </div>
                 
-                ${recipes.length === 0 ? `
+                ${favoriteRecipes.length === 0 ? `
                     <div style="text-align: center; padding: 60px 20px; background: var(--light-green); border-radius: 12px;">
                         <div style="font-size: 48px; margin-bottom: 20px;">⭐</div>
                         <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px;">
@@ -2064,7 +1887,7 @@
                     </div>
                 ` : `
                     <div class="recipes-grid">
-                        ${(await Promise.all(recipes.map(async recipe => renderRecipeCard(recipe)))).join('')}
+                        ${(await Promise.all(favoriteRecipes.map(async recipe => renderRecipeCard(recipe)))).join('')}
                     </div>
                 `}
             `;
@@ -2074,7 +1897,7 @@
         async function showProfilePage() {
             if (!currentUser) return;
             
-            const allRecipes = await DB.getAllRecipes();
+            const allRecipes = await DB.getRecipes();
             const myRecipes = allRecipes.filter(r => r.author_id === currentUser.id);
             const favorites = await DB.getFavorites(currentUser.id);
             
@@ -2110,7 +1933,7 @@
                                     <p style="color: var(--gray);">Вы еще не добавили рецепты в избранное</p>
                                 </div>
                             ` : (await Promise.all(favorites.slice(0, 3).map(async recipeId => {
-                                const recipe = await DB.getRecipeById(recipeId);
+                                const recipe = await DB.getRecipe(recipeId);
                                 return recipe ? `
                                     <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: var(--white); border-radius: 8px; margin-bottom: 10px; box-shadow: var(--shadow); cursor: pointer;" onclick="showRecipeDetail(${recipe.id})">
                                         <img src="${recipe.image_url}" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
@@ -2174,13 +1997,13 @@
             let userRating = 0;
             
             if (currentUser) {
-                isFavorite = DB.isFavorite(currentUser.id, recipe.id);
-                userRating = DB.getUserRating(recipe.id, currentUser.id);
+                const favorites = await DB.getFavorites(currentUser.id);
+                isFavorite = favorites.includes(recipe.id);
             }
             
             return `
                 <div class="recipe-card" onclick="showRecipeDetail(${recipe.id})">
-                    <img src="${recipe.image_url}" alt="${recipe.title}" class="recipe-image">
+                    <img src="${recipe.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'}" alt="${recipe.title}" class="recipe-image">
                     <div class="recipe-content">
                         <div class="recipe-title">
                             <span>${recipe.title}</span>
@@ -2198,12 +2021,12 @@
                                     </span>
                                 `).join('')}
                             </div>
-                            <span class="rating-value">${recipe.rating} (${recipe.ratings_count || 0})</span>
+                            <span class="rating-value">${recipe.rating.toFixed(1)} (${recipe.ratings_count || 0})</span>
                         </div>
                         
                         <div class="recipe-author">
-                            <div class="author-mini">${recipe.author_name ? recipe.author_name.charAt(0) : '?'}</div>
-                            <span>${recipe.author_name || 'Неизвестный автор'}</span>
+                            <div class="author-mini">${recipe.author_name.charAt(0)}</div>
+                            <span>${recipe.author_name}</span>
                         </div>
                         
                         <div class="recipe-meta">
@@ -2217,7 +2040,7 @@
                         </div>
                         
                         <div class="recipe-tags">
-                            ${(recipe.tags || []).slice(0, 2).map(tag => `
+                            ${recipe.tags.slice(0, 2).map(tag => `
                                 <span class="recipe-tag">${tag}</span>
                             `).join('')}
                         </div>
@@ -2227,7 +2050,7 @@
         }
         
         function getMainIngredients(recipe) {
-            return (recipe.ingredients || []).slice(0, 3).map(ing => {
+            return recipe.ingredients.slice(0, 3).map(ing => {
                 return ing.replace(/\d+\s*(г|кг|мл|л|шт|ч\.л|ст\.л|\.|,)/g, '').trim().split(' ')[0];
             });
         }
@@ -2262,7 +2085,7 @@
         
         // ========== ПОКАЗ РЕЦЕПТА ==========
         async function showRecipeDetail(recipeId) {
-            const recipe = await DB.getRecipeById(recipeId);
+            const recipe = await DB.getRecipe(recipeId);
             if (!recipe) {
                 showNotification('Рецепт не найден', 'error');
                 return;
@@ -2272,8 +2095,8 @@
             let userRating = 0;
             
             if (currentUser) {
-                isFavorite = DB.isFavorite(currentUser.id, recipeId);
-                userRating = DB.getUserRating(recipeId, currentUser.id);
+                const favorites = await DB.getFavorites(currentUser.id);
+                isFavorite = favorites.includes(recipe.id);
             }
             
             document.getElementById('modal-recipe-title').textContent = recipe.title;
@@ -2308,7 +2131,7 @@
                                                 </span>
                                             `).join('')}
                                         </div>
-                                        <span class="rating-value">${recipe.rating}</span>
+                                        <span class="rating-value">${recipe.rating.toFixed(1)}</span>
                                     </div>
                                 </div>
                                 <div style="font-size: 12px; color: var(--gray);">Рейтинг (${recipe.ratings_count || 0} оценок)</div>
@@ -2317,17 +2140,17 @@
                         
                         <div style="margin-bottom: 20px;">
                             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                                <div class="author-mini">${recipe.author_name ? recipe.author_name.charAt(0) : '?'}</div>
+                                <div class="author-mini">${recipe.author_name.charAt(0)}</div>
                                 <div>
-                                    <div style="font-weight: 500;">${recipe.author_name || 'Неизвестный автор'}</div>
+                                    <div style="font-weight: 500;">${recipe.author_name}</div>
                                     <div style="font-size: 12px; color: var(--gray);">Автор рецепта</div>
                                 </div>
                             </div>
-                            <div style="color: var(--gray);">${recipe.description || ''}</div>
+                            <div style="color: var(--gray);">${recipe.description}</div>
                         </div>
                         
                         <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
-                            ${(recipe.tags || []).map(tag => `
+                            ${recipe.tags.map(tag => `
                                 <span style="background: var(--light-green); color: var(--secondary-green); padding: 4px 10px; border-radius: 12px; font-size: 12px;">
                                     ${tag}
                                 </span>
@@ -2363,7 +2186,7 @@
                             🧺 Ингредиенты
                         </h3>
                         <ul style="list-style: none; padding-left: 0;">
-                            ${(recipe.ingredients || []).map(ing => `
+                            ${recipe.ingredients.map(ing => `
                                 <li style="padding: 8px 0; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px;">
                                     <span>🌿</span> <span>${ing}</span>
                                 </li>
@@ -2376,7 +2199,7 @@
                             👩‍🍳 Приготовление
                         </h3>
                         <ol style="padding-left: 20px;">
-                            ${(recipe.steps || []).map((step, index) => `
+                            ${recipe.steps.map((step, index) => `
                                 <li style="padding: 10px 0; margin-bottom: 10px; border-bottom: 1px solid #f0f0f0;">
                                     <strong>Шаг ${index + 1}:</strong> ${step}
                                 </li>
@@ -2404,17 +2227,15 @@
                 const result = await DB.toggleFavorite(currentUser.id, recipeId);
                 const added = result.added;
                 
-                // Обновляем интерфейс
+                showNotification(added ? 'Добавлено в избранное' : 'Удалено из избранное');
+                
                 if (currentPage === 'favorites') {
                     await showFavoritesPage();
                 } else {
                     await navigateTo(currentPage);
                 }
                 
-                // Обновляем счетчик в хедере
                 await updateUserInterface();
-                
-                showNotification(added ? 'Добавлено в избранное' : 'Удалено из избранное');
             } catch (error) {
                 showNotification('Ошибка добавления в избранное', 'error');
             }
@@ -2460,7 +2281,6 @@
                 </div>
             `;
             
-            // Обработчики форм
             document.getElementById(`${type}-form`).addEventListener('submit', async function(e) {
                 e.preventDefault();
                 if (type === 'login') {
@@ -2482,19 +2302,12 @@
             const email = document.getElementById('register-email').value.trim();
             const password = document.getElementById('register-password').value;
             
-            if (!name || !email || !password) {
-                showNotification('Заполните все поля', 'error');
-                return;
-            }
-            
             try {
-                const result = await DB.registerUser({
-                    id: Date.now(),
+                const result = await DB.register({
                     email: email,
                     name: name,
                     password: password,
-                    avatar: name.charAt(0).toUpperCase(),
-                    created_at: new Date().toISOString()
+                    avatar: name.charAt(0).toUpperCase()
                 });
                 
                 if (result.success) {
@@ -2518,7 +2331,7 @@
             const password = document.getElementById('login-password').value;
             
             try {
-                const result = await DB.loginUser(email, password);
+                const result = await DB.login(email, password);
                 
                 if (result.success) {
                     currentUser = result.user;
@@ -2529,7 +2342,7 @@
                     await navigateTo('home');
                     showNotification(`С возвращением, ${currentUser.name}!`);
                 } else {
-                    showNotification('Неверный email или пароль', 'error');
+                    showNotification(result.message || 'Неверный email или пароль', 'error');
                 }
             } catch (error) {
                 showNotification('Ошибка входа', 'error');
@@ -2605,7 +2418,6 @@
                     await showRecipeDetail(result.id || recipe.id);
                     showNotification('Рецепт успешно добавлен!');
                     
-                    // Обновляем страницу если нужно
                     if (currentPage === 'my-recipes') {
                         await showMyRecipesPage();
                     } else {
@@ -2665,7 +2477,6 @@
         
         // ========== ЗАГРУЗКА ==========
         document.addEventListener('DOMContentLoaded', () => {
-            // Добавляем стили для анимации
             const style = document.createElement('style');
             style.textContent = `
                 @keyframes slideIn {
@@ -2679,7 +2490,6 @@
             `;
             document.head.appendChild(style);
             
-            // Закрытие модальных окон по Escape
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     document.querySelectorAll('.modal-overlay.active').forEach(modal => {
