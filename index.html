@@ -1389,6 +1389,8 @@
         let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
         let currentPage = 'home';
         let currentSearchIngredients = [];
+        let currentSearchQuery = '';
+        let recipeToDelete = null;
         
         // ========== ИНИЦИАЛИЗАЦИЯ ==========
         async function init() {
@@ -1517,32 +1519,32 @@
                 </div>
                 
                 <!-- УНИВЕРСАЛЬНАЯ СТРОКА ПОИСКА -->
-<div class="ingredients-search-container">
-    <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px; font-size: 20px;">
-        🔍 Поиск рецептов
-    </h3>
+                <div class="ingredients-search-container">
+                    <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px; font-size: 20px;">
+                        🔍 Поиск рецептов
+                    </h3>
     
-    <div class="ingredients-input-container">
-        <input type="text" 
-               class="ingredients-input" 
-               id="universal-search" 
-               placeholder="Введите название рецепта или ингредиенты (например: борщ или курица, картошка)..."
-               value="${currentSearchQuery || ''}"
-               onkeypress="if(event.key === 'Enter') performUniversalSearch()">
-        <button class="search-btn" onclick="performUniversalSearch()">Найти</button>
-        ${currentSearchQuery ? '<button class="search-btn" onclick="clearSearch()" style="background: var(--gray);">Очистить</button>' : ''}
-    </div>
+                <div class="ingredients-input-container">
+                    <input type="text" 
+                       class="ingredients-input" 
+                       id="universal-search" 
+                       placeholder="Введите название рецепта или ингредиенты (например: борщ или курица, картошка)..."
+                       value="${currentSearchQuery || ''}"
+                       onkeypress="if(event.key === 'Enter') performUniversalSearch()">
+                <button class="search-btn" onclick="performUniversalSearch()">Найти</button>
+                ${currentSearchQuery ? '<button class="search-btn" onclick="clearSearch()" style="background: var(--gray);">Очистить</button>' : ''}
+                </div>
     
-    <div class="search-tags">
-        <span class="search-examples">Быстрый поиск: </span>
-        <span class="search-tag" onclick="quickSearch('борщ')">борщ</span>
-        <span class="search-tag" onclick="quickSearch('курица')">курица</span>
-        <span class="search-tag" onclick="quickSearch('салат')">салат</span>
-        <span class="search-tag" onclick="quickSearch('суп')">суп</span>
-        <span class="search-tag" onclick="quickSearch('десерт')">десерт</span>
-        <span class="search-tag" onclick="quickSearch('яйца, молоко')">яйца, молоко</span>
-    </div>
-</div>
+                <div class="search-tags">
+                    <span class="search-examples">Быстрый поиск: </span>
+                    <span class="search-tag" onclick="quickSearch('борщ')">борщ</span>
+                    <span class="search-tag" onclick="quickSearch('курица')">курица</span>
+                    <span class="search-tag" onclick="quickSearch('салат')">салат</span>
+                    <span class="search-tag" onclick="quickSearch('суп')">суп</span>
+                    <span class="search-tag" onclick="quickSearch('десерт')">десерт</span>
+                    <span class="search-tag" onclick="quickSearch('яйца, молоко')">яйца, молоко</span>
+                </div>
+            </div>
                     
                     <div style="margin-top: 15px;" id="selected-ingredients">
                         ${currentSearchIngredients.length > 0 ? 
