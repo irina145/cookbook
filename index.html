@@ -1516,29 +1516,33 @@
                     </p>
                 </div>
                 
-                <!-- ПОИСК ПО ИНГРЕДИЕНТАМ -->
-                <div class="ingredients-search-container">
-                    <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px; font-size: 20px;">
-                        🔍 Поиск рецептов по ингредиентам
-                    </h3>
-                    
-                    <div class="ingredients-input-container">
-                        <input type="text" 
-                               class="ingredients-input" 
-                               id="ingredients-search" 
-                               placeholder="Напишите ингредиенты через запятую (яйца, мука, молоко...)"
-                               onkeypress="if(event.key === 'Enter') searchByIngredients()">
-                        <button class="search-btn" onclick="searchByIngredients()">Найти рецепты</button>
-                    </div>
-                    
-                    <div class="search-tags">
-                        <span class="search-examples">Попробуйте: </span>
-                        <span class="search-tag" onclick="addExampleIngredient('курица')">курица</span>
-                        <span class="search-tag" onclick="addExampleIngredient('яйца')">яйца</span>
-                        <span class="search-tag" onclick="addExampleIngredient('помидоры')">помидоры</span>
-                        <span class="search-tag" onclick="addExampleIngredient('сыр')">сыр</span>
-                        <span class="search-tag" onclick="addExampleIngredient('картофель')">картофель</span>
-                    </div>
+                <!-- УНИВЕРСАЛЬНАЯ СТРОКА ПОИСКА -->
+<div class="ingredients-search-container">
+    <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px; font-size: 20px;">
+        🔍 Поиск рецептов
+    </h3>
+    
+    <div class="ingredients-input-container">
+        <input type="text" 
+               class="ingredients-input" 
+               id="universal-search" 
+               placeholder="Введите название рецепта или ингредиенты (например: борщ или курица, картошка)..."
+               value="${currentSearchQuery || ''}"
+               onkeypress="if(event.key === 'Enter') performUniversalSearch()">
+        <button class="search-btn" onclick="performUniversalSearch()">Найти</button>
+        ${currentSearchQuery ? '<button class="search-btn" onclick="clearSearch()" style="background: var(--gray);">Очистить</button>' : ''}
+    </div>
+    
+    <div class="search-tags">
+        <span class="search-examples">Быстрый поиск: </span>
+        <span class="search-tag" onclick="quickSearch('борщ')">борщ</span>
+        <span class="search-tag" onclick="quickSearch('курица')">курица</span>
+        <span class="search-tag" onclick="quickSearch('салат')">салат</span>
+        <span class="search-tag" onclick="quickSearch('суп')">суп</span>
+        <span class="search-tag" onclick="quickSearch('десерт')">десерт</span>
+        <span class="search-tag" onclick="quickSearch('яйца, молоко')">яйца, молоко</span>
+    </div>
+</div>
                     
                     <div style="margin-top: 15px;" id="selected-ingredients">
                         ${currentSearchIngredients.length > 0 ? 
@@ -1634,124 +1638,106 @@
         }
         
         // ========== ПОИСК ПО ИНГРЕДИЕНТАМ ==========
-        function addExampleIngredient(ingredient) {
-            const input = document.getElementById('ingredients-search');
-            if (input.value.trim()) {
-                input.value += `, ${ingredient}`;
-            } else {
-                input.value = ingredient;
-            }
-        }
+                function addExampleIngredient(ingredient) {
+    const input = document.getElementById('universal-search');
+    if (input.value.trim()) {
+        input.value += `, ${ingredient}`;
+    } else {
+        input.value = ingredient;
+    }
+}
+
+// Обновленная функция поиска (замените старый performIngredientSearch)
+async function performUniversalSearch() {
+    const input = document.getElementById('universal-search');
+    const query = input.value.trim();
+    
+    if (!query) {
+        showNotification('Введите запрос для поиска', 'error');
+        return;
+    }
+    
+    currentSearchQuery = query;
+    
+    const allRecipes = await DB.getRecipes();
+    
+    // Разбиваем запрос на отдельные слова (по запятой или пробелам)
+    const searchTerms = query.toLowerCase().split(/[,\s]+/).filter(term => term.length > 0);
+    
+    // Ищем рецепты, где название ИЛИ ингредиенты соответствуют запросу
+    const results = allRecipes.filter(recipe => {
+        // Проверяем по названию
+        const titleMatch = searchTerms.some(term => 
+            recipe.title.toLowerCase().includes(term)
+        );
         
-        function addIngredient(ingredient) {
-            if (!currentSearchIngredients.includes(ingredient)) {
-                currentSearchIngredients.push(ingredient);
-                showHomePage();
-                performIngredientSearch();
-            }
-        }
+        // Проверяем по ингредиентам
+        const ingredientsText = (recipe.ingredients || []).join(' ').toLowerCase();
+        const ingredientsMatch = searchTerms.some(term => 
+            ingredientsText.includes(term)
+        );
         
-        function removeIngredient(ingredient) {
-            currentSearchIngredients = currentSearchIngredients.filter(ing => ing !== ingredient);
-            showHomePage();
-            if (currentSearchIngredients.length > 0) {
-                performIngredientSearch();
-            }
-        }
+        // Проверяем по тегам
+        const tagsText = (recipe.tags || []).join(' ').toLowerCase();
+        const tagsMatch = searchTerms.some(term => 
+            tagsText.includes(term)
+        );
         
-        async function searchByIngredients() {
-            const input = document.getElementById('ingredients-search');
-            const ingredientsText = input.value.trim();
-            
-            if (!ingredientsText) {
-                showNotification('Введите хотя бы один ингредиент', 'error');
-                return;
-            }
-            
-            const ingredients = ingredientsText.split(',')
-                .map(ing => ing.trim())
-                .filter(ing => ing.length > 0);
-            
-            if (ingredients.length === 0) {
-                showNotification('Введите хотя бы один ингредиент', 'error');
-                return;
-            }
-            
-            currentSearchIngredients = [...new Set(ingredients)];
-            input.value = '';
-            await showHomePage();
-            performIngredientSearch();
-        }
-        
-        async function performIngredientSearch() {
-            const searchMode = document.getElementById('search-mode');
-            const strictSearch = searchMode ? searchMode.checked : true;
-            
-            let results;
-            if (strictSearch) {
-                results = DB.searchByIngredients(currentSearchIngredients);
-            } else {
-                // Для нестрогого поиска - ищем рецепты с любым из ингредиентов
-                const allRecipes = await DB.getRecipes();
-                results = allRecipes.filter(recipe => {
-                    const recipeIngredients = (recipe.ingredients || []).map(ing => ing.toLowerCase());
-                    return currentSearchIngredients.some(searchIng => 
-                        recipeIngredients.some(recipeIng => 
-                            recipeIng.includes(searchIng.toLowerCase())
-                        )
-                    );
-                });
-            }
-            
-            const resultsSection = document.getElementById('search-results-section');
-            if (resultsSection) {
-                resultsSection.innerHTML = `
-                    <div style="background: var(--light-green); padding: 25px; border-radius: 12px; margin-bottom: 20px;">
-                        <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 10px; font-size: 22px;">
-                            🍽️ Результаты поиска
-                        </h3>
-                        <p style="color: var(--secondary-green); margin-bottom: 15px;">
-                            ${strictSearch ? 
-                                `Найдено ${results.length} рецептов, содержащих ВСЕ ингредиенты: ${currentSearchIngredients.join(', ')}` :
-                                `Найдено ${results.length} рецептов, содержащих ЛЮБОЙ из ингредиентов: ${currentSearchIngredients.join(', ')}`
-                            }
-                        </p>
-                        
-                        ${results.length > 0 ? `
-                            <div class="recipes-grid">
-                                ${(await Promise.all(results.map(async recipe => renderRecipeCard(recipe)))).join('')}
-                            </div>
-                        ` : `
-                            <div style="text-align: center; padding: 30px; background: var(--white); border-radius: 8px;">
-                                <div style="font-size: 48px; margin-bottom: 15px;">🔍</div>
-                                <h4 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 10px;">
-                                    Рецепты не найдены
-                                </h4>
-                                <p style="color: var(--gray); margin-bottom: 15px;">
-                                    ${strictSearch ? 
-                                        'Попробуйте изменить список ингредиентов или искать рецепты, содержащие любой из указанных ингредиентов' :
-                                        'Попробуйте ввести другие ингредиенты'
-                                    }
-                                </p>
-                                ${strictSearch ? `
-                                    <button onclick="toggleSearchMode()" style="padding: 10px 20px; background: var(--accent-green); color: white; border: none; border-radius: 8px; cursor: pointer;">
-                                        Искать рецепты с любым из ингредиентов
-                                    </button>
-                                ` : ''}
-                            </div>
-                        `}
+        return titleMatch || ingredientsMatch || tagsMatch;
+    });
+    
+    const resultsSection = document.getElementById('search-results-section');
+    if (resultsSection) {
+        resultsSection.innerHTML = `
+            <div style="background: var(--light-green); padding: 25px; border-radius: 12px; margin-bottom: 20px;">
+                <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 10px; font-size: 22px;">
+                    🍽️ Результаты поиска: "${query}"
+                </h3>
+                <p style="color: var(--secondary-green); margin-bottom: 15px;">
+                    Найдено рецептов: <strong>${results.length}</strong>
+                </p>
+                
+                ${results.length > 0 ? `
+                    <div class="recipes-grid">
+                        ${(await Promise.all(results.map(async recipe => renderRecipeCard(recipe)))).join('')}
                     </div>
-                `;
-            }
-        }
-        
-        function toggleSearchMode() {
-            const checkbox = document.getElementById('search-mode');
-            if (checkbox) {
-                checkbox.checked = !checkbox.checked;
-                performIngredientSearch();
-            }
-        }
+                ` : `
+                    <div style="text-align: center; padding: 30px; background: var(--white); border-radius: 8px;">
+                        <div style="font-size: 48px; margin-bottom: 15px;">🔍</div>
+                        <h4 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 10px;">
+                            Рецепты не найдены
+                        </h4>
+                        <p style="color: var(--gray); margin-bottom: 15px;">
+                            Попробуйте изменить поисковый запрос
+                        </p>
+                        <button onclick="clearSearch()" style="padding: 10px 20px; background: var(--accent-green); color: white; border: none; border-radius: 8px; cursor: pointer;">
+                            Очистить поиск
+                        </button>
+                    </div>
+                `}
+            </div>
+        `;
+    }
+}
+
+// Функция для быстрого поиска по клику на тег
+function quickSearch(query) {
+    const input = document.getElementById('universal-search');
+    if (input) {
+        input.value = query;
+        performUniversalSearch();
+    }
+}
+
+// Функция очистки поиска
+function clearSearch() {
+    currentSearchQuery = '';
+    const input = document.getElementById('universal-search');
+    if (input) {
+        input.value = '';
+    }
+    showHomePage();
+}
         
         // ========== КАТЕГОРИИ ==========
         async function showCategoriesPage() {
