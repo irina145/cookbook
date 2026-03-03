@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Playfair+Display:wght@400;500;600&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- EmailJS библиотека для отправки писем -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         /* ВАШ ИСХОДНЫЙ CSS СТИЛЬ - ОСТАВЛЯЕМ БЕЗ ИЗМЕНЕНИЙ */
         :root {
@@ -1030,6 +1032,42 @@
     </div>
     
     <script>
+        // ========== ИНИЦИАЛИЗАЦИЯ EMAILJS ==========
+        // 🔧 ЗАМЕНИТЕ ЭТИ ЗНАЧЕНИЯ НА ВАШИ ДАННЫЕ ИЗ EMAILJS
+        const EMAILJS_CONFIG = {
+            PUBLIC_KEY: 'YOUR_PUBLIC_KEY', // Замените на ваш Public Key
+            SERVICE_ID: 'YOUR_SERVICE_ID', // Замените на ваш Service ID
+            TEMPLATE_ID: 'YOUR_TEMPLATE_ID' // Замените на ваш Template ID
+        };
+        
+        // Инициализация EmailJS
+        emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+        
+        // ========== ФУНКЦИЯ ОТПРАВКИ ПИСЬМА О РЕГИСТРАЦИИ ==========
+        async function sendRegistrationEmail(user) {
+            try {
+                const templateParams = {
+                    to_email: user.email,
+                    to_name: user.name,
+                    message: `Добро пожаловать в Кулинарную книгу! Мы рады видеть вас в нашем сообществе.`,
+                    registration_date: new Date().toLocaleString('ru-RU'),
+                    site_name: 'Кулинарная книга'
+                };
+                
+                const response = await emailjs.send(
+                    EMAILJS_CONFIG.SERVICE_ID,
+                    EMAILJS_CONFIG.TEMPLATE_ID,
+                    templateParams
+                );
+                
+                console.log('Email отправлен успешно:', response);
+                return true;
+            } catch (error) {
+                console.error('Ошибка отправки email:', error);
+                return false;
+            }
+        }
+        
         // ========== ВАШ ИСХОДНЫЙ JS С ОБЛАЧНОЙ БАЗОЙ ==========
         // 🔧 ЗАМЕНИТЕ ЭТОТ URL НА ВАШ URL ИЗ GOOGLE APPS SCRIPT
         const API_URL = 'https://script.google.com/macros/s/AKfycbyXKWE-zrjvFWrZiAYx8I-ZEToKWH8mx8g0T1QD8WNhpUMSOLUHb8yhycTpM-VEVQqaZA/exec';
@@ -2468,10 +2506,13 @@
                     currentUser = result.user;
                     localStorage.setItem('currentUser', JSON.stringify(currentUser));
                     
+                    // Отправляем приветственное письмо
+                    await sendRegistrationEmail(currentUser);
+                    
                     closeAuthModal();
                     await updateUserInterface();
                     await navigateTo('home');
-                    showNotification(`Добро пожаловать, ${name}!`);
+                    showNotification(`Добро пожаловать, ${name}! Письмо отправлено на вашу почту.`);
                 } else {
                     showNotification(result.message || 'Ошибка регистрации', 'error');
                 }
