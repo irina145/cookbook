@@ -19,6 +19,8 @@
             --gray-dark: #333333;
             --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
+            --danger: #ff6b6b;
+            --danger-dark: #ff5252;
         }
         
         * {
@@ -246,6 +248,10 @@
             box-shadow: var(--shadow-hover);
         }
         
+        .auth-btn-danger {
+            background: linear-gradient(135deg, var(--danger), var(--danger-dark));
+        }
+        
         .auth-switch {
             text-align: center;
             margin-top: 20px;
@@ -405,6 +411,7 @@
             box-shadow: var(--shadow);
             transition: all 0.3s ease;
             cursor: pointer;
+            position: relative;
         }
         
         .recipe-card:hover {
@@ -445,6 +452,22 @@
         
         .favorite-btn:hover {
             transform: scale(1.2);
+        }
+        
+        .delete-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: var(--danger);
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.3s;
+            opacity: 0.7;
+        }
+        
+        .delete-btn:hover {
+            transform: scale(1.2);
+            opacity: 1;
         }
         
         /* РЕЙТИНГ - ВАША ОРИГИНАЛЬНАЯ ВЕРСИЯ */
@@ -773,6 +796,39 @@
             background: rgba(0,0,0,0.2);
         }
         
+        /* CONFIRM MODAL */
+        .confirm-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .confirm-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .confirm-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .confirm-btn-yes {
+            background: linear-gradient(135deg, var(--danger), var(--danger-dark));
+            color: white;
+        }
+        
+        .confirm-btn-no {
+            background: var(--light-green);
+            color: var(--secondary-green);
+        }
+        
         /* RESPONSIVE */
         @media (max-width: 768px) {
             .header-container {
@@ -956,6 +1012,23 @@
         </div>
     </div>
     
+    <!-- МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ -->
+    <div class="modal-overlay" id="confirm-delete-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Подтверждение удаления</h2>
+                <button class="modal-close" onclick="closeConfirmDeleteModal()">×</button>
+            </div>
+            <div class="modal-content">
+                <p style="margin-bottom: 20px; font-size: 16px;">Вы уверены, что хотите удалить этот рецепт? Это действие нельзя отменить.</p>
+                <div class="confirm-actions">
+                    <button class="confirm-btn confirm-btn-yes" onclick="confirmDeleteRecipe()">Да, удалить</button>
+                    <button class="confirm-btn confirm-btn-no" onclick="closeConfirmDeleteModal()">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <script>
         // ========== ВАШ ИСХОДНЫЙ JS С ОБЛАЧНОЙ БАЗОЙ ==========
         // 🔧 ЗАМЕНИТЕ ЭТОТ URL НА ВАШ URL ИЗ GOOGLE APPS SCRIPT
@@ -1045,6 +1118,22 @@
                 }
             },
             
+            async deleteRecipe(recipeId) {
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            action: 'deleteRecipe',
+                            recipeId: recipeId
+                        })
+                    });
+                    return await response.json();
+                } catch (error) {
+                    return { success: false, message: 'Ошибка сети' };
+                }
+            },
+            
             async getRecipe(id) {
                 try {
                     const response = await fetch(`${API_URL}?action=getRecipe&id=${id}`);
@@ -1122,6 +1211,21 @@
                 const favorites = JSON.parse(localStorage.getItem('favorites_cache') || '{}');
                 favorites[userId] = favoriteIds;
                 localStorage.setItem('favorites_cache', JSON.stringify(favorites));
+            },
+            
+            deleteRecipe(recipeId) {
+                const recipes = this.getRecipes();
+                const updatedRecipes = recipes.filter(r => r.id != recipeId);
+                this.saveRecipes(updatedRecipes);
+                
+                // Также удаляем из избранного всех пользователей
+                const favorites = JSON.parse(localStorage.getItem('favorites_cache') || '{}');
+                Object.keys(favorites).forEach(userId => {
+                    favorites[userId] = favorites[userId].filter(id => id != recipeId);
+                });
+                localStorage.setItem('favorites_cache', JSON.stringify(favorites));
+                
+                return true;
             },
             
             searchByIngredients(ingredientsArray) {
@@ -1240,6 +1344,7 @@
                         calorie_count: 350,
                         rating: 4.8,
                         ratings_count: 24,
+                        author_id: 1,
                         author_name: "Демо Пользователь",
                         image_url: "https://images.unsplash.com/photo-1547592180-85f173990554?w=800",
                         ingredients: ["500 г говядины", "2 шт свеклы", "3 картофелины", "1 морковь", "1 луковица", "200 г капусты"],
@@ -1257,6 +1362,7 @@
                         calorie_count: 250,
                         rating: 4.5,
                         ratings_count: 18,
+                        author_id: 1,
                         author_name: "Демо Пользователь",
                         image_url: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800",
                         ingredients: ["4 яйца", "50 мл молока", "1 помидор", "1 болгарский перец", "соль", "перец", "зелень"],
@@ -1300,6 +1406,20 @@
                     LocalCache.saveRecipes(recipes);
                     
                     return { success: true, id: newRecipe.id };
+                }
+            },
+            
+            async deleteRecipe(recipeId) {
+                if (this.useCloud) {
+                    const result = await CloudDB.deleteRecipe(recipeId);
+                    if (result.success) {
+                        // Обновляем кэш
+                        LocalCache.deleteRecipe(recipeId);
+                    }
+                    return result;
+                } else {
+                    LocalCache.deleteRecipe(recipeId);
+                    return { success: true };
                 }
             },
             
@@ -1839,7 +1959,7 @@
                     </div>
                 ` : `
                     <div class="recipes-grid">
-                        ${(await Promise.all(myRecipes.map(async recipe => renderRecipeCard(recipe)))).join('')}
+                        ${(await Promise.all(myRecipes.map(async recipe => renderRecipeCard(recipe, true)))).join('')}
                     </div>
                 `}
             `;
@@ -1979,7 +2099,7 @@
         }
         
         // ========== КАРТОЧКА РЕЦЕПТА ==========
-        async function renderRecipeCard(recipe) {
+        async function renderRecipeCard(recipe, showDelete = false) {
             let isFavorite = false;
             
             if (currentUser) {
@@ -1987,15 +2107,24 @@
                 isFavorite = favorites.includes(recipe.id);
             }
             
+            const isAuthor = currentUser && currentUser.id === recipe.author_id;
+            
             return `
                 <div class="recipe-card" onclick="showRecipeDetail(${recipe.id})">
                     <img src="${recipe.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'}" alt="${recipe.title}" class="recipe-image" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'">
                     <div class="recipe-content">
                         <div class="recipe-title">
                             <span>${recipe.title}</span>
-                            <button class="favorite-btn" onclick="toggleFavoriteRecipe(${recipe.id}, event)" title="${isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}">
-                                ${isFavorite ? '★' : '☆'}
-                            </button>
+                            <div style="display: flex; gap: 5px;">
+                                ${isAuthor ? `
+                                    <button class="delete-btn" onclick="showDeleteConfirm(${recipe.id}, event)" title="Удалить рецепт">
+                                        🗑️
+                                    </button>
+                                ` : ''}
+                                <button class="favorite-btn" onclick="toggleFavoriteRecipe(${recipe.id}, event)" title="${isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}">
+                                    ${isFavorite ? '★' : '☆'}
+                                </button>
+                            </div>
                         </div>
                         
                         <div class="rating">
@@ -2044,6 +2173,42 @@
             });
         }
         
+        // ========== УДАЛЕНИЕ РЕЦЕПТА ==========
+        function showDeleteConfirm(recipeId, event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            
+            recipeToDelete = recipeId;
+            document.getElementById('confirm-delete-modal').classList.add('active');
+        }
+        
+        function closeConfirmDeleteModal() {
+            document.getElementById('confirm-delete-modal').classList.remove('active');
+            recipeToDelete = null;
+        }
+        
+        async function confirmDeleteRecipe() {
+            if (!recipeToDelete) return;
+            
+            try {
+                const result = await DB.deleteRecipe(recipeToDelete);
+                
+                if (result.success) {
+                    showNotification('Рецепт успешно удален');
+                    closeConfirmDeleteModal();
+                    
+                    // Обновляем текущую страницу
+                    await navigateTo(currentPage);
+                } else {
+                    showNotification('Ошибка при удалении рецепта', 'error');
+                }
+            } catch (error) {
+                console.error('Ошибка удаления:', error);
+                showNotification('Ошибка при удалении рецепта', 'error');
+            }
+        }
+        
         // ========== ОЦЕНКА РЕЦЕПТА ==========
         async function rateRecipe(recipeId, rating, event) {
             if (event) event.stopPropagation();
@@ -2086,6 +2251,8 @@
                 const favorites = await DB.getFavorites(currentUser.id);
                 isFavorite = favorites.includes(recipe.id);
             }
+            
+            const isAuthor = currentUser && currentUser.id === recipe.author_id;
             
             document.getElementById('modal-recipe-title').textContent = recipe.title;
             
@@ -2156,6 +2323,12 @@
                                 <button onclick="toggleFavoriteRecipe(${recipe.id})" style="padding: 10px 20px; background: ${isFavorite ? 'var(--light-green)' : 'linear-gradient(135deg, var(--accent-green), var(--secondary-green))'}; color: ${isFavorite ? 'var(--secondary-green)' : 'white'}; border: none; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
                                     ${isFavorite ? '★' : '☆'} ${isFavorite ? 'В избранном' : 'Добавить в избранное'}
                                 </button>
+                                
+                                ${isAuthor ? `
+                                    <button onclick="showDeleteConfirm(${recipe.id})" style="padding: 10px 20px; background: var(--danger); color: white; border: none; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                        🗑️ Удалить рецепт
+                                    </button>
+                                ` : ''}
                             </div>
                         ` : ''}
                     </div>
