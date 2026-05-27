@@ -1885,6 +1885,7 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
         }
         
         // ========== КАРТОЧКА РЕЦЕПТА ==========
+           
         async function renderRecipeCard(recipe, showDelete = false) {
             let isFavorite = false;
             if (currentUser) {
@@ -1894,7 +1895,7 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
             const isAuthor = currentUser && currentUser.id === recipe.author_id;
             
             return `
-                <div class="recipe-card">
+                <div class="recipe-card" onclick="showRecipeDetail(${recipe.id})">
                     <img src="${recipe.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'}" class="recipe-image" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'">
                     <div class="recipe-content">
                         <div class="recipe-title">
