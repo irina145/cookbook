@@ -8,7 +8,7 @@
     <!-- EmailJS библиотека для отправки писем -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
-        /* ВАШ ИСХОДНЫЙ CSS СТИЛЬ - ОСТАВЛЯЕМ БЕЗ ИЗМЕНЕНИЙ */
+        /* ВАШ ИСХОДНЫЙ CSS СТИЛЬ */
         :root {
             --primary-green: #1a3c27;
             --secondary-green: #2d5a3b;
@@ -38,7 +38,6 @@
             line-height: 1.6;
         }
         
-        /* HEADER */
         .site-header {
             background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
             padding: 15px 0;
@@ -78,7 +77,6 @@
             color: var(--accent-green);
         }
         
-        /* MAIN NAVIGATION */
         .main-nav {
             display: flex;
             gap: 30px;
@@ -119,7 +117,6 @@
             background-color: var(--accent-green);
         }
         
-        /* USER ACTIONS */
         .user-actions {
             display: flex;
             align-items: center;
@@ -177,7 +174,6 @@
             justify-content: center;
         }
         
-        /* MAIN CONTENT */
         .main-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -185,7 +181,6 @@
             min-height: calc(100vh - 150px);
         }
         
-        /* AUTH FORMS */
         .auth-container {
             max-width: 400px;
             margin: 50px auto;
@@ -325,7 +320,6 @@
             text-decoration: underline;
         }
         
-        /* PAGE HEADER */
         .page-header {
             margin-bottom: 30px;
         }
@@ -343,7 +337,6 @@
             font-size: 16px;
         }
         
-        /* CATEGORIES GRID */
         .categories-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -394,64 +387,6 @@
             font-size: 14px;
         }
         
-        /* AUTHORS GRID */
-        .authors-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-        
-        .author-card {
-            background-color: var(--white);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-        
-        .author-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-        }
-        
-        .author-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-green), var(--secondary-green));
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            color: var(--white);
-            font-weight: bold;
-        }
-        
-        .author-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 18px;
-            color: var(--primary-green);
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-        
-        .author-role {
-            color: var(--gray);
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-        
-        .author-stats {
-            display: flex;
-            justify-content: space-around;
-            font-size: 12px;
-            color: var(--gray);
-        }
-        
-        /* RECIPES GRID */
         .recipes-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -553,7 +488,6 @@
             opacity: 1;
         }
         
-        /* РЕЙТИНГ */
         .rating {
             display: flex;
             align-items: center;
@@ -639,7 +573,6 @@
             font-size: 12px;
         }
         
-        /* ADD RECIPE BUTTON */
         .add-recipe-btn {
             position: fixed;
             bottom: 30px;
@@ -661,7 +594,6 @@
             transform: scale(1.1);
         }
         
-        /* MODALS */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -727,7 +659,6 @@
             padding: 25px;
         }
         
-        /* PROFILE PAGE */
         .profile-header {
             background: linear-gradient(135deg, var(--light-green), var(--lighter-green));
             padding: 40px;
@@ -791,7 +722,6 @@
             font-size: 14px;
         }
         
-        /* ПОИСК ПО ИНГРЕДИЕНТАМ */
         .ingredients-search-container {
             background: var(--white);
             padding: 25px;
@@ -815,12 +745,6 @@
             font-family: 'Raleway', sans-serif;
             font-size: 16px;
             min-width: 200px;
-        }
-        
-        .ingredients-input:focus {
-            outline: none;
-            border-color: var(--accent-green);
-            box-shadow: 0 0 0 2px rgba(124, 179, 66, 0.1);
         }
         
         .search-btn {
@@ -863,7 +787,6 @@
             color: white;
         }
         
-        /* CONFIRM MODAL */
         .confirm-actions {
             display: flex;
             gap: 15px;
@@ -896,7 +819,6 @@
             color: var(--secondary-green);
         }
         
-        /* RESPONSIVE */
         @media (max-width: 768px) {
             .header-container {
                 flex-direction: column;
@@ -917,7 +839,6 @@
             }
             
             .categories-grid,
-            .authors-grid,
             .recipes-grid {
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             }
@@ -948,7 +869,6 @@
     </style>
 </head>
 <body>
-    <!-- HEADER -->
     <header class="site-header">
         <div class="header-container">
             <div class="logo" onclick="navigateTo('home')">
@@ -968,13 +888,10 @@
         </div>
     </header>
     
-    <!-- MAIN CONTENT -->
     <div class="main-container" id="main-content"></div>
     
-    <!-- КНОПКА ДОБАВЛЕНИЯ РЕЦЕПТА -->
     <button class="add-recipe-btn" onclick="showAddRecipeModal()" style="display: none;" id="add-recipe-btn">+</button>
     
-    <!-- МОДАЛЬНОЕ ОКНО АВТОРИЗАЦИИ -->
     <div class="modal-overlay" id="auth-modal">
         <div class="modal">
             <div class="modal-header">
@@ -987,7 +904,6 @@
         </div>
     </div>
     
-    <!-- МОДАЛЬНОЕ ОКНО ДОБАВЛЕНИЯ РЕЦЕПТА -->
     <div class="modal-overlay" id="add-recipe-modal">
         <div class="modal modal-large">
             <div class="modal-header">
@@ -1080,7 +996,6 @@
         </div>
     </div>
     
-    <!-- МОДАЛЬНОЕ ОКНО РЕЦЕПТА -->
     <div class="modal-overlay" id="recipe-modal">
         <div class="modal modal-large">
             <div class="modal-header">
@@ -1097,7 +1012,6 @@
         </div>
     </div>
     
-    <!-- МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ -->
     <div class="modal-overlay" id="confirm-delete-modal">
         <div class="modal">
             <div class="modal-header">
@@ -1150,6 +1064,26 @@
         let recipeToDelete = null;
         let currentRecipeForActions = null;
         let selectedPhotoBase64 = null;
+        
+        // ========== НАСТРОЙКИ АДМИНИСТРАТОРА ==========
+        
+        const ADMIN_EMAILS = [
+            'iz900528@gmail.com',  
+            'admin@example.com'
+        ];
+        
+        function isUserAdmin(user) {
+            if (!user) return false;
+            return ADMIN_EMAILS.includes(user.email);
+        }
+        
+        function getDeleteButton(recipe, isAuthor) {
+            const isAdmin = isUserAdmin(currentUser);
+            if (isAdmin || isAuthor) {
+                return `<button class="delete-btn" onclick="event.stopPropagation(); showDeleteConfirm(${recipe.id})" title="Удалить рецепт">🗑️</button>`;
+            }
+            return '';
+        }
         
         // ========== РАБОТА С ФОТО ==========
         function openCamera() {
@@ -1206,7 +1140,6 @@
             }
         }
         
-        // ========== ПОЛУЧЕНИЕ РЕЦЕПТА В ТЕКСТОВОМ ФОРМАТЕ ==========
         function generateRecipeText(recipe) {
             return `
 ╔══════════════════════════════════════════════════════════════╗
@@ -1241,7 +1174,6 @@ ${(recipe.tags || []).join(', ') || 'Нет тегов'}
             `;
         }
         
-        // ========== ПОЛУЧЕНИЕ РЕЦЕПТА ДЛЯ ПУБЛИКАЦИИ ==========
         function generateShareText(recipe) {
             return `🍳 *${recipe.title}*
 
@@ -1261,7 +1193,6 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
 #рецепт #кулинария #${recipe.category?.toLowerCase() || 'еда'}`;
         }
         
-        // ========== ПОБЛОЧНАЯ ФУНКЦИЯ ==========
         async function shareRecipe(recipe) {
             const shareText = generateShareText(recipe);
             
@@ -1878,14 +1809,250 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
             const allRecipes = await DB.getRecipes();
             const myRecipes = allRecipes.filter(r => r.author_id === currentUser.id);
             const favorites = await DB.getFavorites(currentUser.id);
+            const isAdmin = isUserAdmin(currentUser);
+            
+            let adminPanelHtml = '';
+            if (isAdmin) {
+                adminPanelHtml = `
+                    <div style="background: linear-gradient(135deg, #fff3e0, #ffe0b2); padding: 25px; border-radius: 12px; margin-top: 30px;">
+                        <h2 style="color: #e65100; display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                            👑 Панель администратора
+                        </h2>
+                        <p style="margin-bottom: 15px;">У вас есть доступ к управлению всеми рецептами и пользователями.</p>
+                        <button onclick="showAdminPanel()" style="padding: 12px 24px; background: #e65100; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px;">
+                            🚀 Перейти в админ-панель
+                        </button>
+                    </div>
+                `;
+            }
+            
             document.getElementById('main-content').innerHTML = `
-                <div class="profile-header"><div class="profile-avatar-large">${currentUser.avatar || currentUser.name.charAt(0)}</div><div class="profile-info"><h1 class="profile-name">${currentUser.name}</h1><p class="profile-email">${currentUser.email}</p><div class="profile-stats"><div class="profile-stat"><div class="stat-number">${myRecipes.length}</div><div class="stat-label">Мои рецепты</div></div><div class="profile-stat"><div class="stat-number">${favorites.length}</div><div class="stat-label">В избранном</div></div></div></div></div>
-                <div style="margin-top: 40px;"><button onclick="logout()" style="padding: 12px 30px; background: none; border: 1px solid #ff6b6b; color: #ff6b6b; border-radius: 8px;">Выйти из аккаунта</button></div>
+                <div class="profile-header">
+                    <div class="profile-avatar-large">${currentUser.avatar || currentUser.name.charAt(0)}</div>
+                    <div class="profile-info">
+                        <h1 class="profile-name">${currentUser.name}</h1>
+                        <p class="profile-email">${currentUser.email}</p>
+                        <div class="profile-stats">
+                            <div class="profile-stat">
+                                <div class="stat-number">${myRecipes.length}</div>
+                                <div class="stat-label">Мои рецепты</div>
+                            </div>
+                            <div class="profile-stat">
+                                <div class="stat-number">${favorites.length}</div>
+                                <div class="stat-label">В избранном</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ${adminPanelHtml}
+                <div style="margin-top: 40px;">
+                    <button onclick="logout()" style="padding: 12px 30px; background: none; border: 1px solid #ff6b6b; color: #ff6b6b; border-radius: 8px; cursor: pointer;">
+                        Выйти из аккаунта
+                    </button>
+                </div>
             `;
         }
         
+        // ========== АДМИН-ПАНЕЛЬ ==========
+        async function showAdminPanel() {
+            if (!isUserAdmin(currentUser)) {
+                showNotification('Нет доступа к админ-панели!', 'error');
+                navigateTo('profile');
+                return;
+            }
+            
+            const allRecipes = await DB.getRecipes();
+            const users = JSON.parse(localStorage.getItem('users_cache') || '[]');
+            
+            const totalRecipes = allRecipes.length;
+            const totalAuthors = new Set(allRecipes.map(r => r.author_id)).size;
+            const adminCount = users.filter(u => ADMIN_EMAILS.includes(u.email)).length;
+            
+            const content = document.getElementById('main-content');
+            content.innerHTML = `
+                <div class="page-header">
+                    <h1 class="page-title">👑 Панель администратора</h1>
+                    <p class="page-description">Управление всеми рецептами и пользователями</p>
+                    <button onclick="navigateTo('profile')" style="margin-top: 10px; padding: 8px 16px; background: #ddd; border: none; border-radius: 8px; cursor: pointer;">← Назад в профиль</button>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                    <div style="background: linear-gradient(135deg, #1a3c27, #2d5a3b); color: white; padding: 20px; border-radius: 12px;">
+                        <div style="font-size: 36px; font-weight: bold;">${totalRecipes}</div>
+                        <div>📝 Всего рецептов</div>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #2d5a3b, #3d7a4f); color: white; padding: 20px; border-radius: 12px;">
+                        <div style="font-size: 36px; font-weight: bold;">${totalAuthors}</div>
+                        <div>👥 Всего авторов</div>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #7cb342, #5a8f2c); color: white; padding: 20px; border-radius: 12px;">
+                        <div style="font-size: 36px; font-weight: bold;">${adminCount}</div>
+                        <div>👑 Администраторов</div>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                    <button onclick="showAdminRecipesList()" class="search-btn" style="background: #1a3c27;">📚 Управление рецептами</button>
+                    <button onclick="showAdminUsersList()" class="search-btn" style="background: #1a3c27;">👥 Управление пользователями</button>
+                </div>
+                
+                <div id="admin-tab-content"></div>
+            `;
+            
+            showAdminRecipesList();
+        }
+        
+        async function showAdminRecipesList() {
+            const allRecipes = await DB.getRecipes();
+            const container = document.getElementById('admin-tab-content');
+            
+            container.innerHTML = `
+                <div class="ingredients-search-container">
+                    <input type="text" id="admin-search-recipes" class="form-input" placeholder="🔍 Поиск по названию или автору..." style="width: 100%;" onkeyup="filterAdminRecipes()">
+                </div>
+                <div id="admin-recipes-grid" class="recipes-grid">
+                    ${(await Promise.all(allRecipes.map(recipe => renderAdminRecipeCard(recipe)))).join('')}
+                </div>
+            `;
+        }
+        
+        async function renderAdminRecipeCard(recipe) {
+            return `
+                <div class="recipe-card" onclick="showRecipeDetail(${recipe.id})">
+                    <img src="${recipe.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'}" class="recipe-image" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'">
+                    <div class="recipe-content">
+                        <div class="recipe-title">
+                            <span>${recipe.title}</span>
+                        </div>
+                        <div class="recipe-author">
+                            <div class="author-mini">${(recipe.author_name || 'Аноним').charAt(0)}</div>
+                            <span>${recipe.author_name || 'Аноним'}</span>
+                            <span style="font-size: 11px; color: #999;">(ID: ${recipe.author_id || '?'})</span>
+                        </div>
+                        <div class="recipe-meta">
+                            <span>⏱ ${recipe.total_time || 0} мин</span>
+                            <span>⭐ ${(recipe.rating || 5).toFixed(1)}</span>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <button class="auth-btn-danger" onclick="event.stopPropagation(); adminForceDeleteRecipe(${recipe.id}, '${recipe.title.replace(/'/g, "\\'")}')" style="width: 100%; padding: 8px; font-size: 14px;">
+                                🗑️ Удалить рецепт (админ)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function filterAdminRecipes() {
+            const search = document.getElementById('admin-search-recipes');
+            if (!search) return;
+            const query = search.value.toLowerCase();
+            const cards = document.querySelectorAll('#admin-recipes-grid .recipe-card');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('.recipe-title span')?.textContent.toLowerCase() || '';
+                const author = card.querySelector('.recipe-author span')?.textContent.toLowerCase() || '';
+                if (title.includes(query) || author.includes(query)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        async function adminForceDeleteRecipe(recipeId, recipeTitle) {
+            if (confirm(`⚠️ АДМИН-УДАЛЕНИЕ!\n\nВы уверены, что хотите удалить рецепт "${recipeTitle}"?\nЭто действие нельзя отменить!`)) {
+                const result = await DB.deleteRecipe(recipeId);
+                if (result.success) {
+                    showNotification(`✅ Рецепт "${recipeTitle}" удалён админом!`);
+                    showAdminRecipesList();
+                } else {
+                    showNotification('❌ Ошибка при удалении', 'error');
+                }
+            }
+        }
+        
+        async function showAdminUsersList() {
+            let users = JSON.parse(localStorage.getItem('users_cache') || '[]');
+            const allRecipes = await DB.getRecipes();
+            
+            if (!users.find(u => u.email === 'demo@example.com')) {
+                users.push({
+                    id: 1,
+                    name: 'Демо Пользователь',
+                    email: 'demo@example.com',
+                    password: 'demo123',
+                    avatar: 'Д'
+                });
+                localStorage.setItem('users_cache', JSON.stringify(users));
+            }
+            
+            const usersWithStats = users.map(user => ({
+                ...user,
+                recipeCount: allRecipes.filter(r => r.author_id === user.id).length,
+                isAdmin: ADMIN_EMAILS.includes(user.email)
+            }));
+            
+            const container = document.getElementById('admin-tab-content');
+            container.innerHTML = `
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);">
+                        <thead style="background: #1a3c27; color: white;">
+                            <tr><th style="padding: 12px;">ID</th><th style="padding: 12px;">Имя</th><th style="padding: 12px;">Email</th><th style="padding: 12px;">Рецептов</th><th style="padding: 12px;">Статус</th><th style="padding: 12px;">Действия</th></tr>
+                        </thead>
+                        <tbody>
+                            ${usersWithStats.map(user => `
+                                <tr style="border-bottom: 1px solid #eee;">
+                                    <td style="padding: 12px;">${user.id}</td>
+                                    <td style="padding: 12px;">${user.name}</td>
+                                    <td style="padding: 12px;">${user.email}</td>
+                                    <td style="padding: 12px;">${user.recipeCount}</td>
+                                    <td style="padding: 12px;">${user.isAdmin ? '<span style="background: #7cb342; color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px;">👑 Админ</span>' : '<span style="background: #ddd; padding: 4px 8px; border-radius: 12px; font-size: 12px;">👤 Пользователь</span>'}</td>
+                                    <td style="padding: 12px;">
+                                        ${!user.isAdmin && user.email !== 'demo@example.com' ? `
+                                            <button onclick="adminMakeUserAdmin(${user.id}, '${user.name}')" style="padding: 6px 12px; background: #7cb342; color: white; border: none; border-radius: 6px; cursor: pointer; margin-right: 5px;">👑 Сделать админом</button>
+                                            <button onclick="adminDeleteUser(${user.id}, '${user.name}')" style="padding: 6px 12px; background: #ff6b6b; color: white; border: none; border-radius: 6px; cursor: pointer;">🗑️ Удалить</button>
+                                        ` : (user.email === 'demo@example.com' ? '<span style="color: #999;">Демо-пользователь</span>' : '<span style="color: #7cb342;">👑 Вы админ</span>')}
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+                <p style="margin-top: 15px; color: #666; font-size: 12px;">💡 Чтобы сделать пользователя админом, нужно добавить его email в массив ADMIN_EMAILS в коде.</p>
+            `;
+        }
+        
+        function adminMakeUserAdmin(userId, userName) {
+            let users = JSON.parse(localStorage.getItem('users_cache') || '[]');
+            const user = users.find(u => u.id === userId);
+            
+            if (user) {
+                alert(`Чтобы сделать "${userName}" администратором, добавьте его email "${user.email}" в массив ADMIN_EMAILS в коде страницы.\n\nЭто защита от несанкционированного доступа.`);
+                navigator.clipboard.writeText(user.email);
+                showNotification(`Email "${user.email}" скопирован! Добавьте его в ADMIN_EMAILS`, 'success');
+            }
+        }
+        
+        async function adminDeleteUser(userId, userName) {
+            if (confirm(`⚠️ УДАЛЕНИЕ ПОЛЬЗОВАТЕЛЯ!\n\nВы уверены, что хотите удалить пользователя "${userName}"?\nВСЕ ЕГО РЕЦЕПТЫ ТОЖЕ БУДУТ УДАЛЕНЫ!\n\nЭто действие нельзя отменить!`)) {
+                const allRecipes = await DB.getRecipes();
+                const userRecipes = allRecipes.filter(r => r.author_id === userId);
+                
+                for (const recipe of userRecipes) {
+                    await DB.deleteRecipe(recipe.id);
+                }
+                
+                let users = JSON.parse(localStorage.getItem('users_cache') || '[]');
+                users = users.filter(u => u.id !== userId);
+                localStorage.setItem('users_cache', JSON.stringify(users));
+                
+                showNotification(`✅ Пользователь "${userName}" и его ${userRecipes.length} рецептов удалены!`);
+                showAdminUsersList();
+            }
+        }
+        
         // ========== КАРТОЧКА РЕЦЕПТА ==========
-           
         async function renderRecipeCard(recipe, showDelete = false) {
             let isFavorite = false;
             if (currentUser) {
@@ -1903,7 +2070,7 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
                             <div class="action-buttons-group">
                                 <button class="download-btn" onclick="event.stopPropagation(); downloadRecipe(${JSON.stringify(recipe).replace(/"/g, '&quot;')})" title="Скачать рецепт">📥</button>
                                 <button class="share-btn" onclick="event.stopPropagation(); shareRecipe(${JSON.stringify(recipe).replace(/"/g, '&quot;')})" title="Поделиться">📤</button>
-                                ${isAuthor ? `<button class="delete-btn" onclick="event.stopPropagation(); showDeleteConfirm(${recipe.id})" title="Удалить">🗑️</button>` : ''}
+                                ${getDeleteButton(recipe, isAuthor)}
                                 <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavoriteRecipe(${recipe.id})" title="${isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}">${isFavorite ? '★' : '☆'}</button>
                             </div>
                         </div>
@@ -1928,6 +2095,7 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
                 isFavorite = favorites.includes(recipe.id);
             }
             const isAuthor = currentUser && currentUser.id === recipe.author_id;
+            const isAdmin = isUserAdmin(currentUser);
             
             document.getElementById('modal-recipe-title').textContent = recipe.title;
             document.getElementById('recipe-modal-content').innerHTML = `
@@ -1944,7 +2112,7 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
                             <div class="rating"><div class="stars">${[1,2,3,4,5].map(star => `<span class="star ${star <= Math.round(recipe.rating || 5) ? 'filled' : ''}" onclick="rateRecipe(${recipe.id}, ${star})">★</span>`).join('')}</div><span class="rating-value">${(recipe.rating || 5).toFixed(1)} (${recipe.ratings_count || 0} оценок)</span></div>
                         </div>
                         <div class="recipe-tags" style="margin-bottom: 20px;">${(recipe.tags || []).map(tag => `<span class="recipe-tag">${tag}</span>`).join('')}</div>
-                        ${currentUser ? `<div style="display: flex; gap: 10px; flex-wrap: wrap;"><button onclick="toggleFavoriteRecipe(${recipe.id})" style="padding: 10px 20px; background: ${isFavorite ? 'var(--light-green)' : 'linear-gradient(135deg, var(--accent-green), var(--secondary-green))'}; color: ${isFavorite ? 'var(--secondary-green)' : 'white'}; border: none; border-radius: 8px;">${isFavorite ? '★ В избранном' : '☆ Добавить в избранное'}</button>${isAuthor ? `<button onclick="showDeleteConfirm(${recipe.id})" style="padding: 10px 20px; background: var(--danger); color: white; border: none; border-radius: 8px;">🗑️ Удалить</button>` : ''}</div>` : ''}
+                        ${currentUser ? `<div style="display: flex; gap: 10px; flex-wrap: wrap;"><button onclick="toggleFavoriteRecipe(${recipe.id})" style="padding: 10px 20px; background: ${isFavorite ? 'var(--light-green)' : 'linear-gradient(135deg, var(--accent-green), var(--secondary-green))'}; color: ${isFavorite ? 'var(--secondary-green)' : 'white'}; border: none; border-radius: 8px;">${isFavorite ? '★ В избранном' : '☆ Добавить в избранное'}</button>${(isAuthor || isAdmin) ? `<button onclick="showDeleteConfirm(${recipe.id})" style="padding: 10px 20px; background: var(--danger); color: white; border: none; border-radius: 8px;">🗑️ Удалить</button>` : ''}</div>` : ''}
                     </div>
                 </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; flex-wrap: wrap;">
