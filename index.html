@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title>🍳 Кулинарная книга</title>
+    <title>🍳 Кулинарная книга - Админ-панель</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Playfair+Display:wght@400;500;600&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- EmailJS библиотека для отправки писем -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
-        /* ВАШ ИСХОДНЫЙ CSS СТИЛЬ */
         :root {
             --primary-green: #1a3c27;
             --secondary-green: #2d5a3b;
@@ -316,10 +314,6 @@
             cursor: pointer;
         }
         
-        .auth-link:hover {
-            text-decoration: underline;
-        }
-        
         .page-header {
             margin-bottom: 30px;
         }
@@ -351,8 +345,6 @@
             box-shadow: var(--shadow);
             transition: all 0.3s ease;
             cursor: pointer;
-            text-decoration: none;
-            color: inherit;
         }
         
         .category-card:hover {
@@ -450,13 +442,8 @@
             opacity: 1;
         }
         
-        .share-btn {
-            color: var(--accent-green);
-        }
-        
-        .download-btn {
-            color: var(--secondary-green);
-        }
+        .share-btn { color: var(--accent-green); }
+        .download-btn { color: var(--secondary-green); }
         
         .favorite-btn {
             background: none;
@@ -468,9 +455,7 @@
             transition: transform 0.3s;
         }
         
-        .favorite-btn:hover {
-            transform: scale(1.2);
-        }
+        .favorite-btn:hover { transform: scale(1.2); }
         
         .delete-btn {
             background: none;
@@ -483,10 +468,7 @@
             opacity: 0.7;
         }
         
-        .delete-btn:hover {
-            transform: scale(1.2);
-            opacity: 1;
-        }
+        .delete-btn:hover { transform: scale(1.2); opacity: 1; }
         
         .rating {
             display: flex;
@@ -507,13 +489,8 @@
             transition: color 0.2s;
         }
         
-        .star:hover {
-            color: #FFD700;
-        }
-        
-        .star.filled {
-            color: #FFD700;
-        }
+        .star:hover { color: #FFD700; }
+        .star.filled { color: #FFD700; }
         
         .rating-value {
             font-size: 14px;
@@ -590,9 +567,7 @@
             z-index: 100;
         }
         
-        .add-recipe-btn:hover {
-            transform: scale(1.1);
-        }
+        .add-recipe-btn:hover { transform: scale(1.1); }
         
         .modal-overlay {
             position: fixed;
@@ -625,9 +600,7 @@
             overflow-y: auto;
         }
         
-        .modal-large {
-            max-width: 900px;
-        }
+        .modal-large { max-width: 900px; }
         
         .modal-header {
             padding: 25px;
@@ -655,9 +628,7 @@
             padding: 5px;
         }
         
-        .modal-content {
-            padding: 25px;
-        }
+        .modal-content { padding: 25px; }
         
         .profile-header {
             background: linear-gradient(135deg, var(--light-green), var(--lighter-green));
@@ -683,9 +654,7 @@
             font-weight: bold;
         }
         
-        .profile-info {
-            flex: 1;
-        }
+        .profile-info { flex: 1; }
         
         .profile-name {
             font-family: 'Playfair Display', serif;
@@ -706,9 +675,7 @@
             flex-wrap: wrap;
         }
         
-        .profile-stat {
-            text-align: center;
-        }
+        .profile-stat { text-align: center; }
         
         .stat-number {
             font-family: 'Dancing Script', cursive;
@@ -757,12 +724,6 @@
             font-weight: 600;
         }
         
-        .search-examples {
-            color: var(--gray);
-            font-size: 14px;
-            margin-top: 10px;
-        }
-        
         .search-tags {
             display: flex;
             flex-wrap: wrap;
@@ -776,9 +737,6 @@
             padding: 6px 12px;
             border-radius: 16px;
             font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
             cursor: pointer;
         }
         
@@ -804,11 +762,6 @@
             transition: all 0.3s;
         }
         
-        .confirm-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-        }
-        
         .confirm-btn-yes {
             background: linear-gradient(135deg, var(--danger), var(--danger-dark));
             color: white;
@@ -819,43 +772,23 @@
             color: var(--secondary-green);
         }
         
+        .admin-badge {
+            background: #ff9800;
+            color: #333;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
         @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .main-nav {
-                gap: 15px;
-                overflow-x: auto;
-                padding-bottom: 10px;
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .user-actions {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .categories-grid,
-            .recipes-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-            
-            .profile-header {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .profile-stats {
-                justify-content: center;
-            }
-            
-            .recipe-meta {
-                flex-direction: column;
-                align-items: flex-start;
-            }
+            .header-container { flex-direction: column; text-align: center; }
+            .main-nav { gap: 15px; overflow-x: auto; width: 100%; justify-content: center; }
+            .user-actions { width: 100%; justify-content: center; }
+            .categories-grid, .recipes-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+            .profile-header { flex-direction: column; text-align: center; }
+            .profile-stats { justify-content: center; }
         }
         
         @keyframes slideIn {
@@ -892,6 +825,7 @@
     
     <button class="add-recipe-btn" onclick="showAddRecipeModal()" style="display: none;" id="add-recipe-btn">+</button>
     
+    <!-- Модальное окно авторизации -->
     <div class="modal-overlay" id="auth-modal">
         <div class="modal">
             <div class="modal-header">
@@ -904,6 +838,7 @@
         </div>
     </div>
     
+    <!-- Модальное окно добавления рецепта -->
     <div class="modal-overlay" id="add-recipe-modal">
         <div class="modal modal-large">
             <div class="modal-header">
@@ -916,7 +851,6 @@
                         <label class="form-label">Название рецепта</label>
                         <input type="text" class="form-input" id="recipe-title" required>
                     </div>
-                    
                     <div class="form-group">
                         <label class="form-label">Категория</label>
                         <select class="form-input" id="recipe-category" required>
@@ -931,17 +865,14 @@
                             <option value="Завтраки">Завтраки</option>
                         </select>
                     </div>
-                    
                     <div class="form-group">
                         <label class="form-label">Время приготовления (минут)</label>
                         <input type="number" class="form-input" id="recipe-time" min="5" required>
                     </div>
-                    
                     <div class="form-group">
                         <label class="form-label">Количество порций</label>
                         <input type="number" class="form-input" id="recipe-servings" min="1" required>
                     </div>
-                    
                     <div class="form-group">
                         <label class="form-label">Сложность</label>
                         <select class="form-input" id="recipe-difficulty" required>
@@ -950,7 +881,6 @@
                             <option value="Сложная">Сложная</option>
                         </select>
                     </div>
-                    
                     <div class="form-group">
                         <label class="form-label">Фото блюда</label>
                         <div class="camera-options">
@@ -960,10 +890,9 @@
                         <div class="photo-preview-area" id="photo-preview-area">
                             <div class="photo-placeholder" onclick="uploadFromGallery()">+</div>
                         </div>
-                        <input type="file" id="photo-file-input" accept="image/*" style="display: none;" capture="environment" onchange="handlePhotoSelect(event)">
+                        <input type="file" id="photo-file-input" accept="image/*" style="display: none;" onchange="handlePhotoSelect(event)">
                         <input type="hidden" id="recipe-image" value="">
                     </div>
-                    
                     <div class="form-group">
                         <label class="form-label">Ингредиенты (каждый с новой строки)</label>
                         <textarea class="form-input" id="recipe-ingredients" rows="5" required placeholder="Пример:
@@ -971,7 +900,6 @@
 2 шт. свеклы
 3 картофелины"></textarea>
                     </div>
-                    
                     <div class="form-group">
                         <label class="form-label">Шаги приготовления (каждый шаг с новой строки)</label>
                         <textarea class="form-input" id="recipe-steps" rows="8" required placeholder="Пример:
@@ -979,23 +907,21 @@
 2. Отварить мясо
 3. Нарезать овощи"></textarea>
                     </div>
-                    
                     <div class="form-group">
                         <label class="form-label">Количество калорий</label>
                         <input type="number" class="form-input" id="recipe-calorie_count" required>
                     </div>
-                    
                     <div class="form-group">
                         <label class="form-label">Теги (через запятую)</label>
-                        <input type="text" class="form-input" id="recipe-tags" placeholder="Например: Русская кухня, С мясом, Бюджетное">
+                        <input type="text" class="form-input" id="recipe-tags" placeholder="Например: Русская кухня, С мясом">
                     </div>
-                    
                     <button type="submit" class="auth-btn">Добавить рецепт</button>
                 </form>
             </div>
         </div>
     </div>
     
+    <!-- Модальное окно рецепта -->
     <div class="modal-overlay" id="recipe-modal">
         <div class="modal modal-large">
             <div class="modal-header">
@@ -1012,6 +938,7 @@
         </div>
     </div>
     
+    <!-- Модальное окно подтверждения удаления -->
     <div class="modal-overlay" id="confirm-delete-modal">
         <div class="modal">
             <div class="modal-header">
@@ -1019,7 +946,7 @@
                 <button class="modal-close" onclick="closeConfirmDeleteModal()">×</button>
             </div>
             <div class="modal-content">
-                <p style="margin-bottom: 20px; font-size: 16px;">Вы уверены, что хотите удалить этот рецепт? Это действие нельзя отменить.</p>
+                <p style="margin-bottom: 20px;">Вы уверены, что хотите удалить этот рецепт? Это действие нельзя отменить.</p>
                 <div class="confirm-actions">
                     <button class="confirm-btn confirm-btn-yes" onclick="confirmDeleteRecipe()">Да, удалить</button>
                     <button class="confirm-btn confirm-btn-no" onclick="closeConfirmDeleteModal()">Отмена</button>
@@ -1029,6 +956,14 @@
     </div>
     
     <script>
+        // ========== НАСТРОЙКИ АДМИНИСТРАТОРА ==========
+        // 🔐 ИЗМЕНИ ПАРОЛЬ НА СВОЙ!
+        const ADMIN_CONFIG = {
+            password: 'Admin123456',      // ← ПАРОЛЬ АДМИНА (ИЗМЕНИ НА СВОЙ!)
+            email: 'admin@kulinaria.ru',  // Email для обычного входа
+            name: '👑 Администратор'
+        };
+        
         // ========== ИНИЦИАЛИЗАЦИЯ EMAILJS ==========
         const EMAILJS_CONFIG = {
             PUBLIC_KEY: 'YOUR_PUBLIC_KEY',
@@ -1043,7 +978,7 @@
                 const templateParams = {
                     to_email: user.email,
                     to_name: user.name,
-                    message: `Добро пожаловать в Кулинарную книгу! Мы рады видеть вас в нашем сообществе.`,
+                    message: `Добро пожаловать в Кулинарную книгу!`,
                     registration_date: new Date().toLocaleString('ru-RU'),
                     site_name: 'Кулинарная книга'
                 };
@@ -1065,21 +1000,39 @@
         let currentRecipeForActions = null;
         let selectedPhotoBase64 = null;
         
-        // ========== НАСТРОЙКИ АДМИНИСТРАТОРА ==========
-        
-        const ADMIN_EMAILS = [
-            'iz900528@gmail.com',  
-            'admin@example.com'
-        ];
-        
+        // ========== ФУНКЦИИ АДМИНИСТРАТОРА ==========
         function isUserAdmin(user) {
             if (!user) return false;
-            return ADMIN_EMAILS.includes(user.email);
+            // Проверка по email
+            if (user.email === ADMIN_CONFIG.email) return true;
+            // Проверка по флагу админа (для виртуального входа)
+            if (user.isAdmin === true) return true;
+            return false;
+        }
+        
+        // Специальный вход для администратора (только по паролю)
+        function adminLogin() {
+            const password = prompt('👑 ВВОД ПАРОЛЯ АДМИНИСТРАТОРА 👑\n\nВведите пароль для доступа к админ-панели:');
+            
+            if (password === ADMIN_CONFIG.password) {
+                currentUser = {
+                    id: 999999,
+                    email: ADMIN_CONFIG.email,
+                    name: ADMIN_CONFIG.name,
+                    avatar: '👑',
+                    isAdmin: true
+                };
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateUserInterface();
+                navigateTo('profile');
+                showNotification('✅ Вы вошли как Администратор!', 'success');
+            } else if (password) {
+                showNotification('❌ Неверный пароль администратора!', 'error');
+            }
         }
         
         function getDeleteButton(recipe, isAuthor) {
-            const isAdmin = isUserAdmin(currentUser);
-            if (isAdmin || isAuthor) {
+            if (isUserAdmin(currentUser) || isAuthor) {
                 return `<button class="delete-btn" onclick="event.stopPropagation(); showDeleteConfirm(${recipe.id})" title="Удалить рецепт">🗑️</button>`;
             }
             return '';
@@ -1101,25 +1054,19 @@
         function handlePhotoSelect(event) {
             const file = event.target.files[0];
             if (!file) return;
-            
             const reader = new FileReader();
             reader.onload = function(e) {
                 selectedPhotoBase64 = e.target.result;
-                updatePhotoPreview(selectedPhotoBase64);
+                document.getElementById('photo-preview-area').innerHTML = `
+                    <img src="${selectedPhotoBase64}" class="photo-preview" onclick="uploadFromGallery()">
+                    <div class="photo-placeholder" style="width: 40px; height: 40px; font-size: 16px;" onclick="uploadFromGallery()">✖</div>
+                `;
                 document.getElementById('recipe-image').value = selectedPhotoBase64;
             };
             reader.readAsDataURL(file);
         }
         
-        function updatePhotoPreview(imageUrl) {
-            const previewArea = document.getElementById('photo-preview-area');
-            previewArea.innerHTML = `
-                <img src="${imageUrl}" class="photo-preview" onclick="uploadFromGallery()">
-                <div class="photo-placeholder" style="width: 40px; height: 40px; font-size: 16px;" onclick="uploadFromGallery()">✖</div>
-            `;
-        }
-        
-        // ========== СКАЧИВАНИЕ РЕЦЕПТА ==========
+        // ========== СКАЧИВАНИЕ И ШАРИНГ ==========
         function downloadRecipe(recipe) {
             const content = generateRecipeText(recipe);
             const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
@@ -1135,9 +1082,7 @@
         }
         
         function downloadCurrentRecipe() {
-            if (currentRecipeForActions) {
-                downloadRecipe(currentRecipeForActions);
-            }
+            if (currentRecipeForActions) downloadRecipe(currentRecipeForActions);
         }
         
         function generateRecipeText(recipe) {
@@ -1167,47 +1112,21 @@ ${(recipe.steps || []).map((step, i) => `   ${i+1}. ${step}`).join('\n\n')}
 🏷️ ТЕГИ:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${(recipe.tags || []).join(', ') || 'Нет тегов'}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📅 Скачано с Кулинарной книги
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             `;
         }
         
         function generateShareText(recipe) {
-            return `🍳 *${recipe.title}*
-
-📋 Категория: ${recipe.category || 'Не указана'}
-⏱️ Время приготовления: ${recipe.total_time || 0} минут
-👥 Порций: ${recipe.servings || 1}
-🔥 Калорийность: ${recipe.calorie_count || 'Не указано'} ккал
-
-🛒 Ингредиенты:
-${(recipe.ingredients || []).map(ing => `• ${ing}`).join('\n')}
-
-👩‍🍳 Приготовление:
-${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
-
-⭐ Рейтинг: ${(recipe.rating || 5).toFixed(1)}/5
-
-#рецепт #кулинария #${recipe.category?.toLowerCase() || 'еда'}`;
+            return `🍳 *${recipe.title}*\n\n📋 ${recipe.category || 'Рецепт'}\n⏱️ ${recipe.total_time || 0} мин\n👥 ${recipe.servings || 1} порц.\n\n🛒 Ингредиенты:\n${(recipe.ingredients || []).map(ing => `• ${ing}`).join('\n')}\n\n👩‍🍳 Приготовление:\n${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}\n\n⭐ Рейтинг: ${(recipe.rating || 5).toFixed(1)}/5\n\n#рецепт #кулинария`;
         }
         
         async function shareRecipe(recipe) {
             const shareText = generateShareText(recipe);
-            
             if (navigator.share) {
                 try {
-                    await navigator.share({
-                        title: recipe.title,
-                        text: shareText,
-                        url: window.location.href
-                    });
+                    await navigator.share({ title: recipe.title, text: shareText });
                     showNotification('Поделились!');
                 } catch (err) {
-                    if (err.name !== 'AbortError') {
-                        copyToClipboard(shareText);
-                    }
+                    if (err.name !== 'AbortError') copyToClipboard(shareText);
                 }
             } else {
                 copyToClipboard(shareText);
@@ -1215,16 +1134,12 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
         }
         
         function shareCurrentRecipe() {
-            if (currentRecipeForActions) {
-                shareRecipe(currentRecipeForActions);
-            }
+            if (currentRecipeForActions) shareRecipe(currentRecipeForActions);
         }
         
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
                 showNotification('Рецепт скопирован в буфер обмена!');
-            }).catch(() => {
-                showNotification('Не удалось скопировать', 'error');
             });
         }
         
@@ -1236,11 +1151,9 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
                     const data = await response.json();
                     return data.status === 'ok';
                 } catch (error) {
-                    console.warn('Не удалось подключиться к облаку');
                     return false;
                 }
             },
-            
             async register(user) {
                 try {
                     const response = await fetch(API_URL, {
@@ -1253,7 +1166,6 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
                     return { success: false, message: 'Ошибка сети' };
                 }
             },
-            
             async login(email, password) {
                 try {
                     const response = await fetch(API_URL, {
@@ -1266,18 +1178,15 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
                     return { success: false, message: 'Ошибка сети' };
                 }
             },
-            
             async getRecipes() {
                 try {
                     const response = await fetch(`${API_URL}?action=getRecipes`);
                     const data = await response.json();
                     return data.recipes || [];
                 } catch (error) {
-                    console.error('Ошибка получения рецептов:', error);
                     return [];
                 }
             },
-            
             async addRecipe(recipe) {
                 try {
                     const response = await fetch(API_URL, {
@@ -1290,7 +1199,6 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
                     return { success: false, message: 'Ошибка сети' };
                 }
             },
-            
             async deleteRecipe(recipeId) {
                 try {
                     const response = await fetch(API_URL, {
@@ -1303,7 +1211,6 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
                     return { success: false, message: 'Ошибка сети' };
                 }
             },
-            
             async getRecipe(id) {
                 try {
                     const response = await fetch(`${API_URL}?action=getRecipe&id=${id}`);
@@ -1313,7 +1220,6 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
                     return null;
                 }
             },
-            
             async rateRecipe(recipeId, userId, rating) {
                 try {
                     const response = await fetch(API_URL, {
@@ -1326,7 +1232,6 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
                     return { success: false, message: 'Ошибка сети' };
                 }
             },
-            
             async toggleFavorite(userId, recipeId) {
                 try {
                     const response = await fetch(API_URL, {
@@ -1339,7 +1244,6 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
                     return { success: false, message: 'Ошибка сети' };
                 }
             },
-            
             async getFavorites(userId) {
                 try {
                     const response = await fetch(`${API_URL}?action=getFavorites&userId=${userId}`);
@@ -1353,16 +1257,12 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
         
         // ========== ЛОКАЛЬНЫЙ КЭШ ==========
         const LocalCache = {
-            getRecipes() {
-                return JSON.parse(localStorage.getItem('recipes_cache') || '[]');
-            },
+            getRecipes() { return JSON.parse(localStorage.getItem('recipes_cache') || '[]'); },
             getFavorites(userId) {
                 const favorites = JSON.parse(localStorage.getItem('favorites_cache') || '{}');
                 return favorites[userId] || [];
             },
-            saveRecipes(recipes) {
-                localStorage.setItem('recipes_cache', JSON.stringify(recipes));
-            },
+            saveRecipes(recipes) { localStorage.setItem('recipes_cache', JSON.stringify(recipes)); },
             saveFavorites(userId, favoriteIds) {
                 const favorites = JSON.parse(localStorage.getItem('favorites_cache') || '{}');
                 favorites[userId] = favoriteIds;
@@ -1370,9 +1270,7 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
             },
             deleteRecipe(recipeId) {
                 const recipes = this.getRecipes();
-                const updatedRecipes = recipes.filter(r => r.id != recipeId);
-                this.saveRecipes(updatedRecipes);
-                
+                this.saveRecipes(recipes.filter(r => r.id != recipeId));
                 const favorites = JSON.parse(localStorage.getItem('favorites_cache') || '{}');
                 Object.keys(favorites).forEach(userId => {
                     favorites[userId] = favorites[userId].filter(id => id != recipeId);
@@ -1382,16 +1280,10 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
             },
             searchByQuery(query, recipes) {
                 if (!query) return recipes;
-                const searchTerms = query.toLowerCase().split(/[,\s]+/).filter(t => t.length > 0);
-                return recipes.filter(recipe => {
-                    const titleLower = recipe.title.toLowerCase();
-                    const ingredientsText = (recipe.ingredients || []).join(' ').toLowerCase();
-                    const tagsText = (recipe.tags || []).join(' ').toLowerCase();
-                    const categoryLower = (recipe.category || '').toLowerCase();
-                    return searchTerms.some(term => 
-                        titleLower.includes(term) || ingredientsText.includes(term) || 
-                        tagsText.includes(term) || categoryLower.includes(term)
-                    );
+                const terms = query.toLowerCase().split(/[,\s]+/).filter(t => t.length > 0);
+                return recipes.filter(r => {
+                    const text = (r.title + ' ' + (r.ingredients || []).join(' ') + ' ' + (r.tags || []).join(' ') + ' ' + (r.category || '')).toLowerCase();
+                    return terms.some(t => text.includes(t));
                 });
             }
         };
@@ -1399,31 +1291,23 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
         // ========== МЕНЕДЖЕР ДАННЫХ ==========
         const DB = {
             useCloud: false,
-            
             async init() {
                 this.useCloud = await CloudDB.testConnection();
                 if (this.useCloud) {
-                    try {
-                        const recipes = await CloudDB.getRecipes();
-                        LocalCache.saveRecipes(recipes);
-                    } catch (error) {
-                        console.error('Ошибка загрузки рецептов:', error);
-                    }
+                    const recipes = await CloudDB.getRecipes();
+                    LocalCache.saveRecipes(recipes);
                 }
                 return this.useCloud;
             },
-            
             async register(user) {
                 if (this.useCloud) return await CloudDB.register(user);
                 const users = JSON.parse(localStorage.getItem('users_cache') || '[]');
-                const existingUser = users.find(u => u.email === user.email);
-                if (existingUser) return { success: false, message: 'Пользователь уже существует' };
+                if (users.find(u => u.email === user.email)) return { success: false, message: 'Пользователь уже существует' };
                 const newUser = { ...user, id: Date.now(), created_at: new Date().toISOString() };
                 users.push(newUser);
                 localStorage.setItem('users_cache', JSON.stringify(users));
                 return { success: true, user: newUser };
             },
-            
             async login(email, password) {
                 if (this.useCloud) return await CloudDB.login(email, password);
                 const users = JSON.parse(localStorage.getItem('users_cache') || '[]');
@@ -1434,7 +1318,6 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
                 }
                 return { success: false, message: 'Неверные данные' };
             },
-            
             async getRecipes() {
                 if (this.useCloud) {
                     const cloudRecipes = await CloudDB.getRecipes();
@@ -1443,70 +1326,32 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
                         return cloudRecipes;
                     }
                 }
-                const cachedRecipes = LocalCache.getRecipes();
-                if (cachedRecipes.length > 0) return cachedRecipes;
-                
-                const demoRecipes = [
-                    {
-                        id: 1,
-                        title: "Борщ классический",
-                        description: "Традиционный украинский борщ со свеклой и говядиной",
-                        category: "Супы",
-                        total_time: 120,
-                        difficulty: "Средняя",
-                        servings: 6,
-                        calorie_count: 350,
-                        rating: 4.8,
-                        ratings_count: 24,
-                        author_id: 1,
-                        author_name: "Демо Пользователь",
-                        image_url: "https://images.unsplash.com/photo-1547592180-85f173990554?w=800",
-                        ingredients: ["500 г говядины", "2 шт свеклы", "3 картофелины", "1 морковь", "1 луковица", "200 г капусты"],
-                        steps: ["Варить мясо 1.5 часа", "Нарезать овощи", "Добавить овощи в бульон", "Варить 30 минут", "Подавать со сметаной"],
-                        tags: ["русская кухня", "мясо", "суп"]
-                    },
-                    {
-                        id: 2,
-                        title: "Омлет с овощами",
-                        description: "Пышный омлет с болгарским перцем и помидорами",
-                        category: "Завтраки",
-                        total_time: 25,
-                        difficulty: "Легкая",
-                        servings: 2,
-                        calorie_count: 250,
-                        rating: 4.5,
-                        ratings_count: 18,
-                        author_id: 1,
-                        author_name: "Демо Пользователь",
-                        image_url: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800",
-                        ingredients: ["4 яйца", "50 мл молока", "1 помидор", "1 болгарский перец", "соль", "перец", "зелень"],
-                        steps: ["Взбить яйца с молоком", "Нарезать овощи", "Обжарить овощи", "Залить яйцами", "Готовить 10 минут"],
-                        tags: ["завтрак", "быстро", "просто"]
-                    }
+                const cached = LocalCache.getRecipes();
+                if (cached.length > 0) return cached;
+                const demo = [
+                    { id: 1, title: "Борщ классический", category: "Супы", total_time: 120, difficulty: "Средняя", servings: 6, calorie_count: 350, rating: 4.8, ratings_count: 24, author_id: 1, author_name: "Демо Пользователь", image_url: "https://images.unsplash.com/photo-1547592180-85f173990554?w=800", ingredients: ["500 г говядины", "2 шт свеклы", "3 картофелины"], steps: ["Варить мясо", "Добавить овощи"], tags: ["русская кухня"] },
+                    { id: 2, title: "Омлет с овощами", category: "Завтраки", total_time: 25, difficulty: "Легкая", servings: 2, calorie_count: 250, rating: 4.5, ratings_count: 18, author_id: 1, author_name: "Демо Пользователь", image_url: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800", ingredients: ["4 яйца", "50 мл молока"], steps: ["Взбить яйца", "Обжарить"], tags: ["завтрак"] }
                 ];
-                LocalCache.saveRecipes(demoRecipes);
-                return demoRecipes;
+                LocalCache.saveRecipes(demo);
+                return demo;
             },
-            
             async addRecipe(recipe) {
                 if (this.useCloud) {
                     const result = await CloudDB.addRecipe(recipe);
                     if (result.success) {
                         const recipes = await this.getRecipes();
-                        const newRecipe = { ...recipe, id: result.id, rating: 5.0, ratings_count: 1, created_at: new Date().toISOString() };
-                        recipes.push(newRecipe);
+                        recipes.push({ ...recipe, id: result.id, rating: 5.0, ratings_count: 1 });
                         LocalCache.saveRecipes(recipes);
                     }
                     return result;
                 } else {
                     const recipes = LocalCache.getRecipes();
-                    const newRecipe = { ...recipe, id: Date.now(), rating: 5.0, ratings_count: 1, created_at: new Date().toISOString() };
+                    const newRecipe = { ...recipe, id: Date.now(), rating: 5.0, ratings_count: 1 };
                     recipes.push(newRecipe);
                     LocalCache.saveRecipes(recipes);
                     return { success: true, id: newRecipe.id };
                 }
             },
-            
             async deleteRecipe(recipeId) {
                 if (this.useCloud) {
                     const result = await CloudDB.deleteRecipe(recipeId);
@@ -1517,121 +1362,109 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
                     return { success: true };
                 }
             },
-            
             async getRecipe(id) {
                 const recipes = await this.getRecipes();
                 return recipes.find(r => r.id == id) || null;
             },
-            
             async rateRecipe(recipeId, userId, rating) {
                 if (this.useCloud) {
                     const result = await CloudDB.rateRecipe(recipeId, userId, rating);
                     if (result.success) {
                         const recipes = await this.getRecipes();
-                        const recipeIndex = recipes.findIndex(r => r.id == recipeId);
-                        if (recipeIndex !== -1) {
-                            const currentRating = recipes[recipeIndex].rating || 5;
-                            const currentCount = recipes[recipeIndex].ratings_count || 1;
-                            recipes[recipeIndex].rating = ((currentRating * currentCount) + rating) / (currentCount + 1);
-                            recipes[recipeIndex].ratings_count = currentCount + 1;
+                        const idx = recipes.findIndex(r => r.id == recipeId);
+                        if (idx !== -1) {
+                            const cur = recipes[idx].rating || 5;
+                            const cnt = recipes[idx].ratings_count || 1;
+                            recipes[idx].rating = ((cur * cnt) + rating) / (cnt + 1);
+                            recipes[idx].ratings_count = cnt + 1;
                             LocalCache.saveRecipes(recipes);
                         }
                     }
                     return result;
                 } else {
                     const recipes = LocalCache.getRecipes();
-                    const recipeIndex = recipes.findIndex(r => r.id == recipeId);
-                    if (recipeIndex !== -1) {
-                        const currentRating = recipes[recipeIndex].rating || 5;
-                        const currentCount = recipes[recipeIndex].ratings_count || 1;
-                        recipes[recipeIndex].rating = ((currentRating * currentCount) + rating) / (currentCount + 1);
-                        recipes[recipeIndex].ratings_count = currentCount + 1;
+                    const idx = recipes.findIndex(r => r.id == recipeId);
+                    if (idx !== -1) {
+                        const cur = recipes[idx].rating || 5;
+                        const cnt = recipes[idx].ratings_count || 1;
+                        recipes[idx].rating = ((cur * cnt) + rating) / (cnt + 1);
+                        recipes[idx].ratings_count = cnt + 1;
                         LocalCache.saveRecipes(recipes);
                     }
                     return { success: true };
                 }
             },
-            
             async toggleFavorite(userId, recipeId) {
                 if (this.useCloud) {
                     const result = await CloudDB.toggleFavorite(userId, recipeId);
-                    if (result.success) this.updateLocalFavorites(userId, recipeId, result.added);
+                    if (result.success) {
+                        const favs = LocalCache.getFavorites(userId);
+                        if (result.added) favs.push(recipeId);
+                        else favs.splice(favs.indexOf(recipeId), 1);
+                        LocalCache.saveFavorites(userId, favs);
+                    }
                     return result;
                 } else {
-                    const added = this.updateLocalFavorites(userId, recipeId);
-                    return { success: true, added };
+                    const favs = LocalCache.getFavorites(userId);
+                    const idx = favs.indexOf(recipeId);
+                    if (idx === -1) favs.push(recipeId);
+                    else favs.splice(idx, 1);
+                    LocalCache.saveFavorites(userId, favs);
+                    return { success: true, added: idx === -1 };
                 }
             },
-            
-            updateLocalFavorites(userId, recipeId, shouldAdd = null) {
-                const favorites = LocalCache.getFavorites(userId);
-                const index = favorites.indexOf(recipeId);
-                let added = false;
-                if (shouldAdd !== null) {
-                    added = shouldAdd;
-                    if (shouldAdd && index === -1) favorites.push(recipeId);
-                    else if (!shouldAdd && index !== -1) favorites.splice(index, 1);
-                } else {
-                    if (index === -1) { favorites.push(recipeId); added = true; }
-                    else { favorites.splice(index, 1); added = false; }
-                }
-                LocalCache.saveFavorites(userId, favorites);
-                return added;
-            },
-            
             async getFavorites(userId) {
                 if (this.useCloud) return await CloudDB.getFavorites(userId);
-                else return LocalCache.getFavorites(userId);
+                return LocalCache.getFavorites(userId);
             },
-            
             searchByQuery(query) {
-                const recipes = LocalCache.getRecipes();
-                return LocalCache.searchByQuery(query, recipes);
+                return LocalCache.searchByQuery(query, LocalCache.getRecipes());
             }
         };
         
-        // ========== ИНИЦИАЛИЗАЦИЯ ==========
+        // ========== ОСНОВНЫЕ ФУНКЦИИ ==========
         async function init() {
             await DB.init();
             updateUserInterface();
             navigateTo('home');
-            
-            document.getElementById('recipe-form').addEventListener('submit', async function(e) {
+            document.getElementById('recipe-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 await addRecipe();
             });
-            
             document.querySelectorAll('.modal-overlay').forEach(modal => {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === this) this.classList.remove('active');
-                });
+                modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
             });
         }
         
-        // ========== ОБНОВЛЕНИЕ ИНТЕРФЕЙСА ==========
         async function updateUserInterface() {
             const userActions = document.getElementById('user-actions');
             const addRecipeBtn = document.getElementById('add-recipe-btn');
             
             if (currentUser) {
                 const favorites = await DB.getFavorites(currentUser.id);
+                const isAdmin = isUserAdmin(currentUser);
                 userActions.innerHTML = `
                     <div class="user-info">
                         <div class="user-avatar">${currentUser.avatar || currentUser.name.charAt(0)}</div>
-                        <span>${currentUser.name}</span>
+                        <span>${currentUser.name} ${isAdmin ? '<span class="admin-badge">👑 АДМИН</span>' : ''}</span>
                     </div>
                     <button class="action-btn" onclick="navigateTo('favorites')">⭐<span class="favorites-count">${favorites.length}</span></button>
                     <button class="action-btn" onclick="logout()">🚪</button>
                 `;
                 addRecipeBtn.style.display = 'block';
             } else {
-                userActions.innerHTML = `<button class="nav-item" onclick="showAuthModal('login')">Вход</button><button class="nav-item" onclick="showAuthModal('register')">Регистрация</button>`;
+                userActions.innerHTML = `
+                    <button class="nav-item" onclick="showAuthModal('login')">🔑 Вход</button>
+                    <button class="nav-item" onclick="showAuthModal('register')">📝 Регистрация</button>
+                    <button class="nav-item" onclick="adminLogin()" style="background: #ff9800; color: #333; padding: 8px 15px; border-radius: 8px;">👑 Админ-вход</button>
+                `;
                 addRecipeBtn.style.display = 'none';
             }
             
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
-                if (item.textContent.includes(getNavText(currentPage))) item.classList.add('active');
+                const text = item.textContent.replace('🔑', '').replace('📝', '').replace('👑', '').trim();
+                if (text === getNavText(currentPage)) item.classList.add('active');
             });
         }
         
@@ -1640,7 +1473,6 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
             return map[page] || 'Главная';
         }
         
-        // ========== НАВИГАЦИЯ ==========
         async function navigateTo(page) {
             currentPage = page;
             await updateUserInterface();
@@ -1653,565 +1485,283 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
             }
         }
         
-        // ========== ГЛАВНАЯ СТРАНИЦА ==========
         async function showHomePage() {
-            const content = document.getElementById('main-content');
             const recipes = await DB.getRecipes();
-            
-            content.innerHTML = `
+            document.getElementById('main-content').innerHTML = `
                 <div class="page-header">
                     <h1 class="page-title">🍳 Добро пожаловать в Кулинарную книгу!</h1>
-                    <p class="page-description">${currentUser ? `Рады видеть вас снова, ${currentUser.name}!` : 'Войдите или зарегистрируйтесь, чтобы добавлять свои рецепты'}</p>
+                    <p class="page-description">${currentUser ? `Рады видеть вас, ${currentUser.name}!` : 'Войдите, чтобы добавлять рецепты'}</p>
                 </div>
-                
                 <div class="ingredients-search-container">
-                    <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px;">🔍 Поиск рецептов</h3>
+                    <h3 style="font-family: Playfair Display; margin-bottom: 15px;">🔍 Поиск рецептов</h3>
                     <div class="ingredients-input-container">
-                        <input type="text" class="ingredients-input" id="universal-search" placeholder="Введите название рецепта или ингредиенты..." value="${currentSearchQuery}" onkeypress="if(event.key === 'Enter') performUniversalSearch()">
+                        <input type="text" class="ingredients-input" id="universal-search" placeholder="Поиск по названию или ингредиентам..." onkeypress="if(event.key==='Enter') performUniversalSearch()">
                         <button class="search-btn" onclick="performUniversalSearch()">Найти</button>
-                        ${currentSearchQuery ? '<button class="search-btn" onclick="clearSearch()" style="background: var(--gray);">Очистить</button>' : ''}
-                    </div>
-                    <div class="search-tags">
-                        <span class="search-examples">Быстрый поиск: </span>
-                        <span class="search-tag" onclick="addIngredientToSearch('борщ')">борщ</span>
-                        <span class="search-tag" onclick="addIngredientToSearch('курица')">курица</span>
-                        <span class="search-tag" onclick="addIngredientToSearch('салат')">салат</span>
-                        <span class="search-tag" onclick="addIngredientToSearch('суп')">суп</span>
-                        <span class="search-tag" onclick="addIngredientToSearch('десерт')">десерт</span>
                     </div>
                 </div>
-                
-                <div id="search-results-section" style="margin-top: 20px;"></div>
-                
-                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-bottom: 40px; flex-wrap: wrap;">
-                    <div style="background: linear-gradient(135deg, var(--light-green), var(--lighter-green)); padding: 30px; border-radius: 12px;">
-                        <h2 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 20px;">🔥 Последние рецепты</h2>
-                        <div class="recipes-grid" id="popular-recipes">
-                            ${recipes.length > 0 ? (await Promise.all(recipes.slice(0, 6).map(recipe => renderRecipeCard(recipe)))).join('') : '<p style="text-align: center; color: var(--gray); grid-column: 1 / -1;">Рецептов пока нет</p>'}
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <div style="background: var(--white); padding: 25px; border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 20px;">
-                            <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px;">📊 Статистика</h3>
-                            <div style="display: flex; flex-direction: column; gap: 10px;">
-                                <div style="display: flex; justify-content: space-between;"><span>Всего рецептов:</span><span style="font-weight: bold;">${recipes.length}</span></div>
-                                <div style="display: flex; justify-content: space-between;"><span>Категорий:</span><span style="font-weight: bold;">8</span></div>
-                                <div style="display: flex; justify-content: space-between;"><span>База данных:</span><span style="font-weight: bold;">${DB.useCloud ? 'Облачная' : 'Локальная'}</span></div>
-                            </div>
-                        </div>
-                        
-                        <div style="background: var(--white); padding: 25px; border-radius: 12px; box-shadow: var(--shadow);">
-                            <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px;">💡 Быстрый поиск</h3>
-                            <div class="search-tags">
-                                <span class="search-tag" onclick="addIngredientToSearch('курица')">курица</span>
-                                <span class="search-tag" onclick="addIngredientToSearch('говядина')">говядина</span>
-                                <span class="search-tag" onclick="addIngredientToSearch('рыба')">рыба</span>
-                                <span class="search-tag" onclick="addIngredientToSearch('овощи')">овощи</span>
-                                <span class="search-tag" onclick="addIngredientToSearch('яйца')">яйца</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div id="search-results-section"></div>
+                <div class="recipes-grid">${(await Promise.all(recipes.slice(0, 6).map(r => renderRecipeCard(r)))).join('')}</div>
             `;
-            
-            if (currentSearchQuery) {
-                document.getElementById('universal-search').value = currentSearchQuery;
-                performUniversalSearch();
-            }
-        }
-        
-        function addIngredientToSearch(ingredient) {
-            const input = document.getElementById('universal-search');
-            input.value = ingredient;
-            performUniversalSearch();
         }
         
         async function performUniversalSearch() {
-            const input = document.getElementById('universal-search');
-            let query = input.value.trim();
-            if (!query) { clearSearch(); return; }
-            currentSearchQuery = query;
-            
+            const query = document.getElementById('universal-search').value.trim();
+            if (!query) { document.getElementById('search-results-section').innerHTML = ''; return; }
             const results = DB.searchByQuery(query);
-            const resultsSection = document.getElementById('search-results-section');
-            
-            if (!resultsSection) return;
-            
+            const section = document.getElementById('search-results-section');
             if (results.length === 0) {
-                resultsSection.innerHTML = `<div style="background: var(--light-green); padding: 25px; border-radius: 12px;"><h3>🔍 Результаты поиска "${query}"</h3><p>Ничего не найдено. Попробуйте изменить запрос.</p><button onclick="clearSearch()" style="padding: 10px 20px; background: var(--accent-green); color: white; border: none; border-radius: 8px;">Очистить</button></div>`;
+                section.innerHTML = `<div style="background: var(--light-green); padding: 25px; border-radius: 12px;"><h3>🔍 Результаты: "${query}"</h3><p>Ничего не найдено</p></div>`;
             } else {
-                resultsSection.innerHTML = `<div style="background: var(--light-green); padding: 25px; border-radius: 12px;"><h3>🔍 Результаты поиска "${query}"</h3><p>Найдено рецептов: ${results.length}</p><div class="recipes-grid">${(await Promise.all(results.map(recipe => renderRecipeCard(recipe)))).join('')}</div></div>`;
+                section.innerHTML = `<div style="background: var(--light-green); padding: 25px; border-radius: 12px;"><h3>🔍 Результаты: "${query}"</h3><p>Найдено: ${results.length}</p><div class="recipes-grid">${(await Promise.all(results.map(r => renderRecipeCard(r)))).join('')}</div></div>`;
             }
         }
         
-        function clearSearch() {
-            currentSearchQuery = '';
-            const input = document.getElementById('universal-search');
-            if (input) input.value = '';
-            const resultsSection = document.getElementById('search-results-section');
-            if (resultsSection) resultsSection.innerHTML = '';
-        }
-        
-        // ========== КАТЕГОРИИ ==========
         async function showCategoriesPage() {
-            const categories = [
-                { id: 1, name: 'Супы', icon: '🥣' }, { id: 2, name: 'Основные блюда', icon: '🍛' },
-                { id: 3, name: 'Салаты', icon: '🥗' }, { id: 4, name: 'Десерты', icon: '🍰' },
-                { id: 5, name: 'Выпечка', icon: '🥐' }, { id: 6, name: 'Закуски', icon: '🍤' },
-                { id: 7, name: 'Напитки', icon: '🥤' }, { id: 8, name: 'Завтраки', icon: '🍳' }
-            ];
+            const categories = ['Супы','Основные блюда','Салаты','Десерты','Выпечка','Закуски','Напитки','Завтраки'];
             const recipes = await DB.getRecipes();
-            categories.forEach(cat => cat.recipe_count = recipes.filter(r => r.category === cat.name).length);
-            
             document.getElementById('main-content').innerHTML = `
-                <div class="page-header"><h1 class="page-title">📚 Категории рецептов</h1><p class="page-description">Выберите категорию, чтобы посмотреть рецепты</p></div>
-                <div class="categories-grid">${categories.map(cat => `<div class="category-card" onclick="showCategory('${cat.name}')"><div class="category-icon">${cat.icon}</div><div class="category-content"><h3 class="category-title">${cat.name}</h3><p class="category-count">${cat.recipe_count} рецептов</p></div></div>`).join('')}</div>
+                <div class="page-header"><h1 class="page-title">📚 Категории</h1></div>
+                <div class="categories-grid">${categories.map(cat => {
+                    const count = recipes.filter(r => r.category === cat).length;
+                    return `<div class="category-card" onclick="showCategory('${cat}')"><div class="category-icon">${getIcon(cat)}</div><div class="category-content"><h3 class="category-title">${cat}</h3><p class="category-count">${count} рецептов</p></div></div>`;
+                }).join('')}</div>
             `;
         }
         
-        async function showCategory(categoryName) {
+        function getIcon(cat) {
+            const icons = {'Супы':'🥣','Основные блюда':'🍛','Салаты':'🥗','Десерты':'🍰','Выпечка':'🥐','Закуски':'🍤','Напитки':'🥤','Завтраки':'🍳'};
+            return icons[cat] || '🍽️';
+        }
+        
+        async function showCategory(cat) {
             const recipes = await DB.getRecipes();
-            const categoryRecipes = recipes.filter(r => r.category === categoryName);
+            const filtered = recipes.filter(r => r.category === cat);
             document.getElementById('main-content').innerHTML = `
-                <div class="page-header"><h1 class="page-title">${getCategoryIcon(categoryName)} ${categoryName}</h1><p class="page-description">${categoryRecipes.length} рецептов</p></div>
-                <div class="recipes-grid">${categoryRecipes.length > 0 ? (await Promise.all(categoryRecipes.map(recipe => renderRecipeCard(recipe)))).join('') : '<div style="grid-column: 1/-1; text-align: center;">Рецепты не найдены</div>'}</div>
-                <div style="text-align: center; margin-top: 30px;"><button onclick="showCategoriesPage()" style="padding: 10px 20px; background: var(--light-green); border: none; border-radius: 8px;">← Все категории</button></div>
+                <div class="page-header"><h1 class="page-title">${getIcon(cat)} ${cat}</h1><button onclick="showCategoriesPage()">← Назад</button></div>
+                <div class="recipes-grid">${(await Promise.all(filtered.map(r => renderRecipeCard(r)))).join('')}</div>
             `;
         }
         
-        // ========== МОИ РЕЦЕПТЫ ==========
         async function showMyRecipesPage() {
             if (!currentUser) return;
             const recipes = await DB.getRecipes();
-            const myRecipes = recipes.filter(r => r.author_id === currentUser.id);
+            const my = recipes.filter(r => r.author_id === currentUser.id);
             document.getElementById('main-content').innerHTML = `
-                <div class="page-header"><h1 class="page-title">📝 Мои рецепты</h1><p class="page-description">${myRecipes.length} рецептов добавлено</p></div>
-                ${myRecipes.length === 0 ? `<div style="text-align: center; padding: 60px; background: var(--light-green); border-radius: 12px;"><div style="font-size: 48px;">🍳</div><h3>У вас пока нет рецептов</h3><button onclick="showAddRecipeModal()" style="margin-top: 20px; padding: 12px 30px; background: linear-gradient(135deg, var(--accent-green), var(--secondary-green)); color: white; border: none; border-radius: 8px;">+ Добавить рецепт</button></div>` : `<div class="recipes-grid">${(await Promise.all(myRecipes.map(recipe => renderRecipeCard(recipe, true)))).join('')}</div>`}
+                <div class="page-header"><h1 class="page-title">📝 Мои рецепты</h1><p>${my.length} рецептов</p></div>
+                ${my.length ? `<div class="recipes-grid">${(await Promise.all(my.map(r => renderRecipeCard(r, true)))).join('')}</div>` : '<div style="text-align:center; padding:40px;"><button onclick="showAddRecipeModal()">+ Добавить первый рецепт</button></div>'}
             `;
         }
         
-        // ========== ИЗБРАННОЕ ==========
         async function showFavoritesPage() {
             if (!currentUser) return;
-            const favoriteIds = await DB.getFavorites(currentUser.id);
-            const allRecipes = await DB.getRecipes();
-            const favoriteRecipes = allRecipes.filter(r => favoriteIds.includes(r.id));
+            const favIds = await DB.getFavorites(currentUser.id);
+            const recipes = await DB.getRecipes();
+            const favs = recipes.filter(r => favIds.includes(r.id));
             document.getElementById('main-content').innerHTML = `
-                <div class="page-header"><h1 class="page-title">⭐ Избранные рецепты</h1><p class="page-description">${favoriteRecipes.length} рецептов в избранном</p></div>
-                ${favoriteRecipes.length === 0 ? `<div style="text-align: center; padding: 60px; background: var(--light-green); border-radius: 12px;"><div style="font-size: 48px;">⭐</div><h3>Избранное пусто</h3></div>` : `<div class="recipes-grid">${(await Promise.all(favoriteRecipes.map(recipe => renderRecipeCard(recipe)))).join('')}</div>`}
+                <div class="page-header"><h1 class="page-title">⭐ Избранное</h1><p>${favs.length} рецептов</p></div>
+                ${favs.length ? `<div class="recipes-grid">${(await Promise.all(favs.map(r => renderRecipeCard(r)))).join('')}</div>` : '<div style="text-align:center; padding:40px;">Нет избранных рецептов</div>'}
             `;
         }
         
-        // ========== ПРОФИЛЬ ==========
         async function showProfilePage() {
             if (!currentUser) return;
-            const allRecipes = await DB.getRecipes();
-            const myRecipes = allRecipes.filter(r => r.author_id === currentUser.id);
-            const favorites = await DB.getFavorites(currentUser.id);
+            const recipes = await DB.getRecipes();
+            const myCount = recipes.filter(r => r.author_id === currentUser.id).length;
+            const favs = await DB.getFavorites(currentUser.id);
             const isAdmin = isUserAdmin(currentUser);
-            
-            let adminPanelHtml = '';
-            if (isAdmin) {
-                adminPanelHtml = `
-                    <div style="background: linear-gradient(135deg, #fff3e0, #ffe0b2); padding: 25px; border-radius: 12px; margin-top: 30px;">
-                        <h2 style="color: #e65100; display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                            👑 Панель администратора
-                        </h2>
-                        <p style="margin-bottom: 15px;">У вас есть доступ к управлению всеми рецептами и пользователями.</p>
-                        <button onclick="showAdminPanel()" style="padding: 12px 24px; background: #e65100; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px;">
-                            🚀 Перейти в админ-панель
-                        </button>
-                    </div>
-                `;
-            }
             
             document.getElementById('main-content').innerHTML = `
                 <div class="profile-header">
                     <div class="profile-avatar-large">${currentUser.avatar || currentUser.name.charAt(0)}</div>
                     <div class="profile-info">
-                        <h1 class="profile-name">${currentUser.name}</h1>
+                        <h1 class="profile-name">${currentUser.name} ${isAdmin ? '👑' : ''}</h1>
                         <p class="profile-email">${currentUser.email}</p>
                         <div class="profile-stats">
-                            <div class="profile-stat">
-                                <div class="stat-number">${myRecipes.length}</div>
-                                <div class="stat-label">Мои рецепты</div>
-                            </div>
-                            <div class="profile-stat">
-                                <div class="stat-number">${favorites.length}</div>
-                                <div class="stat-label">В избранном</div>
-                            </div>
+                            <div class="profile-stat"><div class="stat-number">${myCount}</div><div class="stat-label">Мои рецепты</div></div>
+                            <div class="profile-stat"><div class="stat-number">${favs.length}</div><div class="stat-label">В избранном</div></div>
                         </div>
                     </div>
                 </div>
-                ${adminPanelHtml}
-                <div style="margin-top: 40px;">
-                    <button onclick="logout()" style="padding: 12px 30px; background: none; border: 1px solid #ff6b6b; color: #ff6b6b; border-radius: 8px; cursor: pointer;">
-                        Выйти из аккаунта
-                    </button>
+                ${isAdmin ? `
+                <div style="background: linear-gradient(135deg, #fff3e0, #ffe0b2); padding: 25px; border-radius: 12px; margin-top: 20px;">
+                    <h2 style="color: #e65100;">👑 Админ-панель</h2>
+                    <button onclick="showAdminPanel()" style="margin-top: 15px; padding: 12px 24px; background: #e65100; color: white; border: none; border-radius: 8px;">🚀 Управление сайтом</button>
                 </div>
+                ` : ''}
+                <button onclick="logout()" style="margin-top: 30px; padding: 12px 30px; background: none; border: 1px solid #ff6b6b; color: #ff6b6b; border-radius: 8px;">Выйти</button>
             `;
         }
         
-        // ========== АДМИН-ПАНЕЛЬ ==========
         async function showAdminPanel() {
-            if (!isUserAdmin(currentUser)) {
-                showNotification('Нет доступа к админ-панели!', 'error');
-                navigateTo('profile');
-                return;
-            }
-            
-            const allRecipes = await DB.getRecipes();
-            const users = JSON.parse(localStorage.getItem('users_cache') || '[]');
-            
-            const totalRecipes = allRecipes.length;
-            const totalAuthors = new Set(allRecipes.map(r => r.author_id)).size;
-            const adminCount = users.filter(u => ADMIN_EMAILS.includes(u.email)).length;
-            
-            const content = document.getElementById('main-content');
-            content.innerHTML = `
-                <div class="page-header">
-                    <h1 class="page-title">👑 Панель администратора</h1>
-                    <p class="page-description">Управление всеми рецептами и пользователями</p>
-                    <button onclick="navigateTo('profile')" style="margin-top: 10px; padding: 8px 16px; background: #ddd; border: none; border-radius: 8px; cursor: pointer;">← Назад в профиль</button>
+            if (!isUserAdmin(currentUser)) { showNotification('Нет доступа!', 'error'); return; }
+            const recipes = await DB.getRecipes();
+            document.getElementById('main-content').innerHTML = `
+                <div class="page-header"><h1 class="page-title">👑 Админ-панель</h1><button onclick="navigateTo('profile')">← Назад</button></div>
+                <div style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                    <h3>📊 Статистика</h3>
+                    <p>Всего рецептов: ${recipes.length}</p>
+                    <p>Авторов: ${new Set(recipes.map(r => r.author_id)).size}</p>
                 </div>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
-                    <div style="background: linear-gradient(135deg, #1a3c27, #2d5a3b); color: white; padding: 20px; border-radius: 12px;">
-                        <div style="font-size: 36px; font-weight: bold;">${totalRecipes}</div>
-                        <div>📝 Всего рецептов</div>
-                    </div>
-                    <div style="background: linear-gradient(135deg, #2d5a3b, #3d7a4f); color: white; padding: 20px; border-radius: 12px;">
-                        <div style="font-size: 36px; font-weight: bold;">${totalAuthors}</div>
-                        <div>👥 Всего авторов</div>
-                    </div>
-                    <div style="background: linear-gradient(135deg, #7cb342, #5a8f2c); color: white; padding: 20px; border-radius: 12px;">
-                        <div style="font-size: 36px; font-weight: bold;">${adminCount}</div>
-                        <div>👑 Администраторов</div>
-                    </div>
-                </div>
-                
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
-                    <button onclick="showAdminRecipesList()" class="search-btn" style="background: #1a3c27;">📚 Управление рецептами</button>
-                    <button onclick="showAdminUsersList()" class="search-btn" style="background: #1a3c27;">👥 Управление пользователями</button>
-                </div>
-                
-                <div id="admin-tab-content"></div>
-            `;
-            
-            showAdminRecipesList();
-        }
-        
-        async function showAdminRecipesList() {
-            const allRecipes = await DB.getRecipes();
-            const container = document.getElementById('admin-tab-content');
-            
-            container.innerHTML = `
-                <div class="ingredients-search-container">
-                    <input type="text" id="admin-search-recipes" class="form-input" placeholder="🔍 Поиск по названию или автору..." style="width: 100%;" onkeyup="filterAdminRecipes()">
-                </div>
-                <div id="admin-recipes-grid" class="recipes-grid">
-                    ${(await Promise.all(allRecipes.map(recipe => renderAdminRecipeCard(recipe)))).join('')}
-                </div>
+                <h3>📚 Все рецепты</h3>
+                <div class="recipes-grid">${(await Promise.all(recipes.map(r => renderAdminRecipeCard(r)))).join('')}</div>
             `;
         }
         
         async function renderAdminRecipeCard(recipe) {
             return `
                 <div class="recipe-card" onclick="showRecipeDetail(${recipe.id})">
-                    <img src="${recipe.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'}" class="recipe-image" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'">
+                    <img src="${recipe.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'}" class="recipe-image">
                     <div class="recipe-content">
-                        <div class="recipe-title">
-                            <span>${recipe.title}</span>
-                        </div>
-                        <div class="recipe-author">
-                            <div class="author-mini">${(recipe.author_name || 'Аноним').charAt(0)}</div>
-                            <span>${recipe.author_name || 'Аноним'}</span>
-                            <span style="font-size: 11px; color: #999;">(ID: ${recipe.author_id || '?'})</span>
-                        </div>
-                        <div class="recipe-meta">
-                            <span>⏱ ${recipe.total_time || 0} мин</span>
-                            <span>⭐ ${(recipe.rating || 5).toFixed(1)}</span>
-                        </div>
-                        <div style="margin-top: 15px;">
-                            <button class="auth-btn-danger" onclick="event.stopPropagation(); adminForceDeleteRecipe(${recipe.id}, '${recipe.title.replace(/'/g, "\\'")}')" style="width: 100%; padding: 8px; font-size: 14px;">
-                                🗑️ Удалить рецепт (админ)
-                            </button>
-                        </div>
+                        <div class="recipe-title"><span>${recipe.title}</span></div>
+                        <div class="recipe-author"><span>👤 ${recipe.author_name || 'Аноним'}</span></div>
+                        <button class="auth-btn-danger" onclick="event.stopPropagation(); adminForceDelete(${recipe.id}, '${recipe.title}')" style="width:100%; margin-top:10px;">🗑️ Удалить (админ)</button>
                     </div>
                 </div>
             `;
         }
         
-        function filterAdminRecipes() {
-            const search = document.getElementById('admin-search-recipes');
-            if (!search) return;
-            const query = search.value.toLowerCase();
-            const cards = document.querySelectorAll('#admin-recipes-grid .recipe-card');
-            
-            cards.forEach(card => {
-                const title = card.querySelector('.recipe-title span')?.textContent.toLowerCase() || '';
-                const author = card.querySelector('.recipe-author span')?.textContent.toLowerCase() || '';
-                if (title.includes(query) || author.includes(query)) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-        
-        async function adminForceDeleteRecipe(recipeId, recipeTitle) {
-            if (confirm(`⚠️ АДМИН-УДАЛЕНИЕ!\n\nВы уверены, что хотите удалить рецепт "${recipeTitle}"?\nЭто действие нельзя отменить!`)) {
-                const result = await DB.deleteRecipe(recipeId);
-                if (result.success) {
-                    showNotification(`✅ Рецепт "${recipeTitle}" удалён админом!`);
-                    showAdminRecipesList();
-                } else {
-                    showNotification('❌ Ошибка при удалении', 'error');
-                }
+        async function adminForceDelete(id, title) {
+            if (confirm(`Удалить рецепт "${title}"?`)) {
+                await DB.deleteRecipe(id);
+                showNotification('Рецепт удалён');
+                showAdminPanel();
             }
         }
         
-        async function showAdminUsersList() {
-            let users = JSON.parse(localStorage.getItem('users_cache') || '[]');
-            const allRecipes = await DB.getRecipes();
-            
-            if (!users.find(u => u.email === 'demo@example.com')) {
-                users.push({
-                    id: 1,
-                    name: 'Демо Пользователь',
-                    email: 'demo@example.com',
-                    password: 'demo123',
-                    avatar: 'Д'
-                });
-                localStorage.setItem('users_cache', JSON.stringify(users));
-            }
-            
-            const usersWithStats = users.map(user => ({
-                ...user,
-                recipeCount: allRecipes.filter(r => r.author_id === user.id).length,
-                isAdmin: ADMIN_EMAILS.includes(user.email)
-            }));
-            
-            const container = document.getElementById('admin-tab-content');
-            container.innerHTML = `
-                <div style="overflow-x: auto;">
-                    <table style="width: 100%; background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);">
-                        <thead style="background: #1a3c27; color: white;">
-                            <tr><th style="padding: 12px;">ID</th><th style="padding: 12px;">Имя</th><th style="padding: 12px;">Email</th><th style="padding: 12px;">Рецептов</th><th style="padding: 12px;">Статус</th><th style="padding: 12px;">Действия</th></tr>
-                        </thead>
-                        <tbody>
-                            ${usersWithStats.map(user => `
-                                <tr style="border-bottom: 1px solid #eee;">
-                                    <td style="padding: 12px;">${user.id}</td>
-                                    <td style="padding: 12px;">${user.name}</td>
-                                    <td style="padding: 12px;">${user.email}</td>
-                                    <td style="padding: 12px;">${user.recipeCount}</td>
-                                    <td style="padding: 12px;">${user.isAdmin ? '<span style="background: #7cb342; color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px;">👑 Админ</span>' : '<span style="background: #ddd; padding: 4px 8px; border-radius: 12px; font-size: 12px;">👤 Пользователь</span>'}</td>
-                                    <td style="padding: 12px;">
-                                        ${!user.isAdmin && user.email !== 'demo@example.com' ? `
-                                            <button onclick="adminMakeUserAdmin(${user.id}, '${user.name}')" style="padding: 6px 12px; background: #7cb342; color: white; border: none; border-radius: 6px; cursor: pointer; margin-right: 5px;">👑 Сделать админом</button>
-                                            <button onclick="adminDeleteUser(${user.id}, '${user.name}')" style="padding: 6px 12px; background: #ff6b6b; color: white; border: none; border-radius: 6px; cursor: pointer;">🗑️ Удалить</button>
-                                        ` : (user.email === 'demo@example.com' ? '<span style="color: #999;">Демо-пользователь</span>' : '<span style="color: #7cb342;">👑 Вы админ</span>')}
-                                    </td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-                <p style="margin-top: 15px; color: #666; font-size: 12px;">💡 Чтобы сделать пользователя админом, нужно добавить его email в массив ADMIN_EMAILS в коде.</p>
-            `;
-        }
-        
-        function adminMakeUserAdmin(userId, userName) {
-            let users = JSON.parse(localStorage.getItem('users_cache') || '[]');
-            const user = users.find(u => u.id === userId);
-            
-            if (user) {
-                alert(`Чтобы сделать "${userName}" администратором, добавьте его email "${user.email}" в массив ADMIN_EMAILS в коде страницы.\n\nЭто защита от несанкционированного доступа.`);
-                navigator.clipboard.writeText(user.email);
-                showNotification(`Email "${user.email}" скопирован! Добавьте его в ADMIN_EMAILS`, 'success');
-            }
-        }
-        
-        async function adminDeleteUser(userId, userName) {
-            if (confirm(`⚠️ УДАЛЕНИЕ ПОЛЬЗОВАТЕЛЯ!\n\nВы уверены, что хотите удалить пользователя "${userName}"?\nВСЕ ЕГО РЕЦЕПТЫ ТОЖЕ БУДУТ УДАЛЕНЫ!\n\nЭто действие нельзя отменить!`)) {
-                const allRecipes = await DB.getRecipes();
-                const userRecipes = allRecipes.filter(r => r.author_id === userId);
-                
-                for (const recipe of userRecipes) {
-                    await DB.deleteRecipe(recipe.id);
-                }
-                
-                let users = JSON.parse(localStorage.getItem('users_cache') || '[]');
-                users = users.filter(u => u.id !== userId);
-                localStorage.setItem('users_cache', JSON.stringify(users));
-                
-                showNotification(`✅ Пользователь "${userName}" и его ${userRecipes.length} рецептов удалены!`);
-                showAdminUsersList();
-            }
-        }
-        
-        // ========== КАРТОЧКА РЕЦЕПТА ==========
-        async function renderRecipeCard(recipe, showDelete = false) {
-            let isFavorite = false;
+        async function renderRecipeCard(recipe, isAuthorFlag = false) {
+            let isFav = false;
             if (currentUser) {
-                const favorites = await DB.getFavorites(currentUser.id);
-                isFavorite = favorites.includes(recipe.id);
-            }
-            const isAuthor = currentUser && currentUser.id === recipe.author_id;
-            
-            return `
-                <div class="recipe-card" onclick="showRecipeDetail(${recipe.id})">
-                    <img src="${recipe.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'}" class="recipe-image" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'">
-                    <div class="recipe-content">
-                        <div class="recipe-title">
-                            <span>${recipe.title}</span>
-                            <div class="action-buttons-group">
-                                <button class="download-btn" onclick="event.stopPropagation(); downloadRecipe(${JSON.stringify(recipe).replace(/"/g, '&quot;')})" title="Скачать рецепт">📥</button>
-                                <button class="share-btn" onclick="event.stopPropagation(); shareRecipe(${JSON.stringify(recipe).replace(/"/g, '&quot;')})" title="Поделиться">📤</button>
-                                ${getDeleteButton(recipe, isAuthor)}
-                                <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavoriteRecipe(${recipe.id})" title="${isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}">${isFavorite ? '★' : '☆'}</button>
-                            </div>
-                        </div>
-                        <div class="rating"><div class="stars">${[1,2,3,4,5].map(star => `<span class="star ${star <= Math.round(recipe.rating || 5) ? 'filled' : ''}" onclick="event.stopPropagation(); rateRecipe(${recipe.id}, ${star})">★</span>`).join('')}</div><span class="rating-value">${(recipe.rating || 5).toFixed(1)} (${recipe.ratings_count || 0})</span></div>
-                        <div class="recipe-author"><div class="author-mini">${(recipe.author_name || 'Аноним').charAt(0)}</div><span>${recipe.author_name || 'Аноним'}</span></div>
-                        <div class="recipe-meta"><span class="recipe-meta-item">⏱ ${recipe.total_time || 0} мин</span><span class="recipe-meta-item">👥 ${recipe.servings || 1} порц.</span><span class="recipe-meta-item">${recipe.difficulty || 'Средняя'}</span>${recipe.calorie_count ? `<span class="recipe-meta-item">🔥 ${recipe.calorie_count} ккал</span>` : ''}</div>
-                        <div class="recipe-tags">${(recipe.tags || []).slice(0, 2).map(tag => `<span class="recipe-tag">${tag}</span>`).join('')}</div>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // ========== ПОКАЗ РЕЦЕПТА В МОДАЛКЕ ==========
-        async function showRecipeDetail(recipeId) {
-            const recipe = await DB.getRecipe(recipeId);
-            if (!recipe) { showNotification('Рецепт не найден', 'error'); return; }
-            currentRecipeForActions = recipe;
-            
-            let isFavorite = false;
-            if (currentUser) {
-                const favorites = await DB.getFavorites(currentUser.id);
-                isFavorite = favorites.includes(recipe.id);
+                const favs = await DB.getFavorites(currentUser.id);
+                isFav = favs.includes(recipe.id);
             }
             const isAuthor = currentUser && currentUser.id === recipe.author_id;
             const isAdmin = isUserAdmin(currentUser);
             
-            document.getElementById('modal-recipe-title').textContent = recipe.title;
-            document.getElementById('recipe-modal-content').innerHTML = `
-                <div style="display: flex; gap: 30px; margin-bottom: 30px; flex-wrap: wrap;">
-                    <div style="flex: 1; min-width: 300px;"><img src="${recipe.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'}" style="width: 100%; border-radius: 12px; height: 300px; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'"></div>
-                    <div style="flex: 1; min-width: 300px;">
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px;">
-                            <div style="padding: 10px; background: var(--light-green); border-radius: 8px;"><div style="font-weight: bold;">${recipe.total_time || 0} мин</div><div style="font-size: 12px;">Время готовки</div></div>
-                            <div style="padding: 10px; background: var(--light-green); border-radius: 8px;"><div style="font-weight: bold;">${recipe.servings || 1} порции</div><div style="font-size: 12px;">Количество</div></div>
-                            <div style="padding: 10px; background: var(--light-green); border-radius: 8px;"><div style="font-weight: bold;">${recipe.difficulty || 'Средняя'}</div><div style="font-size: 12px;">Сложность</div></div>
-                            ${recipe.calorie_count ? `<div style="padding: 10px; background: var(--light-green); border-radius: 8px;"><div style="font-weight: bold;">${recipe.calorie_count} ккал</div><div style="font-size: 12px;">Калорийность</div></div>` : ''}
+            return `
+                <div class="recipe-card" onclick="showRecipeDetail(${recipe.id})">
+                    <img src="${recipe.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'}" class="recipe-image">
+                    <div class="recipe-content">
+                        <div class="recipe-title">
+                            <span>${recipe.title}</span>
+                            <div class="action-buttons-group">
+                                <button class="download-btn" onclick="event.stopPropagation(); downloadRecipe(${JSON.stringify(recipe).replace(/"/g, '&quot;')})">📥</button>
+                                <button class="share-btn" onclick="event.stopPropagation(); shareRecipe(${JSON.stringify(recipe).replace(/"/g, '&quot;')})">📤</button>
+                                ${(isAuthor || isAdmin) ? `<button class="delete-btn" onclick="event.stopPropagation(); showDeleteConfirm(${recipe.id})">🗑️</button>` : ''}
+                                <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavorite(${recipe.id})">${isFav ? '★' : '☆'}</button>
+                            </div>
                         </div>
-                        <div style="margin-bottom: 20px;">
-                            <div class="rating"><div class="stars">${[1,2,3,4,5].map(star => `<span class="star ${star <= Math.round(recipe.rating || 5) ? 'filled' : ''}" onclick="rateRecipe(${recipe.id}, ${star})">★</span>`).join('')}</div><span class="rating-value">${(recipe.rating || 5).toFixed(1)} (${recipe.ratings_count || 0} оценок)</span></div>
-                        </div>
-                        <div class="recipe-tags" style="margin-bottom: 20px;">${(recipe.tags || []).map(tag => `<span class="recipe-tag">${tag}</span>`).join('')}</div>
-                        ${currentUser ? `<div style="display: flex; gap: 10px; flex-wrap: wrap;"><button onclick="toggleFavoriteRecipe(${recipe.id})" style="padding: 10px 20px; background: ${isFavorite ? 'var(--light-green)' : 'linear-gradient(135deg, var(--accent-green), var(--secondary-green))'}; color: ${isFavorite ? 'var(--secondary-green)' : 'white'}; border: none; border-radius: 8px;">${isFavorite ? '★ В избранном' : '☆ Добавить в избранное'}</button>${(isAuthor || isAdmin) ? `<button onclick="showDeleteConfirm(${recipe.id})" style="padding: 10px 20px; background: var(--danger); color: white; border: none; border-radius: 8px;">🗑️ Удалить</button>` : ''}</div>` : ''}
+                        <div class="rating"><div class="stars">${[1,2,3,4,5].map(s => `<span class="star ${s <= Math.round(recipe.rating || 5) ? 'filled' : ''}" onclick="event.stopPropagation(); rateRecipe(${recipe.id}, ${s})">★</span>`).join('')}</div><span>${(recipe.rating || 5).toFixed(1)}</span></div>
+                        <div class="recipe-author"><div class="author-mini">${(recipe.author_name || 'А').charAt(0)}</div><span>${recipe.author_name || 'Аноним'}</span></div>
+                        <div class="recipe-meta"><span>⏱ ${recipe.total_time || 0} мин</span><span>👥 ${recipe.servings || 1}</span></div>
                     </div>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; flex-wrap: wrap;">
-                    <div><h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px;">🧺 Ингредиенты</h3><ul style="list-style: none;">${(recipe.ingredients || []).map(ing => `<li style="padding: 8px 0; border-bottom: 1px solid #eee;">🌿 ${ing}</li>`).join('')}</ul></div>
-                    <div><h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green); margin-bottom: 15px;">👩‍🍳 Приготовление</h3><ol>${(recipe.steps || []).map((step, i) => `<li style="padding: 10px 0; border-bottom: 1px solid #f0f0f0;"><strong>Шаг ${i+1}:</strong> ${step}</li>`).join('')}</ol></div>
+            `;
+        }
+        
+        async function showRecipeDetail(id) {
+            const recipe = await DB.getRecipe(id);
+            if (!recipe) return;
+            currentRecipeForActions = recipe;
+            let isFav = false;
+            if (currentUser) {
+                const favs = await DB.getFavorites(currentUser.id);
+                isFav = favs.includes(recipe.id);
+            }
+            const isAuthor = currentUser && currentUser.id === recipe.author_id;
+            const isAdmin = isUserAdmin(currentUser);
+            
+            document.getElementById('modal-recipe-title').innerHTML = recipe.title;
+            document.getElementById('recipe-modal-content').innerHTML = `
+                <div style="display:flex; gap:20px; flex-wrap:wrap;">
+                    <img src="${recipe.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'}" style="width:300px; height:200px; object-fit:cover; border-radius:12px;">
+                    <div style="flex:1">
+                        <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:20px;">
+                            <div style="background:var(--light-green); padding:10px; border-radius:8px;"><b>${recipe.total_time || 0} мин</b><br>Время</div>
+                            <div style="background:var(--light-green); padding:10px; border-radius:8px;"><b>${recipe.servings || 1}</b><br>Порции</div>
+                            <div style="background:var(--light-green); padding:10px; border-radius:8px;"><b>${recipe.difficulty || 'Средняя'}</b><br>Сложность</div>
+                            ${recipe.calorie_count ? `<div style="background:var(--light-green); padding:10px; border-radius:8px;"><b>${recipe.calorie_count}</b><br>ккал</div>` : ''}
+                        </div>
+                        <div class="rating"><div class="stars">${[1,2,3,4,5].map(s => `<span class="star ${s <= Math.round(recipe.rating || 5) ? 'filled' : ''}" onclick="rateRecipe(${recipe.id}, ${s})">★</span>`).join('')}</div><span>${(recipe.rating || 5).toFixed(1)} (${recipe.ratings_count || 0} оценок)</span></div>
+                        ${currentUser ? `<div style="margin-top:15px;"><button onclick="toggleFavorite(${recipe.id})" style="padding:10px 20px; background:${isFav ? 'var(--light-green)' : 'var(--accent-green)'}; border:none; border-radius:8px;">${isFav ? '★ В избранном' : '☆ В избранное'}</button> ${(isAuthor || isAdmin) ? `<button onclick="showDeleteConfirm(${recipe.id})" style="padding:10px 20px; background:var(--danger); border:none; border-radius:8px; color:white;">🗑️ Удалить</button>` : ''}</div>` : ''}
+                    </div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:30px;">
+                    <div><h3>🧺 Ингредиенты</h3><ul>${(recipe.ingredients || []).map(i => `<li>${i}</li>`).join('')}</ul></div>
+                    <div><h3>👩‍🍳 Приготовление</h3><ol>${(recipe.steps || []).map((s,i) => `<li><b>Шаг ${i+1}:</b> ${s}</li>`).join('')}</ol></div>
                 </div>
             `;
             document.getElementById('recipe-modal').classList.add('active');
         }
         
-        // ========== ОСТАЛЬНЫЕ ФУНКЦИИ ==========
-        async function rateRecipe(recipeId, rating, event) {
-            if (event) event.stopPropagation();
+        async function rateRecipe(id, rating) {
             if (!currentUser) { showAuthModal('login'); return; }
-            await DB.rateRecipe(recipeId, currentUser.id, rating);
-            showNotification(`Оценено на ${rating} звезд!`);
+            await DB.rateRecipe(id, currentUser.id, rating);
+            showNotification(`Оценено на ${rating} ⭐`);
             await navigateTo(currentPage);
         }
         
-        async function toggleFavoriteRecipe(recipeId, event) {
-            if (event) event.stopPropagation();
+        async function toggleFavorite(id) {
             if (!currentUser) { showAuthModal('login'); return; }
-            const result = await DB.toggleFavorite(currentUser.id, recipeId);
-            showNotification(result.added ? 'Добавлено в избранное' : 'Удалено из избранного');
+            const result = await DB.toggleFavorite(currentUser.id, id);
+            showNotification(result.added ? 'В избранное' : 'Из избранного');
             await navigateTo(currentPage);
             await updateUserInterface();
         }
         
-        function showDeleteConfirm(recipeId) {
-            recipeToDelete = recipeId;
-            document.getElementById('confirm-delete-modal').classList.add('active');
-        }
-        
-        function closeConfirmDeleteModal() {
-            document.getElementById('confirm-delete-modal').classList.remove('active');
-            recipeToDelete = null;
-        }
-        
-        async function confirmDeleteRecipe() {
-            if (!recipeToDelete) return;
-            await DB.deleteRecipe(recipeToDelete);
-            showNotification('Рецепт удален');
-            closeConfirmDeleteModal();
-            await navigateTo(currentPage);
-        }
-        
-        function closeRecipeModal() {
-            document.getElementById('recipe-modal').classList.remove('active');
-            currentRecipeForActions = null;
-        }
+        function showDeleteConfirm(id) { recipeToDelete = id; document.getElementById('confirm-delete-modal').classList.add('active'); }
+        function closeConfirmDeleteModal() { document.getElementById('confirm-delete-modal').classList.remove('active'); recipeToDelete = null; }
+        async function confirmDeleteRecipe() { if (recipeToDelete) { await DB.deleteRecipe(recipeToDelete); showNotification('Удалено'); closeConfirmDeleteModal(); await navigateTo(currentPage); } }
+        function closeRecipeModal() { document.getElementById('recipe-modal').classList.remove('active'); currentRecipeForActions = null; }
         
         function showAuthModal(type) {
             const modal = document.getElementById('auth-modal');
-            const title = document.getElementById('auth-modal-title');
-            const formContainer = document.getElementById('auth-form-container');
-            title.textContent = type === 'login' ? 'Вход' : 'Регистрация';
-            formContainer.innerHTML = `
+            document.getElementById('auth-modal-title').innerText = type === 'login' ? 'Вход' : 'Регистрация';
+            document.getElementById('auth-form-container').innerHTML = `
                 <form id="${type}-form" class="auth-form">
-                    ${type === 'register' ? `<div class="form-group"><label class="form-label">Имя</label><input type="text" class="form-input" id="register-name" required></div>` : ''}
-                    <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="${type}-email" required></div>
-                    <div class="form-group"><label class="form-label">Пароль</label><input type="password" class="form-input" id="${type}-password" required minlength="6"></div>
+                    ${type === 'register' ? `<div class="form-group"><label>Имя</label><input type="text" class="form-input" id="reg-name" required></div>` : ''}
+                    <div class="form-group"><label>Email</label><input type="email" class="form-input" id="${type}-email" required></div>
+                    <div class="form-group"><label>Пароль</label><input type="password" class="form-input" id="${type}-pass" required></div>
                     <button type="submit" class="auth-btn">${type === 'login' ? 'Войти' : 'Зарегистрироваться'}</button>
                 </form>
-                <div class="auth-switch">${type === 'login' ? 'Нет аккаунта? <a class="auth-link" onclick="showAuthModal(\'register\')">Зарегистрироваться</a>' : 'Уже есть аккаунт? <a class="auth-link" onclick="showAuthModal(\'login\')">Войти</a>'}</div>
+                <div class="auth-switch">${type === 'login' ? 'Нет аккаунта? <a onclick="showAuthModal(\'register\')">Регистрация</a>' : 'Уже есть аккаунт? <a onclick="showAuthModal(\'login\')">Вход</a>'}</div>
             `;
-            document.getElementById(`${type}-form`).addEventListener('submit', async (e) => { e.preventDefault(); type === 'login' ? await login() : await register(); });
+            document.getElementById(`${type}-form`).addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (type === 'login') await login();
+                else await register();
+            });
             modal.classList.add('active');
         }
         
         function closeAuthModal() { document.getElementById('auth-modal').classList.remove('active'); }
         
         async function register() {
-            const name = document.getElementById('register-name').value.trim();
+            const name = document.getElementById('reg-name').value.trim();
             const email = document.getElementById('register-email').value.trim();
-            const password = document.getElementById('register-password').value;
-            const result = await DB.register({ email, name, password, avatar: name.charAt(0).toUpperCase() });
-            if (result.success) {
-                currentUser = result.user;
+            const pass = document.getElementById('register-pass').value;
+            const res = await DB.register({ name, email, password: pass, avatar: name.charAt(0) });
+            if (res.success) {
+                currentUser = res.user;
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                await sendRegistrationEmail(currentUser);
                 closeAuthModal();
                 await updateUserInterface();
                 await navigateTo('home');
                 showNotification(`Добро пожаловать, ${name}!`);
-            } else showNotification(result.message || 'Ошибка регистрации', 'error');
+            } else showNotification(res.message || 'Ошибка', 'error');
         }
         
         async function login() {
             const email = document.getElementById('login-email').value.trim();
-            const password = document.getElementById('login-password').value;
-            const result = await DB.login(email, password);
-            if (result.success) {
-                currentUser = result.user;
+            const pass = document.getElementById('login-pass').value;
+            const res = await DB.login(email, pass);
+            if (res.success) {
+                currentUser = res.user;
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
                 closeAuthModal();
                 await updateUserInterface();
                 await navigateTo('home');
                 showNotification(`С возвращением, ${currentUser.name}!`);
-            } else showNotification(result.message || 'Неверный email или пароль', 'error');
+            } else showNotification(res.message || 'Ошибка', 'error');
         }
         
         async function logout() {
@@ -2219,7 +1769,7 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
             localStorage.removeItem('currentUser');
             await updateUserInterface();
             await navigateTo('home');
-            showNotification('Вы вышли из системы');
+            showNotification('Вы вышли');
         }
         
         function showAddRecipeModal() {
@@ -2233,49 +1783,39 @@ ${(recipe.steps || []).map((step, i) => `${i+1}. ${step}`).join('\n')}
         function closeAddRecipeModal() {
             document.getElementById('add-recipe-modal').classList.remove('active');
             document.getElementById('recipe-form').reset();
-            selectedPhotoBase64 = null;
         }
         
         async function addRecipe() {
-            if (!currentUser) { showAuthModal('login'); return; }
+            if (!currentUser) return;
             const title = document.getElementById('recipe-title').value.trim();
             const category = document.getElementById('recipe-category').value;
             const time = parseInt(document.getElementById('recipe-time').value);
             const servings = parseInt(document.getElementById('recipe-servings').value);
             const difficulty = document.getElementById('recipe-difficulty').value;
-            const calorie_count = parseInt(document.getElementById('recipe-calorie_count').value);
+            const cal = parseInt(document.getElementById('recipe-calorie_count').value);
             const ingredients = document.getElementById('recipe-ingredients').value.split('\n').filter(i => i.trim());
             const steps = document.getElementById('recipe-steps').value.split('\n').filter(s => s.trim());
-            const tags = document.getElementById('recipe-tags').value.split(',').map(t => t.trim()).filter(t => t);
+            const tags = document.getElementById('recipe-tags').value.split(',').map(t => t.trim());
             const image = selectedPhotoBase64 || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800';
-            
-            const recipe = { title, description: `Вкусный рецепт "${title}"`, category, total_time: time, difficulty, servings, calorie_count, rating: 5.0, ratings_count: 1, views: 0, author_id: currentUser.id, author_name: currentUser.name, image_url: image, ingredients, steps, tags: tags.length > 0 ? tags : [category, difficulty] };
-            
-            const result = await DB.addRecipe(recipe);
-            if (result.success) {
-                await DB.rateRecipe(result.id || recipe.id, currentUser.id, 5);
+            const recipe = { title, category, total_time: time, difficulty, servings, calorie_count: cal, ingredients, steps, tags, author_id: currentUser.id, author_name: currentUser.name, image_url: image };
+            const res = await DB.addRecipe(recipe);
+            if (res.success) {
                 closeAddRecipeModal();
-                await showRecipeDetail(result.id || recipe.id);
-                showNotification('Рецепт успешно добавлен!');
-                await navigateTo(currentPage);
-            } else showNotification('Ошибка добавления рецепта', 'error');
+                showNotification('Рецепт добавлен!');
+                await navigateTo('my-recipes');
+            }
         }
         
-        function getCategoryIcon(categoryName) {
-            const icons = { 'Супы': '🥣', 'Основные блюда': '🍛', 'Салаты': '🥗', 'Десерты': '🍰', 'Выпечка': '🥐', 'Закуски': '🍤', 'Напитки': '🥤', 'Завтраки': '🍳' };
-            return icons[categoryName] || '✨';
-        }
-        
-        function showNotification(message, type = 'success') {
-            const notification = document.createElement('div');
-            notification.style.cssText = `position: fixed; bottom: 20px; right: 20px; background: ${type === 'error' ? '#ff6b6b' : 'var(--accent-green)'}; color: white; padding: 15px 25px; border-radius: 8px; box-shadow: var(--shadow-hover); z-index: 10001; font-family: 'Raleway', sans-serif; animation: slideIn 0.3s ease;`;
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            setTimeout(() => { notification.style.animation = 'slideOut 0.3s ease'; setTimeout(() => document.body.removeChild(notification), 300); }, 3000);
+        function showNotification(msg, type = 'success') {
+            const n = document.createElement('div');
+            n.style.cssText = `position:fixed; bottom:20px; right:20px; background:${type === 'error' ? '#ff6b6b' : '#7cb342'}; color:white; padding:15px 25px; border-radius:8px; z-index:10001; animation:slideIn 0.3s ease;`;
+            n.textContent = msg;
+            document.body.appendChild(n);
+            setTimeout(() => { n.style.animation = 'slideOut 0.3s ease'; setTimeout(() => n.remove(), 300); }, 3000);
         }
         
         document.addEventListener('DOMContentLoaded', () => {
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.active').forEach(modal => modal.classList.remove('active')); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active')); });
             init();
         });
     </script>
